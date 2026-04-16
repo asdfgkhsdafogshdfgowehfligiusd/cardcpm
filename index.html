@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIKANUSGG</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/B6YmtPr5/IMG-0050.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --accent: #c8c8c8;
+            --accent-bright: #ffffff;
+            --bg: #0d0d0d;
+            --surface: #161616;
+            --surface2: #1e1e1e;
+            --border: #2e2e2e;
+            --text-main: #e0e0e0;
+            --text-dim: #888888;
+            --text-muted: #555555;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Sora', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--surface);
+            width: 100%;
+            max-width: 440px;
+            padding: 36px 32px;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: fadeUp 0.35s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { transform: translateY(16px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+
+        .modal-box h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-bright);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .modal-box p {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            line-height: 1.75;
+            margin-bottom: 28px;
+        }
+
+        .close-x {
+            position: absolute;
+            top: 14px; right: 18px;
+            color: var(--text-muted);
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-x:hover { color: var(--accent-bright); }
+
+        /* ── MAIN ── */
+        .main-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 60px 24px 60px;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .page-active { opacity: 1; }
+
+        /* ── HEADER ── */
+        header {
+            margin-bottom: 64px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 32px;
+        }
+
+        .logo-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.6rem);
+            font-weight: 700;
+            color: var(--accent-bright);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .status-header {
+            margin-top: 12px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* ── IMAGE PLACEHOLDER ── */
+        .media-container {
+            border: 1px solid var(--border);
+            margin: 48px 0 72px;
+            background: var(--surface);
+            overflow: hidden;
+        }
+
+        /* 
+         * ─────────────────────────────────────────────────
+         *  CÓMO AGREGAR TU FOTO:
+         *  Descomenta la etiqueta <img> de abajo y cambia
+         *  la URL por la de tu imagen:
+         *
+         *  <img src="https://TU_URL_AQUI.jpg" alt="SIKANUSGG">
+         * ─────────────────────────────────────────────────
+         *
+         *  Sube tu imagen en: https://postimg.cc
+         *  Copia el "Direct link" y pégalo en src=""
+         * ─────────────────────────────────────────────────
+        */
+        .media-placeholder {
+            width: 100%;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+        }
+
+        .media-placeholder svg {
+            opacity: 0.3;
+        }
+
+        .media-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 56px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── GRID ── */
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        /* ── BOTONES ── */
+        .cyber-button {
+            display: block;
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-family: 'Sora', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--surface);
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            text-align: center;
+        }
+
+        .cyber-button:hover {
+            background: var(--surface2);
+            border-color: var(--accent);
+            color: var(--accent-bright);
+        }
+
+        .download {
+            border-color: #3a3a3a;
+            color: var(--text-dim);
+        }
+        .download:hover {
+            border-color: #aaa;
+            color: var(--accent-bright);
+            background: #1a1a1a;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            margin-top: 100px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL DE ADVERTENCIA -->
+    <div class="modal-overlay" id="warningModal">
+        <div class="modal-box">
+            <span class="close-x" id="closeModal">×</span>
+            <h2>⚠ Advertencia</h2>
+            <p>
+                El uso de archivos, scripts y aplicaciones para <b>Car Parking Multiplayer</b> y <b>Game Guardian</b>
+                aquí mostrados es bajo tu propia responsabilidad.<br><br>
+                Cualquier baneo o daño técnico es responsabilidad del usuario.
+            </p>
+            <button class="cyber-button" style="width:100%; cursor:pointer;" id="acceptBtn">ENTRAR</button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-wrapper" id="content">
+
+        <header>
+            <div class="logo-label">Portal oficial</div>
+            <h1>SIKANUSGG</h1>
+            <div class="status-header">// Scripts · Tools · Servicios para CPM</div>
+        </header>
+
+        <!-- 
+            ╔══════════════════════════════════════════╗
+            ║  PARA AGREGAR TU FOTO:                   ║
+            ║  1. Sube tu imagen en postimg.cc         ║
+            ║  2. Copia el "Direct link"               ║
+            ║  3. Reemplaza la etiqueta de abajo así:  ║
+            ║                                          ║
+            ║  Borra el div.media-placeholder y        ║
+            ║  pon esto dentro del div.media-container:║
+            ║                                          ║
+            ║  <img src="TU_URL" alt="SIKANUSGG">      ║
+            ╚══════════════════════════════════════════╝
+        -->
+        <div class="media-container">
+            <div class="media-placeholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21,15 16,10 5,21"/>
+                </svg>
+                TU BANNER AQUÍ
+            </div>
+        </div>
+
+        <div class="section-title">Descargas disponibles</div>
+        <div class="grid-links">
+            <a href="https://www.mediafire.com/file/0vlm0erxdgr0wr6/YonGG_1234.rar/file" class="cyber-button download" target="_blank">📥 GG SIKANUS</a>
+            <a href="https://www.mediafire.com/file/m23gvc5v3lpzqho/ESPACIO+VIRTUAL+_+1234/file" class="cyber-button download" target="_blank">📥 Espacio Virtual</a>
+        </div>
+
+        <div class="section-title">Redes sociales</div>
+        <div class="grid-links">
+            <a href="https://www.youtube.com/@Elyonyt1" class="cyber-button" target="_blank">▶ YouTube</a>
+        </div>
+
+        <footer>
+            <span>SIKANUSGG</span>
+            <span>2026</span>
+        </footer>
+
+    </div>
+
+    <script>
+        const modal   = document.getElementById('warningModal');
+        const content = document.getElementById('content');
+
+        function activatePage() {
+            modal.style.display = 'none';
+            content.classList.add('page-active');
+            document.body.style.overflowY = 'auto';
+        }
+
+        document.getElementById('closeModal').onclick = activatePage;
+        document.getElementById('acceptBtn').onclick  = activatePage;
+
+        window.onclick = function(e) {
+            if (e.target === modal) activatePage();
+        };
+    </script>
+</body>
+</html>
