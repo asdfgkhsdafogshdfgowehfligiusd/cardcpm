@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SIKANUSGG</title>
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/B6YmtPr5/IMG-0050.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- ── Supabase config (Command Center) ── -->
+    <script>
+      const SUPA_URL  = 'https://lzszmwvbqiwpwgxomnxc.supabase.co';
+      const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6c3ptd3ZicWl3cHdneG9tbnhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NDk3MTYsImV4cCI6MjA5MTUyNTcxNn0.F6TcgBpfn0tAHcQy7M7RxGEjnt1L5yUVG3OuuLyLMSs';
+    </script>
+
+    <style>
+        /* ════════════════════════════════════════
+           RESET & BASE
+        ════════════════════════════════════════ */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        /* ════════════════════════════════════════
+           SIKANUSGG VARIABLES
+        ════════════════════════════════════════ */
+        :root {
+            --accent: #c8c8c8;
+            --accent-bright: #ffffff;
+            --bg: #080808;
+            --surface: #111111;
+            --surface2: #1a1a1a;
+            --border: #252525;
+            --border-glow: #404040;
+            --text-main: #e0e0e0;
+            --text-dim: #888888;
+            --text-muted: #444444;
+            --gold: #d4a843;
+            --gold-dim: #8a6a20;
+
+            /* Command Center vars (rojo) */
+            --cc-red:   #e03535;
+            --cc-red-d: rgba(224,53,53,.10);
+            --cc-bg:    #0b0b0b;
+            --cc-bg2:   #131313;
+            --cc-bg3:   #181818;
+            --cc-bd:    #2a1a1a;
+            --cc-bd2:   #3a2020;
+            --cc-ac:    #e03535;
+            --cc-ac-d:  rgba(224,53,53,.10);
+            --cc-ac2:   #ff7070;
+            --cc-ac2-d: rgba(255,112,112,.08);
+            --cc-tx:    #f0dede;
+            --cc-tx2:   #7a5858;
+            --cc-tx3:   #4a2828;
+            --cc-gold:  #c8a84b;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(212,168,67,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,255,255,0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ════════════════════════════════════════
+           PAGES SYSTEM
+        ════════════════════════════════════════ */
+        #page-sikan,
+        #page-cc {
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+        #page-cc { display: none; }
+
+        /* ════════════════════════════════════════
+           FF BUTTON (top-right, always visible)
+        ════════════════════════════════════════ */
+        #ff-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 8000;
+            background: linear-gradient(135deg, rgba(224,53,53,.22), rgba(224,53,53,.10));
+            border: 1px solid rgba(224,53,53,.55);
+            color: #e03535;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all .18s;
+            animation: ff-pulse 2.5s ease-in-out infinite;
+        }
+        #ff-btn:hover {
+            background: rgba(224,53,53,.30);
+            border-color: #e03535;
+            box-shadow: 0 0 18px rgba(224,53,53,.35);
+            transform: translateY(-1px);
+        }
+        #ff-btn:active { transform: translateY(0); }
+        @keyframes ff-pulse {
+            0%,100% { box-shadow: 0 0 0 0 rgba(224,53,53,0); }
+            50%      { box-shadow: 0 0 10px 2px rgba(224,53,53,.3); }
+        }
+
+        /* ════════════════════════════════════════
+           SIKANUSGG MODAL
+        ════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.96);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .modal-box {
+            background: var(--surface);
+            width: 100%;
+            max-width: 460px;
+            padding: 40px 36px;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 1px rgba(255,255,255,0.1) inset;
+        }
+        .modal-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        @keyframes fadeUp {
+            from { transform: translateY(24px) scale(0.97); opacity: 0; }
+            to   { transform: translateY(0)    scale(1);    opacity: 1; }
+        }
+        .modal-box h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .modal-box p {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+        .modal-box p b { color: var(--text-main); }
+        .close-x {
+            position: absolute;
+            top: 14px; right: 18px;
+            color: var(--text-muted);
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-x:hover { color: var(--accent-bright); }
+
+        /* ════════════════════════════════════════
+           SIKANUSGG MAIN
+        ════════════════════════════════════════ */
+        .main-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 28px 80px;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .page-active { opacity: 1; }
+
+        header { margin-bottom: 72px; position: relative; }
+        .tag-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--gold-dim);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4.5rem, 18vw, 9rem);
+            font-weight: 400;
+            letter-spacing: 6px;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 60%, #555555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-divider {
+            margin-top: 28px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-dim), var(--border) 60%, transparent);
+        }
+        .media-container {
+            border: 1px solid var(--border);
+            margin: 52px 0 80px;
+            background: var(--surface);
+            overflow: hidden;
+            position: relative;
+            min-height: 10px;
+        }
+        .media-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+        }
+        .media-container img { width: 100%; height: auto; display: block; }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 60px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .section-title::before { content: '//'; color: var(--gold-dim); font-size: 0.75rem; }
+        .section-title::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .cyber-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 22px;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--surface);
+            transition: all 0.25s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .cyber-button:hover::before { opacity: 1; }
+        .cyber-button:hover {
+            background: var(--surface2);
+            border-color: var(--border-glow);
+            color: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .yt-btn { border-color: #2a2a2a; }
+        .yt-btn:hover {
+            border-color: #cc0000; color: #ff4444;
+            background: rgba(204,0,0,0.05);
+            box-shadow: 0 8px 24px rgba(204,0,0,0.1);
+        }
+        .tt-btn { border-color: #2a2a2a; }
+        .tt-btn:hover {
+            border-color: #00f2ea; color: #00f2ea;
+            background: rgba(0,242,234,0.04);
+            box-shadow: 0 8px 24px rgba(0,242,234,0.08);
+        }
+        .btn-icon { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
+
+        footer {
+            margin-top: 120px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            background: linear-gradient(90deg, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ════════════════════════════════════════
+           COMMAND CENTER STYLES (prefixed .cc-*)
+           Scoped inside #page-cc
+        ════════════════════════════════════════ */
+        #page-cc {
+            background: var(--cc-bg);
+            color: var(--cc-tx);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* back button */
+        .cc-back {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 7999;
+            background: rgba(224,53,53,.12);
+            border: 1px solid rgba(224,53,53,.4);
+            color: #e03535;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: all .18s;
+            border-radius: 6px;
+        }
+        .cc-back:hover {
+            background: rgba(224,53,53,.22);
+            border-color: #e03535;
+            transform: translateY(-1px);
+        }
+
+        #page-cc .wrap{max-width:460px;width:100%;margin:0 auto;padding:0 16px 100px;}
+        #page-cc .hdr{padding:56px 0 24px;text-align:center;border-bottom:1px solid var(--cc-bd);margin-bottom:20px;}
+        #page-cc .hdr h1{font-family:'DM Mono',monospace;font-size:26px;font-weight:500;letter-spacing:1px;color:var(--cc-tx);background:none;-webkit-text-fill-color:initial;line-height:1.2;}
+        #page-cc .hdr h1 span{color:var(--cc-red);}
+        #page-cc .hdr p{margin-top:7px;font-size:11.5px;color:var(--cc-tx2);font-style:italic;line-height:1.5;max-width:310px;margin-left:auto;margin-right:auto;}
+        #page-cc .ver-badge{display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:#e03535;background:rgba(224,53,53,.10);border:1px solid rgba(224,53,53,.35);border-radius:4px;padding:2px 8px;letter-spacing:1px;animation:pulse-red 2s ease-in-out infinite;}
+
+        #page-cc .btn-all{width:100%;padding:14px;margin-bottom:10px;background:linear-gradient(135deg,rgba(224,53,53,.18),rgba(224,53,53,.08));border:1px solid rgba(224,53,53,.45);border-radius:10px;color:#e03535;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.5px;display:flex;align-items:center;justify-content:center;gap:8px;}
+        #page-cc .btn-all:hover{border-color:#e03535;background:rgba(224,53,53,.22);transform:translateY(-1px);box-shadow:0 4px 16px rgba(224,53,53,.2);}
+        #page-cc .btn-all-icon{font-size:16px;}
+
+        #page-cc .res-all{background:var(--cc-bg2);border:1px solid rgba(224,53,53,.3);border-radius:12px;padding:18px;margin-bottom:10px;display:none;animation:cc-up .22s ease;}
+        #page-cc .res-all.show{display:block;}
+        #page-cc .res-all::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,#e03535,transparent);margin-bottom:16px;opacity:.6;}
+        #page-cc .all-title{font-family:'DM Mono',monospace;font-size:13px;color:#e03535;font-weight:500;margin-bottom:4px;letter-spacing:.5px;}
+        #page-cc .all-sub{font-size:11px;color:var(--cc-tx2);margin-bottom:14px;}
+        #page-cc .all-platforms{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+        #page-cc .all-plat{background:var(--cc-bg3);border:1px solid var(--cc-bd);border-radius:10px;padding:12px;}
+        #page-cc .all-plat-title{font-size:10px;font-weight:700;color:var(--cc-tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
+        #page-cc .all-plat-title.ios{color:#a8c4f0;}
+        #page-cc .all-plat-title.and{color:#a8d4a8;}
+        #page-cc .all-stat{margin-bottom:7px;}
+        #page-cc .all-stat-lbl{font-size:9.5px;font-weight:700;color:var(--cc-tx3);text-transform:uppercase;letter-spacing:.9px;margin-bottom:2px;}
+        #page-cc .all-stat-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:var(--cc-tx);}
+        #page-cc .all-stat-val.gold{color:var(--cc-gold);}
+        #page-cc .all-stat-bar{margin-top:4px;height:2px;background:var(--cc-bd2);border-radius:1px;overflow:hidden;}
+        #page-cc .all-stat-bf{height:100%;border-radius:1px;background:#e03535;opacity:.7;}
+        #page-cc .all-dpi-row{display:flex;gap:8px;margin-top:10px;}
+        #page-cc .all-dpi-chip{flex:1;background:var(--cc-bg);border:1px solid var(--cc-bd2);border-radius:6px;padding:7px 8px;text-align:center;}
+        #page-cc .all-dpi-chip-lbl{font-size:9px;font-weight:700;color:var(--cc-tx3);text-transform:uppercase;letter-spacing:.8px;}
+        #page-cc .all-dpi-chip-val{font-family:'DM Mono',monospace;font-size:15px;color:#e03535;margin-top:2px;}
+        #page-cc .all-btn-val{font-family:'DM Mono',monospace;font-size:15px;color:#ff7070;margin-top:2px;}
+        #page-cc .all-tip{font-size:11.5px;color:var(--cc-tx2);line-height:1.6;margin-top:12px;padding:10px 12px;background:var(--cc-bg3);border-radius:8px;border-left:2px solid #e03535;}
+
+        #page-cc .card{background:var(--cc-bg2);border:1px solid var(--cc-bd);border-radius:12px;padding:16px;margin-bottom:10px;}
+        #page-cc .lbl{font-size:10px;font-weight:700;color:var(--cc-tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;}
+
+        #page-cc .sw{position:relative;}
+        #page-cc .sw::after{content:"v";font-family:'DM Mono',monospace;font-size:9px;position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--cc-tx3);pointer-events:none;}
+        #page-cc select{width:100%;background:var(--cc-bg3);border:1px solid var(--cc-bd2);border-radius:8px;color:var(--cc-tx);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:11px 34px 11px 12px;appearance:none;cursor:pointer;outline:none;transition:border-color .15s;}
+        #page-cc select:focus{border-color:var(--cc-red);}
+        #page-cc select option{background:#181818;}
+        #page-cc select:disabled{opacity:.28;cursor:not-allowed;}
+
+        #page-cc .t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+        #page-cc .t2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+        #page-cc .tab{padding:9px 4px;background:var(--cc-bg3);border:1px solid var(--cc-bd);border-radius:8px;color:var(--cc-tx2);font-size:12px;font-weight:600;text-align:center;cursor:pointer;transition:all .15s;user-select:none;}
+        #page-cc .tab:hover{color:var(--cc-tx);border-color:var(--cc-bd2);}
+        #page-cc .tab.ac{background:var(--cc-ac-d);border-color:var(--cc-red);color:var(--cc-red);}
+        #page-cc .tab.ag{background:rgba(255,112,112,.08);border-color:#ff7070;color:#ff7070;}
+
+        #page-cc .btn{width:100%;padding:14px;margin-bottom:10px;background:var(--cc-red);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;display:none;letter-spacing:.3px;}
+        #page-cc .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+        #page-cc .btn.show{display:block;}
+
+        #page-cc .res{background:var(--cc-bg2);border:1px solid var(--cc-bd);border-radius:12px;padding:18px;margin-bottom:10px;display:none;animation:cc-up .22s ease;}
+        #page-cc .res.show{display:block;}
+        #page-cc .res::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,var(--cc-red),transparent);margin-bottom:16px;opacity:.5;}
+
+        @keyframes cc-up{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(224,53,53,0);}50%{box-shadow:0 0 8px 2px rgba(224,53,53,.35);}}
+
+        #page-cc .rtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px;}
+        #page-cc .rname{font-family:'DM Mono',monospace;font-size:15px;color:var(--cc-tx);font-weight:500;line-height:1.3;flex:1;}
+        #page-cc .rcnt{font-family:'DM Mono',monospace;font-size:11px;color:var(--cc-tx3);padding-top:2px;white-space:nowrap;}
+
+        #page-cc .badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+        #page-cc .badge{font-size:10px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid;}
+        #page-cc .bc{background:var(--cc-ac-d);border-color:var(--cc-red);color:var(--cc-red);}
+        #page-cc .bg{background:rgba(255,112,112,.08);border-color:#ff7070;color:#ff7070;}
+        #page-cc .bo{background:rgba(180,180,180,.05);border-color:#3a3a3a;color:#787878;}
+
+        #page-cc .grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+        #page-cc .cell{background:var(--cc-bg3);border:1px solid var(--cc-bd);border-radius:8px;padding:11px 12px;}
+        #page-cc .clbl{font-size:10px;font-weight:700;color:var(--cc-tx3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;}
+        #page-cc .cval{font-family:'DM Mono',monospace;font-size:30px;font-weight:500;line-height:1;}
+        #page-cc .cval.cy{color:var(--cc-red);}
+        #page-cc .cval.gr{color:#ff7070;}
+        #page-cc .cval.or{color:#ff9090;}
+        #page-cc .cval.sm{font-size:15px;margin-top:5px;color:var(--cc-tx);}
+        #page-cc .bar{margin-top:7px;height:2px;background:var(--cc-bd2);border-radius:1px;overflow:hidden;}
+        #page-cc .bf{height:100%;border-radius:1px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+        #page-cc .bf.cy{background:var(--cc-red);}
+        #page-cc .bf.gr{background:#ff7070;}
+        #page-cc .bf.or{background:#ff9090;}
+
+        #page-cc .tip{font-size:11.5px;color:var(--cc-tx2);line-height:1.6;margin-top:12px;padding:10px 12px;background:var(--cc-bg3);border-radius:8px;border-left:2px solid var(--cc-red);}
+
+        #page-cc .wa{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;margin-top:10px;background:var(--cc-bg2);border:1px solid var(--cc-bd);border-radius:12px;text-decoration:none;transition:border-color .2s;}
+        #page-cc .wa:hover{border-color:#25d366;}
+        #page-cc .wai{width:36px;height:36px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        #page-cc .wai svg{width:18px;height:18px;fill:#fff;}
+        #page-cc .wat{font-size:13px;font-weight:600;color:var(--cc-tx);}
+        #page-cc .was{font-size:11px;color:#25d366;margin-top:2px;font-family:'DM Mono',monospace;}
+
+        #page-cc .kofi-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px 16px;margin-bottom:10px;background:linear-gradient(135deg,#ff5e16,#ff8c42);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .18s;letter-spacing:.3px;box-shadow:0 4px 18px rgba(255,94,22,.25);}
+        #page-cc .kofi-btn:hover{filter:brightness(1.1);transform:translateY(-2px);}
+        #page-cc .kofi-btn svg{width:22px;height:22px;flex-shrink:0;}
+
+        /* CC lock screen */
+        #cc-lockScreen{display:none;position:fixed;inset:0;background:#0b0b0b;z-index:9998;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+
+        /* scrollbar */
+        ::-webkit-scrollbar{width:3px;}
+        ::-webkit-scrollbar-track{background:var(--bg);}
+        ::-webkit-scrollbar-thumb{background:#3a2020;border-radius:3px;}
+
+        @media(max-width:340px){
+            #page-cc .cval{font-size:22px;}
+            #page-cc .grid{grid-template-columns:1fr;}
+            #page-cc .all-platforms{grid-template-columns:1fr;}
+            #page-cc .hdr h1{font-size:20px;}
+        }
+        @media(max-width:520px){ .main-wrapper{padding:60px 18px;} }
+        @media(min-width:461px){ #page-cc .wrap{padding:0 24px 100px;} }
+        @media(min-width:768px){ #page-cc .wrap{max-width:520px;} #page-cc .hdr h1{font-size:30px;} }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════ FF BUTTON (siempre visible) ════════════ -->
+    <button id="ff-btn">FF</button>
+
+    <!-- ════════════════════════════════════════════════════
+         PAGE 1 — SIKANUSGG
+    ════════════════════════════════════════════════════ -->
+    <div id="page-sikan">
+
+        <!-- MODAL DE ADVERTENCIA -->
+        <div class="modal-overlay" id="warningModal">
+            <div class="modal-box">
+                <span class="close-x" id="closeModal">×</span>
+                <h2>⚠ Advertencia</h2>
+                <p>
+                    El uso de archivos, scripts y aplicaciones para <b>Car Parking Multiplayer</b> y <b>Game Guardian</b>
+                    aquí mostrados es bajo tu propia responsabilidad.<br><br>
+                    Cualquier baneo o daño técnico es responsabilidad del usuario.
+                </p>
+                <button class="cyber-button" style="width:100%;" id="acceptBtn">ENTRAR</button>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-wrapper" id="sikan-content">
+            <header>
+                <div class="tag-line">Est. 2026</div>
+                <h1>SIKANUSGG</h1>
+                <div class="header-divider"></div>
+            </header>
+
+            <div class="media-container">
+                <!-- <img src="TU_URL_AQUI" alt="SIKANUSGG"> -->
+            </div>
+
+            <div class="section-title">Redes sociales</div>
+            <div class="grid-links">
+                <a href="http://www.youtube.com/@cpm_sikan" class="cyber-button yt-btn" target="_blank">
+                    <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    YouTube
+                </a>
+                <a href="https://www.tiktok.com/@sikanofficial?_r=1&_t=ZT-95ZrdMR3b1a" class="cyber-button tt-btn" target="_blank">
+                    <svg class="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+                    </svg>
+                    TikTok
+                </a>
+            </div>
+
+            <footer>
+                <span class="footer-brand">SIKANUSGG</span>
+                <span>© 2026</span>
+            </footer>
+        </div>
+    </div><!-- end page-sikan -->
+
+
+    <!-- ════════════════════════════════════════════════════
+         PAGE 2 — COMMAND CENTER
+    ════════════════════════════════════════════════════ -->
+    <div id="page-cc">
+
+        <!-- PANTALLA DE BLOQUEO CC -->
+        <div id="cc-lockScreen" style="display:none;position:fixed;inset:0;background:#0b0b0b;z-index:9998;flex-direction:column;align-items:center;justify-content:center;padding:24px;">
+          <div style="max-width:340px;width:100%;text-align:center;">
+            <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:#f0dede;letter-spacing:2px;margin-bottom:8px;">COMMAND <span style="color:#e03535;">CENTER</span></div>
+            <div id="cc-lockTitle" style="font-family:'DM Mono',monospace;font-size:13px;color:#c8a84b;letter-spacing:1px;margin-bottom:6px;">🔒 ACCESO RESTRINGIDO</div>
+            <div id="cc-lockSub" style="font-size:12px;color:#a07070;margin-bottom:28px;line-height:1.6;">Ingresá tu clave de acceso para continuar.</div>
+            <div id="cc-lockForm">
+              <input id="cc-lockInput" type="password" placeholder="Ingresá tu clave aquí"
+                style="width:100%;background:#131313;border:1px solid #4a2020;border-radius:10px;color:#f0dede;font-family:'DM Mono',monospace;font-size:14px;padding:13px 14px;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;">
+              <button id="cc-lockBtn"
+                style="width:100%;padding:14px;background:#e03535;border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:12px;">
+                Verificar clave
+              </button>
+              <div id="cc-lockMsg" style="font-size:12px;color:#e05a5a;min-height:18px;margin-bottom:10px;"></div>
+              <div id="cc-contactBtns" style="display:none;margin-top:6px;">
+                <div style="font-size:11px;color:#a07070;margin-bottom:10px;">¿No tenés clave? Comprá tu acceso:</div>
+                <a href="https://wa.me/525573351273?text=Hola%21+Quiero+comprar+una+clave+de+acceso+para+COMMAND+CENTER+%F0%9F%94%91"
+                   target="_blank" rel="noopener"
+                   style="display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;background:#0a1f0a;border:1px solid #25d366;border-radius:10px;text-decoration:none;margin-bottom:8px;">
+                  <div style="width:32px;height:32px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:#f0dede;">Comprar por WhatsApp</div>
+                    <div style="font-size:11px;color:#25d366;font-family:'DM Mono',monospace;">Mensaje automático listo ✓</div>
+                  </div>
+                </a>
+                <a href="https://www.instagram.com/jefz.oficial?igsh=b2NiYTJiODVma2p5&utm_source=qr"
+                   target="_blank" rel="noopener"
+                   style="display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;background:#1a0a1f;border:1px solid #c13584;border-radius:10px;text-decoration:none;">
+                  <div style="width:32px;height:32px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:#f0dede;">Seguime en Instagram</div>
+                    <div style="font-size:11px;color:#c13584;font-family:'DM Mono',monospace;">@jefz.oficial</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÓN VOLVER -->
+        <button class="cc-back" id="cc-backBtn">← VOLVER</button>
+
+        <!-- CONTENIDO APP CC -->
+        <div id="cc-appContent" style="display:none;">
+        <div class="wrap">
+
+        <div class="hdr">
+          <h1>COMMAND <span>CENTER</span></h1>
+          <p>Sensibilidades optimizadas para pegar todo rojo · Headshot Edition 2026</p>
+          <div class="ver-badge">FREE FIRE v1.123.1 · HEADSHOT EDITION 2026</div>
+        </div>
+
+        <a class="kofi-btn" href="https://ko-fi.com/moritosens" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 2.972.723 4.311zm6.173.478c-.928.116-1.682-.028-1.682-.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.866-2.059 3.015z" fill="#ffffff"/>
+          </svg>
+          Apóyame en Ko-fi ☕
+        </a>
+
+        <button class="btn-all" id="cc-btnAll">
+          <span class="btn-all-icon">★</span>
+          ★ All Sensibility — HEADSHOT 2026
+        </button>
+
+        <div class="res-all" id="cc-resAll">
+          <div class="all-title">ALL SENSIBILITY — HEADSHOT EDITION 2026</div>
+          <div class="all-sub">Optimizada para HEADSHOT · Android e iPhone · v1.123.1 · 2026</div>
+          <div class="all-platforms">
+            <div class="all-plat">
+              <div class="all-plat-title ios">iPhone / iPad</div>
+              <div class="all-stat"><div class="all-stat-lbl">General</div><div class="all-stat-val gold">102</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:51%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Punto Rojo</div><div class="all-stat-val">95</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:47%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Mira 2x</div><div class="all-stat-val">90</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:45%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Mira 4x</div><div class="all-stat-val">78</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:39%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Francotirador</div><div class="all-stat-val">52</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:26%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Camara Libre</div><div class="all-stat-val">118</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:59%"></div></div></div>
+              <div class="all-dpi-row">
+                <div class="all-dpi-chip"><div class="all-dpi-chip-lbl">DPI</div><div class="all-dpi-chip-val">96</div></div>
+                <div class="all-dpi-chip"><div class="all-dpi-chip-lbl">Boton</div><div class="all-dpi-chip-val">56%</div></div>
+              </div>
+            </div>
+            <div class="all-plat">
+              <div class="all-plat-title and">Android</div>
+              <div class="all-stat"><div class="all-stat-lbl">General</div><div class="all-stat-val gold">106</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:53%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Punto Rojo</div><div class="all-stat-val">98</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:49%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Mira 2x</div><div class="all-stat-val">92</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:46%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Mira 4x</div><div class="all-stat-val">80</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:40%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Francotirador</div><div class="all-stat-val">54</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:27%"></div></div></div>
+              <div class="all-stat"><div class="all-stat-lbl">Camara Libre</div><div class="all-stat-val">122</div><div class="all-stat-bar"><div class="all-stat-bf" style="width:61%"></div></div></div>
+              <div class="all-dpi-row">
+                <div class="all-dpi-chip"><div class="all-dpi-chip-lbl">DPI</div><div class="all-dpi-chip-val">620</div></div>
+                <div class="all-dpi-chip"><div class="all-dpi-chip-lbl">Boton</div><div class="all-dpi-chip-val">58%</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="all-tip">Calibrada para v1.123.1 · 2026 — MODO HEADSHOT. Punto Rojo y General elevados para mayor precision en la cabeza. Funciona en cualquier dispositivo. Ajusta +/−3 en Punto Rojo si el arrastre se siente pesado.</div>
+        </div>
+
+        <div class="card">
+          <div class="lbl">Marca</div>
+          <div class="sw"><select id="bSel"><option value="">Selecciona una marca</option></select></div>
+        </div>
+        <div class="card">
+          <div class="lbl">Modelo</div>
+          <div class="sw"><select id="mSel" disabled><option value="">Primero elige una marca</option></select></div>
+        </div>
+        <div class="card" id="optCard" style="display:none">
+          <div class="lbl">Rango de calibracion</div>
+          <div class="t3" id="rTabs">
+            <div class="tab ac" data-v="BAJA">Baja</div>
+            <div class="tab"    data-v="MEDIA">Media</div>
+            <div class="tab"    data-v="ALTA">Alta</div>
+          </div>
+          <div class="lbl" style="margin-top:13px">Modo DPI</div>
+          <div class="t2" id="dTabs">
+            <div class="tab ag" data-v="CON">Con DPI</div>
+            <div class="tab"    data-v="SIN">Sin DPI</div>
+          </div>
+        </div>
+
+        <button class="btn" id="btnGen">Generar sensibilidad</button>
+
+        <div class="res" id="resCard">
+          <div class="rtop">
+            <div class="rname" id="rName">-</div>
+            <div class="rcnt"  id="rCnt">#1</div>
+          </div>
+          <div class="badges">
+            <span class="badge bc" id="rRange">BAJA</span>
+            <span class="badge bg" id="rDpi">CON DPI</span>
+            <span class="badge bo" id="rStyle">-</span>
+          </div>
+          <div class="grid">
+            <div class="cell"><div class="clbl">General</div><div class="cval cy" id="vG">-</div><div class="bar"><div class="bf cy" id="bG" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Punto Rojo</div><div class="cval cy" id="vR">-</div><div class="bar"><div class="bf cy" id="bR" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Mira 2x</div><div class="cval gr" id="vS2">-</div><div class="bar"><div class="bf gr" id="bS2" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Mira 4x</div><div class="cval gr" id="vS4">-</div><div class="bar"><div class="bf gr" id="bS4" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Francotirador</div><div class="cval or" id="vSn">-</div><div class="bar"><div class="bf or" id="bSn" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Camara Libre</div><div class="cval or" id="vCm">-</div><div class="bar"><div class="bf or" id="bCm" style="width:0%"></div></div></div>
+            <div class="cell"><div class="clbl">Boton Disparo</div><div class="cval sm" id="vBt">-</div></div>
+            <div class="cell"><div class="clbl">DPI</div><div class="cval sm" id="vDp">-</div></div>
+          </div>
+          <div class="tip" id="tipTxt"></div>
+        </div>
+
+        <a class="wa" href="https://wa.me/525573351273?text=Hola!%20No%20encuentro%20mi%20telefono%20en%20COMMAND%20CENTER%2C%20me%20puedes%20ayudar%3F" target="_blank" rel="noopener">
+          <div class="wai"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+          <div>
+            <div class="wat">No aparece tu telefono? Contactame</div>
+            <div class="was">Escribir por WhatsApp</div>
+          </div>
+        </a>
+
+        </div>
+        </div><!-- end cc-appContent -->
+
+    </div><!-- end page-cc -->
+
+
+    <!-- ════════════════════════════════════════════════════
+         PROTECCIÓN DE CÓDIGO
+    ════════════════════════════════════════════════════ -->
+    <script>
+    (function() {
+        // Bloquear clic derecho
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+
+        // Bloquear teclas de inspección y ver código fuente
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+            // Ctrl+U (ver código fuente)
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
+            // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C (DevTools)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+            // Ctrl+S (guardar página)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) { e.preventDefault(); return false; }
+            // Ctrl+A (seleccionar todo)
+            if (e.ctrlKey && (e.key === 'a' || e.key === 'A')) { e.preventDefault(); return false; }
+            // Ctrl+P (imprimir/guardar PDF)
+            if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) { e.preventDefault(); return false; }
+        });
+
+        // Bloquear selección de texto (excepto inputs/selects para que funcionen normal)
+        document.addEventListener('selectstart', function(e) {
+            var tag = e.target.tagName.toLowerCase();
+            if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+            e.preventDefault(); return false;
+        });
+
+        // Bloquear arrastre de elementos
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+
+        // Detección de DevTools SOLO para escritorio (no por tamaño de ventana, no rompe en móvil)
+        var devtools = { open: false };
+        var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        if (!isMobile) {
+            setInterval(function() {
+                var before = new Date();
+                debugger;
+                var after = new Date();
+                if (after - before > 100) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#080808;color:#e03535;font-family:monospace;font-size:1.2rem;">⛔ Acceso no autorizado</div>';
+                    }
+                } else {
+                    devtools.open = false;
+                }
+            }, 1000);
+        }
+    })();
+    </script>
+
+    <!-- ════════════════════════════════════════════════════
+         SCRIPTS
+    ════════════════════════════════════════════════════ -->
+    <script>
+    // ── SIKANUSGG modal ──────────────────────────────────────────
+    (function() {
+        const modal   = document.getElementById('warningModal');
+        const content = document.getElementById('sikan-content');
+
+        function activatePage() {
+            modal.style.display = 'none';
+            content.classList.add('page-active');
+            document.body.style.overflowY = 'auto';
+        }
+
+        document.getElementById('closeModal').onclick = activatePage;
+        document.getElementById('acceptBtn').onclick  = activatePage;
+        window.onclick = function(e) { if (e.target === modal) activatePage(); };
+    })();
+
+    // ── PAGE SWITCHER ────────────────────────────────────────────
+    const pageSikan = document.getElementById('page-sikan');
+    const pageCC    = document.getElementById('page-cc');
+    const ffBtn     = document.getElementById('ff-btn');
+    const ccBackBtn = document.getElementById('cc-backBtn');
+
+    function showCC() {
+        pageSikan.style.display = 'none';
+        pageCC.style.display    = 'block';
+        window.scrollTo(0, 0);
+        initCCLock();
+    }
+
+    function showSikan() {
+        pageCC.style.display    = 'none';
+        pageSikan.style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    ffBtn.addEventListener('click', showCC);
+    ccBackBtn.addEventListener('click', showSikan);
+
+    // ── COMMAND CENTER LOCK (Supabase) ───────────────────────────
+    let ccLockInitialized = false;
+
+    // Intervalo que verifica cada 15s si la llave sigue activa en Supabase
+    let _watcherInterval = null;
+
+    function expulsarUsuario() {
+        sessionStorage.removeItem('_cc_unlocked');
+        sessionStorage.removeItem('_cc_key');
+        clearInterval(_watcherInterval);
+        // Mostrar pantalla de bloqueo con mensaje de expulsion
+        const lockScreen = document.getElementById('cc-lockScreen');
+        const appContent = document.getElementById('cc-appContent');
+        appContent.style.display = 'none';
+        lockScreen.style.display = 'flex';
+        // Mostrar mensaje de expulsion en el lock screen
+        const sub = document.getElementById('cc-lockSub');
+        const title = document.getElementById('cc-lockTitle');
+        const form = document.getElementById('cc-lockForm');
+        if (title) title.textContent = '⛔ ACCESO REVOCADO';
+        if (sub) sub.textContent = 'Tu llave fue bloqueada o ya fue usada por otra persona. Contacta al administrador para obtener una nueva.';
+        if (form) form.style.display = 'none';
+    }
+
+    async function iniciarWatcher(rowId, myDevice) {
+        clearInterval(_watcherInterval);
+        _watcherInterval = setInterval(async () => {
+            try {
+                const res = await fetch(
+                    `${SUPA_URL}/rest/v1/keys?id=eq.${rowId}&select=id,device_id`,
+                    { headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON } }
+                );
+                const data = await res.json();
+                // Fila eliminada -> expulsar
+                if (!Array.isArray(data) || data.length === 0) {
+                    expulsarUsuario(); return;
+                }
+                // device_id cambió -> otro dispositivo usó la llave -> expulsar a este
+                if (data[0].device_id && data[0].device_id !== myDevice) {
+                    expulsarUsuario();
+                }
+            } catch(e) { /* error de red, no expulsar todavia */ }
+        }, 8000);
+    }
+
+    function initCCLock() {
+        const lockScreen = document.getElementById('cc-lockScreen');
+        const appContent = document.getElementById('cc-appContent');
+        const inp        = document.getElementById('cc-lockInput');
+        const btn        = document.getElementById('cc-lockBtn');
+        const msg        = document.getElementById('cc-lockMsg');
+        const contact    = document.getElementById('cc-contactBtns');
+
+        // Si ya tenia sesion, verificar en Supabase que la llave sigue valida antes de dejar entrar
+        const savedKey    = sessionStorage.getItem('_cc_key');
+        const savedRowId  = sessionStorage.getItem('_cc_row');
+        const myDevice    = localStorage.getItem('_cc_device');
+        if (sessionStorage.getItem('_cc_unlocked') === '1' && savedKey && savedRowId && myDevice) {
+            // Verificar que la fila existe y el device_id sigue siendo el mismo
+            fetch(
+                `${SUPA_URL}/rest/v1/keys?id=eq.${savedRowId}&select=id,device_id`,
+                { headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON } }
+            ).then(r => r.json()).then(data => {
+                if (!Array.isArray(data) || data.length === 0 || (data[0].device_id && data[0].device_id !== myDevice)) {
+                    expulsarUsuario();
+                } else {
+                    lockScreen.style.display = 'none';
+                    appContent.style.display = 'block';
+                    if (!ccLockInitialized) { initCCApp(); ccLockInitialized = true; }
+                    iniciarWatcher(savedRowId, myDevice);
+                }
+            }).catch(() => {
+                lockScreen.style.display = 'none';
+                appContent.style.display = 'block';
+                if (!ccLockInitialized) { initCCApp(); ccLockInitialized = true; }
+            });
+            return;
+        }
+
+        lockScreen.style.display = 'flex';
+        appContent.style.display = 'none';
+
+        if (ccLockInitialized) return;
+        ccLockInitialized = true;
+
+        async function verify() {
+            const clave = inp.value.trim();
+            if (!clave) { msg.textContent = 'Ingresá tu clave.'; return; }
+            btn.disabled    = true;
+            btn.textContent = 'Verificando...';
+            msg.textContent = '';
+            try {
+                // 1. Verificar que la llave existe y no esta bloqueada
+                const res = await fetch(
+                    `${SUPA_URL}/rest/v1/keys?key=eq.${encodeURIComponent(clave)}&blocked=eq.false&select=id,key,device_id`,
+                    { headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON } }
+                );
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    const rowId = data[0].id;
+
+                    // 2. Generar o recuperar device_id unico para este navegador
+                    let myDevice = localStorage.getItem('_cc_device');
+                    if (!myDevice) {
+                        myDevice = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                        localStorage.setItem('_cc_device', myDevice);
+                    }
+
+                    // 3. Guardar device_id y bloquear la llave en Supabase
+                    await fetch(
+                        `${SUPA_URL}/rest/v1/keys?id=eq.${rowId}`,
+                        {
+                            method: 'PATCH',
+                            headers: {
+                                'apikey': SUPA_ANON,
+                                'Authorization': 'Bearer ' + SUPA_ANON,
+                                'Content-Type': 'application/json',
+                                'Prefer': 'return=minimal'
+                            },
+                            body: JSON.stringify({ blocked: true, device_id: myDevice })
+                        }
+                    );
+
+                    // 4. Guardar sesion
+                    sessionStorage.setItem('_cc_unlocked', '1');
+                    sessionStorage.setItem('_cc_key', clave);
+                    sessionStorage.setItem('_cc_row', rowId);
+                    lockScreen.style.display = 'none';
+                    appContent.style.display = 'block';
+                    initCCApp();
+                    // 5. Iniciar watcher
+                    iniciarWatcher(rowId, myDevice);
+                } else {
+                    msg.textContent = '❌ Clave incorrecta o ya utilizada.';
+                    contact.style.display = 'block';
+                    btn.disabled    = false;
+                    btn.textContent = 'Verificar clave';
+                }
+            } catch(e) {
+                msg.textContent = '⚠️ Error de conexión. Intentá de nuevo.';
+                btn.disabled    = false;
+                btn.textContent = 'Verificar clave';
+            }
+        }
+
+        btn.addEventListener('click', verify);
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') verify(); });
+    }
+
+    // ── COMMAND CENTER APP LOGIC ─────────────────────────────────
+    let ccAppInitialized = false;
+
+    // ════════════════════════════════════════════════════════════
+    // BASE DE DISPOSITIVOS — 2026
+    // Formato: { marca: [ {m: "Modelo", r: {g,r,s2,s4,sn,cm,bt,dpi}, tip, style} x50 ] }
+    // g=General, r=PuntoRojo, s2=Mira2x, s4=Mira4x, sn=Franco, cm=CamaraLibre, bt=BotonDisparo%, dpi
+    // ════════════════════════════════════════════════════════════
+    const DB = (function() {
+      // Generador determinista de 50 sensibilidades por modelo
+      function seed(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) { h = Math.imul(31, h) + str.charCodeAt(i) | 0; }
+        return Math.abs(h);
+      }
+      function rng(s) { s = (s ^ 61) ^ (s >>> 16); s += s << 3; s ^= s >>> 4; s = Math.imul(s, 0x27d4eb2d); s ^= s >>> 15; return (s >>> 0) / 0xFFFFFFFF; }
+
+      const STYLES = ['HEADSHOT','PRECISO','AGRESIVO','EQUILIBRADO','LARGO ALCANCE','RUSH','SNIPER','ADAPTATIVO','COMPETITIVO','CONTROL'];
+      const TIPS = [
+        'Optimizada para Punto Rojo y cabeza. Ajusta +3 General si el arrastre se siente lento.',
+        'Ideal para miras. Baja Francotirador 5 pts si sobrepasa la cabeza a larga distancia.',
+        'Configuracion agresiva 2026. Sube Camara Libre si juegas en modo vertical.',
+        'Perfecta para rush y CQC. Reducir Mira 4x si la mira se sale de control.',
+        'Balance total entre velocidad y precision. Funciona en cualquier modo de juego.',
+        'Calibrada para headshot en menos de 0.3s. Recomendada para ranked.',
+        'Configuracion de francotirador profesional. General bajo para mayor control.',
+        'Adaptada para pantallas grandes. Subir General 5 pts en pantallas pequenas.',
+        'Maxima estabilidad en movimiento. Bajar Camara Libre si hay temblor.',
+        'Configuracion competitiva torneo 2026. No modificar sin prueba previa.',
+      ];
+
+      function gen50(modelName, brand) {
+        const base = seed(brand + modelName);
+        const senses = [];
+        for (let i = 0; i < 50; i++) {
+          const s0 = rng(base + i * 137);
+          const s1 = rng(base + i * 251 + 1);
+          const s2 = rng(base + i * 379 + 2);
+          const s3 = rng(base + i * 431 + 3);
+          const s4 = rng(base + i * 521 + 4);
+          const s5 = rng(base + i * 613 + 5);
+          const s6 = rng(base + i * 701 + 6);
+          const s7 = rng(base + i * 797 + 7);
+
+          // Ranges calibradas 2026 — realistas para FF
+          const g   = Math.round(80  + s0 * 80);   // 80-160
+          const r   = Math.round(75  + s1 * 75);   // 75-150
+          const m2  = Math.round(60  + s2 * 70);   // 60-130
+          const m4  = Math.round(55  + s3 * 65);   // 55-120
+          const sn  = Math.round(40  + s4 * 55);   // 40-95
+          const cm  = Math.round(90  + s5 * 110);  // 90-200
+          const bt  = Math.round(38  + s6 * 28);   // 38-66 %
+          const dpi = (s7 > 0.5) ? 'Sin DPI' : (Math.round((200 + s7 * 800) / 50) * 50).toString(); // 200-1000 o Sin DPI
+
+          senses.push({
+            g, r, s2: m2, s4: m4, sn, cm, bt, dpi,
+            style: STYLES[(base + i * 13) % STYLES.length],
+            tip: TIPS[(base + i * 7) % TIPS.length]
+          });
+        }
+        return senses;
+      }
+
+      // ── LISTA DE DISPOSITIVOS ──────────────────────────────────
+      const raw = {
+        // ══ APPLE ══
+        "Apple": [
+          "iPhone 7","iPhone 7 Plus","iPhone 8","iPhone 8 Plus",
+          "iPhone X","iPhone XS","iPhone XS Max","iPhone XR",
+          "iPhone 11","iPhone 11 Pro","iPhone 11 Pro Max",
+          "iPhone 12","iPhone 12 Mini","iPhone 12 Pro","iPhone 12 Pro Max",
+          "iPhone 13","iPhone 13 Mini","iPhone 13 Pro","iPhone 13 Pro Max",
+          "iPhone 14","iPhone 14 Plus","iPhone 14 Pro","iPhone 14 Pro Max",
+          "iPhone 15","iPhone 15 Plus","iPhone 15 Pro","iPhone 15 Pro Max",
+          "iPhone 16","iPhone 16 Plus","iPhone 16 Pro","iPhone 16 Pro Max",
+          "iPad Air (4ta Gen)","iPad Air (5ta Gen)","iPad Air M2",
+          "iPad Pro 11 (2022)","iPad Pro 12.9 (2022)","iPad Pro M4",
+          "iPad Mini 6","iPad Mini 7","iPad 9na Gen","iPad 10ma Gen"
+        ],
+        // ══ SAMSUNG ══
+        "Samsung": [
+          "Galaxy A03","Galaxy A03s","Galaxy A04","Galaxy A04s","Galaxy A04e",
+          "Galaxy A05","Galaxy A05s","Galaxy A06","Galaxy A13","Galaxy A13 5G",
+          "Galaxy A14","Galaxy A14 5G","Galaxy A15","Galaxy A15 5G",
+          "Galaxy A16","Galaxy A16 5G","Galaxy A22","Galaxy A22 5G",
+          "Galaxy A23","Galaxy A23 5G","Galaxy A24","Galaxy A25 5G",
+          "Galaxy A31","Galaxy A32","Galaxy A32 5G","Galaxy A33 5G",
+          "Galaxy A34 5G","Galaxy A35 5G","Galaxy A51","Galaxy A52",
+          "Galaxy A52s 5G","Galaxy A53 5G","Galaxy A54 5G","Galaxy A55 5G",
+          "Galaxy A71","Galaxy A72","Galaxy A73 5G",
+          "Galaxy M13","Galaxy M14","Galaxy M14 5G","Galaxy M15 5G",
+          "Galaxy M23","Galaxy M33 5G","Galaxy M34 5G","Galaxy M35 5G",
+          "Galaxy M53 5G","Galaxy M54 5G","Galaxy M55 5G",
+          "Galaxy S21","Galaxy S21+","Galaxy S21 Ultra",
+          "Galaxy S22","Galaxy S22+","Galaxy S22 Ultra",
+          "Galaxy S23","Galaxy S23+","Galaxy S23 Ultra","Galaxy S23 FE",
+          "Galaxy S24","Galaxy S24+","Galaxy S24 Ultra","Galaxy S24 FE",
+          "Galaxy S25","Galaxy S25+","Galaxy S25 Ultra","Galaxy S25 Edge",
+          "Galaxy Note 20","Galaxy Note 20 Ultra",
+          "Galaxy Z Flip 4","Galaxy Z Flip 5","Galaxy Z Flip 6",
+          "Galaxy Z Fold 4","Galaxy Z Fold 5","Galaxy Z Fold 6",
+          "Galaxy Tab S8","Galaxy Tab S9","Galaxy Tab S9 FE","Galaxy Tab S9 Ultra","Galaxy Tab S10"
+        ],
+        // ══ XIAOMI ══
+        "Xiaomi": [
+          "Redmi 9","Redmi 9A","Redmi 9C","Redmi 9T",
+          "Redmi 10","Redmi 10A","Redmi 10C","Redmi 10 2022",
+          "Redmi 12","Redmi 12C","Redmi 12 5G",
+          "Redmi 13","Redmi 13C","Redmi 13C 5G","Redmi 13 5G",
+          "Redmi Note 9","Redmi Note 9 Pro","Redmi Note 9S",
+          "Redmi Note 10","Redmi Note 10 Pro","Redmi Note 10S","Redmi Note 10 5G",
+          "Redmi Note 11","Redmi Note 11 Pro","Redmi Note 11S","Redmi Note 11 5G",
+          "Redmi Note 12","Redmi Note 12 Pro","Redmi Note 12 Pro+","Redmi Note 12 5G","Redmi Note 12S",
+          "Redmi Note 13","Redmi Note 13 Pro","Redmi Note 13 Pro+","Redmi Note 13 5G",
+          "Redmi Note 14","Redmi Note 14 Pro","Redmi Note 14 Pro+",
+          "Xiaomi 12","Xiaomi 12 Pro","Xiaomi 12 Lite",
+          "Xiaomi 13","Xiaomi 13 Pro","Xiaomi 13 Lite","Xiaomi 13T","Xiaomi 13T Pro",
+          "Xiaomi 14","Xiaomi 14 Pro","Xiaomi 14 Ultra","Xiaomi 14T","Xiaomi 14T Pro",
+          "Xiaomi 15","Xiaomi 15 Pro","Xiaomi 15 Ultra",
+          "POCO X3","POCO X3 Pro","POCO X3 NFC",
+          "POCO X4 Pro 5G","POCO X4 GT","POCO X5","POCO X5 Pro",
+          "POCO X6","POCO X6 Pro","POCO X6 Neo",
+          "POCO F3","POCO F4","POCO F4 GT","POCO F5","POCO F5 Pro","POCO F6","POCO F6 Pro",
+          "POCO M4 Pro","POCO M5","POCO M5s","POCO M6 Pro","POCO M6 Plus",
+          "POCO C40","POCO C50","POCO C55","POCO C65"
+        ],
+        // ══ MOTOROLA ══
+        "Motorola": [
+          "Moto G9 Play","Moto G9 Plus","Moto G9 Power",
+          "Moto G10","Moto G20","Moto G30","Moto G40 Fusion","Moto G50","Moto G60","Moto G60s",
+          "Moto G22","Moto G32","Moto G42","Moto G52","Moto G62 5G","Moto G72","Moto G82 5G",
+          "Moto G14","Moto G24","Moto G34 5G","Moto G54 5G","Moto G64 5G","Moto G84 5G",
+          "Moto G04","Moto G04s","Moto G05","Moto G15","Moto G35 5G","Moto G45 5G","Moto G55 5G","Moto G85 5G",
+          "Moto E7 Plus","Moto E7 Power","Moto E8","Moto E13","Moto E14","Moto E22i","Moto E32","Moto E40",
+          "Motorola Edge 20","Motorola Edge 20 Pro","Motorola Edge 20 Lite",
+          "Motorola Edge 30","Motorola Edge 30 Neo","Motorola Edge 30 Pro","Motorola Edge 30 Fusion","Motorola Edge 30 Ultra",
+          "Motorola Edge 40","Motorola Edge 40 Neo","Motorola Edge 40 Pro",
+          "Motorola Edge 50","Motorola Edge 50 Neo","Motorola Edge 50 Pro","Motorola Edge 50 Fusion","Motorola Edge 50 Ultra",
+          "Motorola Razr 40","Motorola Razr 40 Ultra","Motorola Razr 50","Motorola Razr 50 Ultra",
+          "Motorola ThinkPhone","Motorola ThinkPhone 25"
+        ],
+        // ══ OPPO ══
+        "OPPO": [
+          "OPPO A15","OPPO A15s","OPPO A16","OPPO A16s","OPPO A17","OPPO A17k",
+          "OPPO A18","OPPO A38","OPPO A57","OPPO A57s","OPPO A58","OPPO A58x",
+          "OPPO A74","OPPO A74 5G","OPPO A76","OPPO A77","OPPO A77s","OPPO A78","OPPO A78 5G",
+          "OPPO A79 5G","OPPO A96","OPPO A98 5G",
+          "OPPO Reno 8","OPPO Reno 8 Pro","OPPO Reno 8T","OPPO Reno 8T 5G",
+          "OPPO Reno 9","OPPO Reno 9 Pro","OPPO Reno 9 Pro+",
+          "OPPO Reno 10","OPPO Reno 10 Pro","OPPO Reno 10 Pro+",
+          "OPPO Reno 11","OPPO Reno 11 Pro","OPPO Reno 11 F",
+          "OPPO Reno 12","OPPO Reno 12 Pro","OPPO Reno 12 F",
+          "OPPO Find X6","OPPO Find X6 Pro","OPPO Find X7","OPPO Find X7 Ultra",
+          "OPPO Find N3","OPPO Find N3 Flip","OPPO Find N3 Pro",
+          "OPPO K11","OPPO K11x","OPPO K12","OPPO K12x"
+        ],
+        // ══ REALME ══
+        "Realme": [
+          "Realme C11","Realme C15","Realme C21","Realme C25","Realme C25s",
+          "Realme C30","Realme C30s","Realme C31","Realme C33","Realme C35",
+          "Realme C51","Realme C53","Realme C55","Realme C63","Realme C65","Realme C67",
+          "Realme 8","Realme 8 Pro","Realme 8i","Realme 8s 5G",
+          "Realme 9","Realme 9 Pro","Realme 9 Pro+","Realme 9i","Realme 9 5G",
+          "Realme 10","Realme 10 Pro","Realme 10 Pro+","Realme 10 5G",
+          "Realme 11","Realme 11 Pro","Realme 11 Pro+","Realme 11 5G","Realme 11x 5G",
+          "Realme 12","Realme 12 Pro","Realme 12 Pro+","Realme 12x 5G","Realme 12+ 5G",
+          "Realme GT 2","Realme GT 2 Pro","Realme GT Neo 3","Realme GT Neo 3T",
+          "Realme GT 3","Realme GT 3 Pro","Realme GT 5","Realme GT 5 Pro",
+          "Realme GT 6","Realme GT 6T","Realme GT 7","Realme GT 7 Pro",
+          "Realme Narzo 50","Realme Narzo 50 Pro 5G","Realme Narzo 60","Realme Narzo 60 Pro","Realme Narzo 70 Pro"
+        ],
+        // ══ VIVO ══
+        "Vivo": [
+          "Vivo Y15s","Vivo Y16","Vivo Y17s","Vivo Y21","Vivo Y21s","Vivo Y22","Vivo Y22s",
+          "Vivo Y27","Vivo Y27s","Vivo Y28 5G","Vivo Y33s","Vivo Y35","Vivo Y36","Vivo Y36 5G",
+          "Vivo Y38 5G","Vivo Y55s","Vivo Y72 5G","Vivo Y75 5G","Vivo Y76 5G",
+          "Vivo V21","Vivo V21 5G","Vivo V21e","Vivo V23","Vivo V23 5G","Vivo V23e",
+          "Vivo V25","Vivo V25 Pro","Vivo V27","Vivo V27 Pro","Vivo V27e",
+          "Vivo V29","Vivo V29 Pro","Vivo V29e","Vivo V30","Vivo V30 Pro","Vivo V30e",
+          "Vivo V40","Vivo V40 Pro","Vivo V40 Lite",
+          "Vivo X80","Vivo X80 Pro","Vivo X90","Vivo X90 Pro","Vivo X90 Pro+",
+          "Vivo X100","Vivo X100 Pro","Vivo X100 Ultra","Vivo X200","Vivo X200 Pro","Vivo X200 Ultra",
+          "Vivo iQOO Neo 7","Vivo iQOO Neo 8","Vivo iQOO Neo 9","Vivo iQOO Neo 9S Pro",
+          "Vivo iQOO 11","Vivo iQOO 12","Vivo iQOO 13","Vivo iQOO Z7","Vivo iQOO Z8","Vivo iQOO Z9"
+        ],
+        // ══ HUAWEI ══
+        "Huawei": [
+          "Huawei P40","Huawei P40 Pro","Huawei P40 Lite",
+          "Huawei P50","Huawei P50 Pro","Huawei P50 Pocket",
+          "Huawei P60","Huawei P60 Pro","Huawei P60 Art",
+          "Huawei Nova 9","Huawei Nova 10","Huawei Nova 10 Pro","Huawei Nova 10 SE",
+          "Huawei Nova 11","Huawei Nova 11 Pro","Huawei Nova 11 Ultra","Huawei Nova 11i",
+          "Huawei Nova 12","Huawei Nova 12 Pro","Huawei Nova 12 Ultra","Huawei Nova 12i",
+          "Huawei Mate 40","Huawei Mate 40 Pro","Huawei Mate 50","Huawei Mate 50 Pro",
+          "Huawei Mate 60","Huawei Mate 60 Pro","Huawei Mate 60 Pro+","Huawei Mate 60 RS",
+          "Huawei Y9s","Huawei Y8p","Huawei Y7a","Huawei Y6p",
+          "Huawei Matepad 11","Huawei Matepad Pro 12.6"
+        ],
+        // ══ INFINIX ══
+        "Infinix": [
+          "Infinix Hot 10","Infinix Hot 10 Play","Infinix Hot 10S","Infinix Hot 10T",
+          "Infinix Hot 11","Infinix Hot 11 Play","Infinix Hot 11s","Infinix Hot 11s NFC",
+          "Infinix Hot 12","Infinix Hot 12 Play","Infinix Hot 12i","Infinix Hot 12 Pro",
+          "Infinix Hot 20","Infinix Hot 20i","Infinix Hot 20 Play","Infinix Hot 20s","Infinix Hot 20 5G",
+          "Infinix Hot 30","Infinix Hot 30i","Infinix Hot 30 Play","Infinix Hot 30 5G",
+          "Infinix Hot 40","Infinix Hot 40i","Infinix Hot 40 Pro","Infinix Hot 40 5G",
+          "Infinix Note 11","Infinix Note 11 Pro","Infinix Note 11s",
+          "Infinix Note 12","Infinix Note 12 Pro","Infinix Note 12 VIP","Infinix Note 12 G96",
+          "Infinix Note 30","Infinix Note 30 Pro","Infinix Note 30 VIP","Infinix Note 30 5G",
+          "Infinix Note 40","Infinix Note 40 Pro","Infinix Note 40 Pro+ 5G",
+          "Infinix Zero 30","Infinix Zero 30 5G","Infinix Zero 40","Infinix Zero 40 5G",
+          "Infinix Smart 6","Infinix Smart 7","Infinix Smart 7 HD","Infinix Smart 8","Infinix Smart 8 Plus","Infinix Smart 8 Pro"
+        ],
+        // ══ TECNO ══
+        "Tecno": [
+          "Tecno Spark 8","Tecno Spark 8C","Tecno Spark 8T","Tecno Spark 8P",
+          "Tecno Spark 9","Tecno Spark 9 Pro","Tecno Spark 9T",
+          "Tecno Spark 10","Tecno Spark 10 Pro","Tecno Spark 10C","Tecno Spark 10 NFC",
+          "Tecno Spark 20","Tecno Spark 20 Pro","Tecno Spark 20 Pro+","Tecno Spark 20C",
+          "Tecno Spark 30","Tecno Spark 30 Pro","Tecno Spark 30C",
+          "Tecno Camon 19","Tecno Camon 19 Pro","Tecno Camon 19 Neo",
+          "Tecno Camon 20","Tecno Camon 20 Pro","Tecno Camon 20 Pro 5G","Tecno Camon 20 Premier 5G",
+          "Tecno Camon 30","Tecno Camon 30 Pro","Tecno Camon 30 Pro 5G","Tecno Camon 30 Premier",
+          "Tecno Phantom X2","Tecno Phantom X2 Pro","Tecno Phantom V Flip","Tecno Phantom V Fold",
+          "Tecno Pova 4","Tecno Pova 4 Pro","Tecno Pova 5","Tecno Pova 5 Pro","Tecno Pova 6 Neo","Tecno Pova 6 Pro"
+        ],
+        // ══ ONEPLUS ══
+        "OnePlus": [
+          "OnePlus Nord CE 2","OnePlus Nord CE 2 Lite","OnePlus Nord CE 3","OnePlus Nord CE 3 Lite","OnePlus Nord CE 4","OnePlus Nord CE 4 Lite",
+          "OnePlus Nord 2T","OnePlus Nord 3","OnePlus Nord 4",
+          "OnePlus 10 Pro","Oneplus 10T","OnePlus 10R",
+          "OnePlus 11","OnePlus 11R","OnePlus 11R 5G",
+          "OnePlus 12","OnePlus 12R","OnePlus 12 5G",
+          "OnePlus 13","OnePlus 13R","OnePlus Open","OnePlus Open 2"
+        ],
+        // ══ ASUS ══
+        "Asus": [
+          "Asus ROG Phone 5","Asus ROG Phone 5s","Asus ROG Phone 5 Ultimate",
+          "Asus ROG Phone 6","Asus ROG Phone 6D","Asus ROG Phone 6D Ultimate","Asus ROG Phone 6 Pro",
+          "Asus ROG Phone 7","Asus ROG Phone 7 Ultimate","Asus ROG Phone 7 Pro",
+          "Asus ROG Phone 8","Asus ROG Phone 8 Pro","Asus ROG Phone 8 Pro Edition",
+          "Asus Zenfone 8","Asus Zenfone 9","Asus Zenfone 10","Asus Zenfone 11 Ultra",
+          "Asus Zenfone Flip","Asus Vivobook X15","Asus Vivobook 15"
+        ],
+        // ══ SONY ══
+        "Sony": [
+          "Sony Xperia 1 III","Sony Xperia 5 III","Sony Xperia 10 III",
+          "Sony Xperia 1 IV","Sony Xperia 5 IV","Sony Xperia 10 IV",
+          "Sony Xperia 1 V","Sony Xperia 5 V","Sony Xperia 10 V",
+          "Sony Xperia 1 VI","Sony Xperia 5 VI","Sony Xperia 10 VI"
+        ],
+        // ══ LG ══
+        "LG": [
+          "LG K51","LG K52","LG K62","LG K71","LG K92 5G",
+          "LG Stylo 6","LG Stylo 7","LG Wing","LG Velvet","LG Velvet 5G",
+          "LG V60 ThinQ","LG V60 ThinQ 5G","LG V70 ThinQ",
+          "LG Q52","LG Q53","LG Q61","LG Q70","LG Q92 5G"
+        ],
+        // ══ NOKIA ══
+        "Nokia": [
+          "Nokia G11","Nokia G21","Nokia G22","Nokia G42 5G",
+          "Nokia X30 5G","Nokia X10","Nokia X20",
+          "Nokia C31","Nokia C32","Nokia C12","Nokia C12 Pro",
+          "Nokia 5.4","Nokia 6.2","Nokia 7.2","Nokia 8.3 5G"
+        ],
+        // ══ HONOR ══
+        "Honor": [
+          "Honor 50","Honor 50 Lite","Honor 70","Honor 70 Lite",
+          "Honor 80","Honor 80 GT","Honor 80 Pro",
+          "Honor 90","Honor 90 Lite","Honor 90 GT","Honor 90 Pro",
+          "Honor 100","Honor 100 Pro","Honor 200","Honor 200 Pro","Honor 200 Lite",
+          "Honor Magic 4","Honor Magic 4 Pro","Honor Magic 4 Ultimate",
+          "Honor Magic 5","Honor Magic 5 Pro","Honor Magic 5 Ultimate","Honor Magic 5 Lite",
+          "Honor Magic 6","Honor Magic 6 Pro","Honor Magic 6 Ultimate","Honor Magic 6 Lite",
+          "Honor Magic V","Honor Magic V2","Honor Magic V3","Honor Magic V Flip",
+          "Honor X6","Honor X7","Honor X7a","Honor X8","Honor X8a","Honor X9","Honor X9a","Honor X9b"
+        ],
+        // ══ ZTE ══
+        "ZTE": [
+          "ZTE Blade A31","ZTE Blade A51","ZTE Blade A52","ZTE Blade A53","ZTE Blade A53 Pro",
+          "ZTE Blade A72","ZTE Blade A73","ZTE Blade A73 5G","ZTE Blade A75","ZTE Blade A75 5G",
+          "ZTE Nubia Red Magic 6","ZTE Nubia Red Magic 7","ZTE Nubia Red Magic 8","ZTE Nubia Red Magic 9",
+          "ZTE Nubia Red Magic 9 Pro","ZTE Nubia Red Magic 9S Pro","ZTE Nubia Z50","ZTE Nubia Z50 Ultra"
+        ],
+        // ══ GOOGLE ══
+        "Google": [
+          "Google Pixel 6","Google Pixel 6a","Google Pixel 6 Pro",
+          "Google Pixel 7","Google Pixel 7a","Google Pixel 7 Pro",
+          "Google Pixel 8","Google Pixel 8a","Google Pixel 8 Pro",
+          "Google Pixel 9","Google Pixel 9a","Google Pixel 9 Pro","Google Pixel 9 Pro XL","Google Pixel 9 Pro Fold",
+          "Google Pixel Fold","Google Pixel Tablet"
+        ],
+        // ══ TECNO GAMING ══
+        "Blackshark": [
+          "Black Shark 4","Black Shark 4 Pro","Black Shark 4S","Black Shark 4S Pro",
+          "Black Shark 5","Black Shark 5 Pro","Black Shark 5 RS",
+          "Black Shark 6","Black Shark 6 Pro","Black Shark 6 RS"
+        ],
+        // ══ NUBIA ══
+        "Nubia": [
+          "Nubia Play 5G","Nubia Neo 5G","Nubia Neo 2 5G",
+          "Nubia Focus 5G","Nubia Focus Pro 5G","Nubia Music","Nubia Music 2"
+        ],
+        // ══ TCL ══
+        "TCL": [
+          "TCL 20 SE","TCL 20 Pro 5G","TCL 20Y","TCL 20 5G",
+          "TCL 30 SE","TCL 30 5G","TCL 30+","TCL 30 E","TCL 30 XE 5G",
+          "TCL 40 SE","TCL 40 NxtPaper","TCL 40 5G","TCL 40 XL",
+          "TCL 501","TCL 503","TCL 505","TCL 506"
+        ]
+      };
+
+      // Build full DB
+      const result = {};
+      for (const [brand, models] of Object.entries(raw)) {
+        result[brand] = {};
+        for (const m of models) {
+          result[brand][m] = gen50(m, brand);
+        }
+      }
+      return result;
+    })();
+
+    function initCCApp() {
+        if (ccAppInitialized) return;
+        ccAppInitialized = true;
+
+        // All Sensibility toggle
+        document.getElementById('cc-btnAll').addEventListener('click', () => {
+            document.getElementById('cc-resAll').classList.toggle('show');
+        });
+
+        // ── Populate brand select ──
+        const bSel = document.getElementById('bSel');
+        const mSel = document.getElementById('mSel');
+        const optCard = document.getElementById('optCard');
+        const btnGen = document.getElementById('btnGen');
+        const resCard = document.getElementById('resCard');
+
+        const brands = Object.keys(DB).sort();
+        brands.forEach(b => {
+            const o = document.createElement('option');
+            o.value = b; o.textContent = b;
+            bSel.appendChild(o);
+        });
+
+        bSel.addEventListener('change', () => {
+            const brand = bSel.value;
+            mSel.innerHTML = '<option value="">Selecciona un modelo</option>';
+            optCard.style.display = 'none';
+            resCard.classList.remove('show');
+            if (!brand) { mSel.disabled = true; return; }
+            const models = Object.keys(DB[brand]).sort();
+            models.forEach(m => {
+                const o = document.createElement('option');
+                o.value = m; o.textContent = m;
+                mSel.appendChild(o);
+            });
+            mSel.disabled = false;
+        });
+
+        mSel.addEventListener('change', () => {
+            optCard.style.display = mSel.value ? 'block' : 'none';
+            resCard.classList.remove('show');
+        });
+
+        // Tabs
+        document.querySelectorAll('#rTabs .tab').forEach(t => {
+            t.addEventListener('click', () => {
+                document.querySelectorAll('#rTabs .tab').forEach(x => x.classList.remove('ac'));
+                t.classList.add('ac');
+            });
+        });
+        document.querySelectorAll('#dTabs .tab').forEach(t => {
+            t.addEventListener('click', () => {
+                document.querySelectorAll('#dTabs .tab').forEach(x => x.classList.remove('ag'));
+                t.classList.add('ag');
+            });
+        });
+
+        // ── Counter per session ──
+        let genCount = {};
+
+        // ── Generate ──
+        btnGen.addEventListener('click', () => {
+            const brand = bSel.value;
+            const model = mSel.value;
+            if (!brand || !model) {
+                alert('Selecciona marca y modelo primero.');
+                return;
+            }
+            const range = document.querySelector('#rTabs .tab.ac')?.dataset.v || 'BAJA';
+            const dpiMode = document.querySelector('#dTabs .tab.ag')?.dataset.v || 'CON';
+            const key = brand + '|' + model;
+            if (!genCount[key]) genCount[key] = 0;
+
+            const senses = DB[brand][model];
+            // Filter by range
+            let pool = senses.filter(s => {
+                if (range === 'BAJA')  return s.g <= 110;
+                if (range === 'MEDIA') return s.g > 110 && s.g <= 135;
+                if (range === 'ALTA')  return s.g > 135;
+                return true;
+            });
+            // Filter by DPI mode
+            pool = pool.filter(s => {
+                if (dpiMode === 'CON') return s.dpi !== 'Sin DPI';
+                if (dpiMode === 'SIN') return s.dpi === 'Sin DPI';
+                return true;
+            });
+            if (pool.length === 0) pool = senses; // fallback
+
+            const idx = genCount[key] % pool.length;
+            const s = pool[idx];
+            genCount[key]++;
+
+            // Fill UI
+            document.getElementById('rName').textContent = brand + '  ' + model;
+            document.getElementById('rCnt').textContent  = '#' + genCount[key] + ' / ' + pool.length;
+            document.getElementById('rRange').textContent = range;
+            document.getElementById('rDpi').textContent   = dpiMode === 'CON' ? 'CON DPI' : 'SIN DPI';
+            document.getElementById('rStyle').textContent = s.style;
+
+            document.getElementById('vG').textContent  = s.g;
+            document.getElementById('vR').textContent  = s.r;
+            document.getElementById('vS2').textContent = s.s2;
+            document.getElementById('vS4').textContent = s.s4;
+            document.getElementById('vSn').textContent = s.sn;
+            document.getElementById('vCm').textContent = s.cm;
+            document.getElementById('vBt').textContent = s.bt + '%';
+            document.getElementById('vDp').textContent = s.dpi;
+            document.getElementById('tipTxt').textContent = s.tip;
+
+            // Bars (max 200 scale)
+            document.getElementById('bG').style.width  = Math.min(s.g  / 200 * 100, 100) + '%';
+            document.getElementById('bR').style.width  = Math.min(s.r  / 200 * 100, 100) + '%';
+            document.getElementById('bS2').style.width = Math.min(s.s2 / 200 * 100, 100) + '%';
+            document.getElementById('bS4').style.width = Math.min(s.s4 / 200 * 100, 100) + '%';
+            document.getElementById('bSn').style.width = Math.min(s.sn / 200 * 100, 100) + '%';
+            document.getElementById('bCm').style.width = Math.min(s.cm / 200 * 100, 100) + '%';
+
+            resCard.classList.add('show');
+            resCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+    </script>
+
+</body>
+</html>
