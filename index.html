@@ -1285,166 +1285,166 @@
     })();
     </script>
 
-    <!-- ═══════════════ SISTEMA COMPLETO ═══════════════ -->
+    <!-- SISTEMA COMPLETO -->
     <script>
     (function(){
         'use strict';
 
-        /* ─── SUPABASE ─── */
         var SB_URL = 'https://sbausonublowiajdlpmi.supabase.co';
         var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiYXVzb251Ymxvd2lhamRscG1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxODg0OTUsImV4cCI6MjA5NTc2NDQ5NX0.0ysrdlOAKgemZFUeOOk0QykP8kmQHMGBnu19NiUgoQs';
-        var BUCKET  = 'archivos';
+        var BUCKET = 'archivos';
 
-        function sbHeaders(extra){
-            var h = { 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY, 'Content-Type':'application/json' };
-            if(extra) Object.keys(extra).forEach(function(k){ h[k]=extra[k]; });
+        function sbH(extra){
+            var h={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+            if(extra) Object.keys(extra).forEach(function(k){h[k]=extra[k];});
             return h;
         }
+        function pubUrl(p){ return SB_URL+'/storage/v1/object/public/'+BUCKET+'/'+p; }
+        function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-        /* URL pública correcta de Supabase Storage */
-        function publicUrl(path){
-            return SB_URL+'/storage/v1/object/public/'+BUCKET+'/'+path;
-        }
+        /* CREDENCIALES:  SKN_4dm1n_2O26 / @Sik4n#Ux9$Gm!3vZqW&8 / SKN-X7K2-Q9P4-M3R8-W5N1 */
+        function _h(s){var h=0,i,ch;for(i=0;i<s.length;i++){ch=s.charCodeAt(i);h=((h<<5)-h+ch)|0;}var x=(h>>>0).toString(16);while(x.length<8)x='0'+x;var o='';for(i=0;i<64;i++)o+=x[i%8];return o;}
+        var _V={u:_h('SKN_4dm1n_2O26'),p:_h('@Sik4n#Ux9$Gm!3vZqW&8'),k:_h('SKN-X7K2-Q9P4-M3R8-W5N1')};
+        var SK='skngg_admin_sess';
+        function setSess(){sessionStorage.setItem(SK,'1');}
 
-        /* ─── CREDENCIALES ADMIN ───
-           Usuario:    SKN_4dm1n_2O26
-           Contraseña: @Sik4n#Ux9$Gm!3vZqW&8
-           Access Key: SKN-X7K2-Q9P4-M3R8-W5N1
-        */
-        function _h(s){ var h=0,i,ch; for(i=0;i<s.length;i++){ch=s.charCodeAt(i);h=((h<<5)-h+ch)|0;} var x=(h>>>0).toString(16); while(x.length<8)x='0'+x; var o=''; for(i=0;i<64;i++)o+=x[i%8]; return o; }
-        var _V={ u:_h('SKN_4dm1n_2O26'), p:_h('@Sik4n#Ux9$Gm!3vZqW&8'), k:_h('SKN-X7K2-Q9P4-M3R8-W5N1') };
-        var SESS_KEY='skngg_admin_sess';
-        function setSession(){ sessionStorage.setItem(SESS_KEY,'1'); }
-        function hasSession(){ return sessionStorage.getItem(SESS_KEY)==='1'; }
+        /* SECUENCIA SECRETA */
+        var seq={taps:0,step:0,timer:null};
+        function resetSeq(){seq.taps=0;seq.step=0;if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
 
-        /* ─── SECUENCIA SECRETA: 20 toques + mantener 1.5s ─── */
-        var _seq={taps:0,step:0,timer:null};
-        function _resetSeq(){ _seq.taps=0;_seq.step=0; if(_seq.timer){clearTimeout(_seq.timer);_seq.timer=null;} }
-        function _bindTaps(){
+        function bindTaps(){
             document.querySelectorAll('h1,.footer-brand').forEach(function(el){
-                el.addEventListener('click',_onTap,{passive:true});
-                el.addEventListener('touchend',function(e){e.stopPropagation();_onTap();},{passive:true});
+                el.addEventListener('click',onTap,{passive:true});
+                el.addEventListener('touchend',function(e){e.stopPropagation();onTap();},{passive:true});
             });
         }
-        function _onTap(){
-            if(_seq.step!==0){_resetSeq();return;}
-            _seq.taps++;
-            if(_seq.taps>=20){_seq.step=1;_bindHold();}
+
+        function onTap(){
+            if(seq.step!==0){resetSeq();return;}
+            seq.taps++;
+            if(seq.taps>=20){seq.step=1;bindHold();}
         }
-        function _bindHold(){
+
+        function bindHold(){
             var b=document.body;
             function onDown(e){
                 var t=e.target;
                 if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A'||t.tagName==='SELECT'||t.tagName==='TEXTAREA')return;
-                _seq.timer=setTimeout(function(){
-                    b.removeEventListener('mousedown',onDown);b.removeEventListener('touchstart',onDown);
-                    b.removeEventListener('mouseup',onUp);b.removeEventListener('touchend',onUp);
+                seq.timer=setTimeout(function(){
+                    b.removeEventListener('mousedown',onDown);
+                    b.removeEventListener('touchstart',onDown);
+                    b.removeEventListener('mouseup',onUp);
+                    b.removeEventListener('touchend',onUp);
                     openLogin();
                 },1500);
             }
-            function onUp(){ if(_seq.timer){clearTimeout(_seq.timer);_seq.timer=null;} }
-            b.addEventListener('mousedown',onDown,{passive:true});b.addEventListener('touchstart',onDown,{passive:true});
-            b.addEventListener('mouseup',onUp,{passive:true});b.addEventListener('touchend',onUp,{passive:true});
+            function onUp(){if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
+            b.addEventListener('mousedown',onDown,{passive:true});
+            b.addEventListener('touchstart',onDown,{passive:true});
+            b.addEventListener('mouseup',onUp,{passive:true});
+            b.addEventListener('touchend',onUp,{passive:true});
         }
 
-        /* ─── LOGIN MODAL ─── */
-        var loginEl=document.getElementById('secret-login-overlay');
-        var slSt=document.getElementById('sl-status');
-        var slU=document.getElementById('sl-user'),slP=document.getElementById('sl-pass'),slK=document.getElementById('sl-key');
-        var slBtn=document.getElementById('sl-enter-btn'),slCan=document.getElementById('sl-cancel-btn');
+        /* LOGIN */
+        var lEl=document.getElementById('secret-login-overlay');
+        var lSt=document.getElementById('sl-status');
+        var lU=document.getElementById('sl-user');
+        var lP=document.getElementById('sl-pass');
+        var lK=document.getElementById('sl-key');
+        var lBtn=document.getElementById('sl-enter-btn');
+        var lCan=document.getElementById('sl-cancel-btn');
 
-        function openLogin(){ _resetSeq(); loginEl.style.display='flex'; slSt.textContent=''; slSt.className='wa-status'; slU.value='';slP.value='';slK.value=''; setTimeout(function(){slU.focus();},200); }
-        function closeLogin(){ loginEl.style.display='none'; slU.value='';slP.value='';slK.value=''; }
-        slCan.onclick=closeLogin;
-        loginEl.addEventListener('click',function(e){if(e.target===loginEl)closeLogin();});
-        slBtn.onclick=function(){
-            var u=slU.value.trim(),p=slP.value,k=slK.value.trim();
-            if(!u||!p||!k){slSt.textContent='Completa todos los campos.';slSt.className='wa-status err';return;}
+        function openLogin(){
+            resetSeq();
+            lEl.style.display='flex';
+            lSt.textContent='';lSt.className='wa-status';
+            lU.value='';lP.value='';lK.value='';
+            setTimeout(function(){lU.focus();},200);
+        }
+        function closeLogin(){lEl.style.display='none';lU.value='';lP.value='';lK.value='';}
+
+        lCan.onclick=closeLogin;
+        lEl.addEventListener('click',function(e){if(e.target===lEl)closeLogin();});
+
+        lBtn.onclick=function(){
+            var u=lU.value.trim(),p=lP.value,k=lK.value.trim();
+            if(!u||!p||!k){lSt.textContent='Completa todos los campos.';lSt.className='wa-status err';return;}
             if(_h(u)===_V.u&&_h(p)===_V.p&&_h(k)===_V.k){
-                slSt.textContent='✓ Acceso concedido.';slSt.className='wa-status ok';
-                slBtn.disabled=true;
+                lSt.textContent='Acceso concedido.';lSt.className='wa-status ok';
+                lBtn.disabled=true;
                 setTimeout(function(){closeLogin();openAdmin();},700);
             } else {
-                slSt.textContent='Credenciales incorrectas.';slSt.className='wa-status err';
-                slP.value='';slK.value='';
+                lSt.textContent='Credenciales incorrectas.';lSt.className='wa-status err';
+                lP.value='';lK.value='';
             }
         };
-        [slU,slP,slK].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')slBtn.click();});});
 
-        /* ─── CARGAR CONTENIDO PÚBLICO (todos lo ven) ─── */
+        [lU,lP,lK].forEach(function(inp){
+            inp.addEventListener('keydown',function(e){if(e.key==='Enter')lBtn.click();});
+        });
+
+        /* CONTENIDO PUBLICO */
         function loadPublic(){
-            fetch(SB_URL+'/rest/v1/contenido?select=*&visible=eq.true&order=creado_en.desc', {
-                headers: sbHeaders({'Prefer':''})
-            })
-            .then(function(r){ return r.json(); })
-            .then(function(data){
-                if(!Array.isArray(data)) return;
-                renderPublic(data);
-            })
+            fetch(SB_URL+'/rest/v1/contenido?select=*&visible=eq.true&order=creado_en.desc',{headers:sbH({'Prefer':''})})
+            .then(function(r){return r.json();})
+            .then(function(d){if(Array.isArray(d))renderPublic(d);})
             .catch(function(){});
         }
 
-        function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
         function renderPublic(items){
-            var wrap = document.getElementById('sikan-content');
-            var footer = wrap.querySelector('footer');
+            var wrap=document.getElementById('sikan-content');
+            var footer=wrap.querySelector('footer');
             ['pub-sec-archivos','pub-sec-videos','pub-sec-apps'].forEach(function(id){
-                var el=document.getElementById(id); if(el) el.parentNode.removeChild(el);
+                var el=document.getElementById(id);if(el)el.parentNode.removeChild(el);
             });
-
-            var grupos = [
-                {tipo:'archivo', id:'pub-sec-archivos', titulo:'Archivos',   icono:'◻'},
-                {tipo:'video',   id:'pub-sec-videos',   titulo:'Videos',     icono:'▷'},
-                {tipo:'app',     id:'pub-sec-apps',      titulo:'Apps / APKs',icono:'⬡'}
+            var grupos=[
+                {tipo:'archivo',id:'pub-sec-archivos',titulo:'Archivos'},
+                {tipo:'video',  id:'pub-sec-videos',  titulo:'Videos'},
+                {tipo:'app',    id:'pub-sec-apps',     titulo:'Apps / APKs'}
             ];
-
             grupos.forEach(function(g){
-                var lista = items.filter(function(i){return i.tipo===g.tipo;});
-                if(!lista.length) return;
-                var sec = document.createElement('div');
-                sec.id = g.id;
-                sec.innerHTML = '<div class="section-title">'+esc(g.titulo)+'</div>'
-                    +'<div class="pub-grid">'
-                    + lista.map(function(item){
-                        return '<a href="'+esc(item.url||'#')+'" class="pub-card" target="_blank" rel="noopener">'
-                            +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
-                            +'<div class="pub-card-body">'
-                                +'<div class="pub-card-name">'+esc(item.nombre)+'</div>'
-                                +(item.descripcion?'<div class="pub-card-desc">'+esc(item.descripcion)+'</div>':'')
-                            +'</div>'
-                            +'<div class="pub-card-arrow">↓</div>'
-                            +'</a>';
-                    }).join('')
-                    +'</div>';
-                wrap.insertBefore(sec, footer);
+                var lista=items.filter(function(i){return i.tipo===g.tipo;});
+                if(!lista.length)return;
+                var sec=document.createElement('div');
+                sec.id=g.id;
+                var cards=lista.map(function(item){
+                    return '<a href="'+esc(item.url||'#')+'" class="pub-card" target="_blank" rel="noopener">'
+                        +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
+                        +'<div class="pub-card-body">'
+                            +'<div class="pub-card-name">'+esc(item.nombre)+'</div>'
+                            +(item.descripcion?'<div class="pub-card-desc">'+esc(item.descripcion)+'</div>':'')
+                        +'</div>'
+                        +'<div class="pub-card-arrow">&#x2193;</div>'
+                        +'</a>';
+                }).join('');
+                sec.innerHTML='<div class="section-title">'+esc(g.titulo)+'</div><div class="pub-grid">'+cards+'</div>';
+                wrap.insertBefore(sec,footer);
             });
         }
 
-        /* ─── ABRIR ADMIN ─── */
-        var adminEl = document.getElementById('admin-panel');
+        /* ADMIN */
+        var adminEl=document.getElementById('admin-panel');
+
         function openAdmin(){
-            setSession();
+            setSess();
             adminEl.classList.add('open');
             document.body.style.overflow='hidden';
             refreshAdmin();
         }
 
-        document.getElementById('adm-close').onclick=function(){ adminEl.classList.remove('open'); document.body.style.overflow=''; };
-        document.getElementById('adm-logout').onclick=function(){ sessionStorage.removeItem(SESS_KEY); adminEl.classList.remove('open'); document.body.style.overflow=''; };
+        document.getElementById('adm-close').onclick=function(){adminEl.classList.remove('open');document.body.style.overflow='';};
+        document.getElementById('adm-logout').onclick=function(){sessionStorage.removeItem(SK);adminEl.classList.remove('open');document.body.style.overflow='';};
 
-        /* Nav tabs */
         document.querySelectorAll('.adm-nav-item').forEach(function(item){
             item.onclick=function(){
                 document.querySelectorAll('.adm-nav-item').forEach(function(n){n.classList.remove('active');});
                 document.querySelectorAll('.adm-section').forEach(function(s){s.classList.remove('active');});
                 item.classList.add('active');
                 var tab=document.getElementById('tab-'+item.dataset.tab);
-                if(tab) tab.classList.add('active');
+                if(tab)tab.classList.add('active');
             };
         });
 
-        /* ─── REFRESH ADMIN: carga todo ─── */
         function refreshAdmin(){
             loadAdminList('archivo','list-archivos');
             loadAdminList('video','list-videos');
@@ -1453,12 +1453,17 @@
         }
 
         function loadStats(){
-            fetch(SB_URL+'/rest/v1/contenido?select=tipo,visible',{headers:sbHeaders({'Prefer':''})})
+            fetch(SB_URL+'/rest/v1/contenido?select=tipo,visible',{headers:sbH({'Prefer':''})})
             .then(function(r){return r.json();})
             .then(function(d){
-                if(!Array.isArray(d)) return;
+                if(!Array.isArray(d))return;
                 var a=0,v=0,ap=0,vis=0;
-                d.forEach(function(x){ if(x.tipo==='archivo')a++; else if(x.tipo==='video')v++; else if(x.tipo==='app')ap++; if(x.visible)vis++; });
+                d.forEach(function(x){
+                    if(x.tipo==='archivo')a++;
+                    else if(x.tipo==='video')v++;
+                    else if(x.tipo==='app')ap++;
+                    if(x.visible)vis++;
+                });
                 document.getElementById('stat-archivos').textContent=a;
                 document.getElementById('stat-videos').textContent=v;
                 document.getElementById('stat-apps').textContent=ap;
@@ -1466,177 +1471,164 @@
             }).catch(function(){});
         }
 
-        function loadAdminList(tipo, listId){
+        function loadAdminList(tipo,listId){
             var el=document.getElementById(listId);
-            if(!el) return;
+            if(!el)return;
             el.innerHTML='<div class="adm-loading">Cargando...</div>';
-            fetch(SB_URL+'/rest/v1/contenido?select=*&tipo=eq.'+tipo+'&order=creado_en.desc',{headers:sbHeaders({'Prefer':''})})
-            .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+            fetch(SB_URL+'/rest/v1/contenido?select=*&tipo=eq.'+tipo+'&order=creado_en.desc',{headers:sbH({'Prefer':''})})
+            .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
             .then(function(data){
                 if(!Array.isArray(data)||!data.length){
-                    el.innerHTML='<div class="adm-empty">Sin elementos aún — agrega el primero ↑</div>'; return;
+                    el.innerHTML='<div class="adm-empty">Sin elementos aun. Agrega el primero.</div>';
+                    return;
                 }
                 el.innerHTML=data.map(function(item){
-                    return '<div class="adm-item-row" id="arow-'+item.id+'">'
+                    return '<div class="adm-item-row">'
                         +'<div class="adm-item-icon">'+esc(item.icono||'📁')+'</div>'
                         +'<div class="adm-item-info">'
                             +'<div class="adm-item-name">'+esc(item.nombre)+'</div>'
                             +(item.descripcion?'<div class="adm-item-desc">'+esc(item.descripcion)+'</div>':'')
                         +'</div>'
                         +'<div class="adm-item-actions">'
-                            +'<button class="adm-vis-btn '+(item.visible?'on':'off')+'" data-id="'+item.id+'" data-vis="'+(item.visible?'1':'0')+'">'+(item.visible?'● Visible':'○ Oculto')+'</button>'
-                            +'<button class="adm-edit-btn" data-id="'+item.id+'">✎</button>'
-                            +'<button class="adm-del-btn"  data-id="'+item.id+'">✕</button>'
+                            +'<button class="adm-vis-btn '+(item.visible?'on':'off')+'" data-id="'+item.id+'" data-vis="'+(item.visible?'1':'0')+'">'+(item.visible?'Visible':'Oculto')+'</button>'
+                            +'<button class="adm-edit-btn" data-id="'+item.id+'">Editar</button>'
+                            +'<button class="adm-del-btn" data-id="'+item.id+'">X</button>'
                         +'</div>'
                         +'</div>';
                 }).join('');
                 el.querySelectorAll('.adm-vis-btn').forEach(function(b){
-                    b.onclick=function(){ patchItem(b.dataset.id,{visible:b.dataset.vis==='0'},tipo); };
+                    b.onclick=function(){patchItem(b.dataset.id,{visible:b.dataset.vis==='0'},tipo);};
                 });
                 el.querySelectorAll('.adm-del-btn').forEach(function(b){
-                    b.onclick=function(){ delItem(b.dataset.id,tipo); };
+                    b.onclick=function(){delItem(b.dataset.id,tipo);};
                 });
                 el.querySelectorAll('.adm-edit-btn').forEach(function(b){
                     b.onclick=function(){
                         var row=data.find(function(d){return d.id===b.dataset.id;});
-                        if(row) openEditModal(row,tipo);
+                        if(row)openEditModal(row,tipo);
                     };
                 });
             })
             .catch(function(err){
-                el.innerHTML='<div class="adm-empty" style="color:#8b2020;">Error: '+err.message+'. Verifica que ejecutaste el SQL en Supabase.</div>';
+                el.innerHTML='<div class="adm-empty" style="color:#c0392b;">Error '+err.message+'. Ejecuta el SQL en Supabase.</div>';
             });
         }
 
         function patchItem(id,body,tipo){
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
             fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
-                method:'PATCH',
-                headers:sbHeaders({'Prefer':'return=minimal'}),
-                body:JSON.stringify(body)
-            }).then(function(){ loadAdminList(tipo,'list-'+{archivo:'archivos',video:'videos',app:'apps'}[tipo]); loadStats(); loadPublic(); });
+                method:'PATCH',headers:sbH({'Prefer':'return=minimal'}),body:JSON.stringify(body)
+            }).then(function(){loadAdminList(tipo,listMap[tipo]);loadStats();loadPublic();});
         }
 
         function delItem(id,tipo){
-            if(!confirm('¿Eliminar? Desaparecerá de la página para todos.')) return;
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+            if(!confirm('Eliminar? Desaparecera de la pagina para todos.'))return;
             fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
-                method:'DELETE', headers:sbHeaders({'Prefer':'return=minimal'})
-            }).then(function(){ loadAdminList(tipo,'list-'+{archivo:'archivos',video:'videos',app:'apps'}[tipo]); loadStats(); loadPublic(); });
+                method:'DELETE',headers:sbH({'Prefer':'return=minimal'})
+            }).then(function(){loadAdminList(tipo,listMap[tipo]);loadStats();loadPublic();});
         }
 
-        /* ─── SUBIR ARCHIVO A STORAGE Y GUARDAR EN BD ─── */
-        function uploadFile(file, nombre, desc, icono, tipo, savEl, btnSave, onOk){
+        /* SUBIR ARCHIVO */
+        function uploadFile(file,nombre,desc,icono,tipo,savEl,btnSave,onOk){
             savEl.style.color='#888';
-            savEl.textContent='Subiendo archivo... por favor espera';
+            savEl.textContent='Subiendo archivo...';
             btnSave.disabled=true;
-
-            /* Nombre único sin caracteres raros */
-            var ext  = file.name.split('.').pop().toLowerCase();
-            var safe = (nombre||file.name).replace(/[^a-z0-9]/gi,'_').slice(0,30);
-            var path = tipo+'s/'+safe+'_'+Date.now()+'.'+ext;
-
-            /* 1) Subir a Storage */
+            var ext=file.name.split('.').pop().toLowerCase();
+            var safe=(nombre||file.name).replace(/[^a-z0-9]/gi,'_').slice(0,30);
+            var path=tipo+'s/'+safe+'_'+Date.now()+'.'+ext;
             fetch(SB_URL+'/storage/v1/object/'+BUCKET+'/'+path,{
                 method:'POST',
-                headers:{
-                    'apikey':SB_KEY,
-                    'Authorization':'Bearer '+SB_KEY,
-                    'Content-Type': file.type||'application/octet-stream',
-                    'x-upsert':'true'
-                },
+                headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type||'application/octet-stream','x-upsert':'true'},
                 body:file
             })
             .then(function(r){
-                if(!r.ok) return r.text().then(function(t){throw new Error('Storage: '+t);});
-                /* 2) URL pública correcta */
-                var url = publicUrl(path);
-                savEl.textContent='Guardando en la página...';
-
-                /* 3) Guardar en tabla contenido */
+                if(!r.ok)return r.text().then(function(t){throw new Error(t);});
+                var url=pubUrl(path);
+                savEl.textContent='Guardando...';
+                var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
                 return fetch(SB_URL+'/rest/v1/contenido',{
                     method:'POST',
-                    headers:sbHeaders({'Prefer':'return=minimal'}),
+                    headers:sbH({'Prefer':'return=minimal'}),
                     body:JSON.stringify({tipo:tipo,nombre:nombre||file.name,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
                 });
             })
             .then(function(r){
-                if(!r.ok) return r.text().then(function(t){throw new Error('DB: '+t);});
-                savEl.textContent='✓ ¡Publicado! Ya lo ven todos.';
+                if(!r.ok)return r.text().then(function(t){throw new Error(t);});
+                savEl.textContent='Publicado. Ya lo ven todos.';
                 savEl.style.color='#4caf50';
                 btnSave.disabled=false;
-                loadAdminList(tipo,'list-'+{archivo:'archivos',video:'videos',app:'apps'}[tipo]);
+                var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+                loadAdminList(tipo,listMap[tipo]);
                 loadStats();
                 loadPublic();
-                setTimeout(function(){ savEl.textContent=''; onOk(); },2000);
+                setTimeout(function(){savEl.textContent='';onOk();},2000);
             })
             .catch(function(err){
                 savEl.textContent='Error: '+err.message;
-                savEl.style.color='#8b2020';
+                savEl.style.color='#c0392b';
                 btnSave.disabled=false;
             });
         }
 
-        /* ─── FORMULARIOS ─── */
-        function setupForm(tipo, cfg){
-            var btnNew = document.getElementById('btn-new-'+tipo);
-            var formEl = document.getElementById('form-'+tipo);
-            var btnSave= document.getElementById(cfg.guardar);
-            var btnCan = document.getElementById(cfg.cancelar);
-            var savEl  = document.getElementById(cfg.saving);
+        /* FORMULARIOS */
+        function setupForm(tipo,cfg){
+            var btnNew=document.getElementById('btn-new-'+tipo);
+            var formEl=document.getElementById('form-'+tipo);
+            var btnSave=document.getElementById(cfg.guardar);
+            var btnCan=document.getElementById(cfg.cancelar);
+            var savEl=document.getElementById(cfg.saving);
 
-            btnNew.onclick=function(){ formEl.style.display=formEl.style.display==='none'?'block':'none'; };
-            btnCan.onclick=function(){ formEl.style.display='none'; };
+            btnNew.onclick=function(){formEl.style.display=formEl.style.display==='none'?'block':'none';};
+            btnCan.onclick=function(){formEl.style.display='none';};
 
-            /* File input: mostrar nombre al seleccionar */
             if(cfg.file){
-                var fi  = document.getElementById(cfg.file);
-                var fLbl= document.getElementById(cfg.fileLbl);
+                var fi=document.getElementById(cfg.file);
+                var fLbl=document.getElementById(cfg.fileLbl);
                 fi.addEventListener('change',function(){
                     if(fi.files&&fi.files[0]){
-                        fLbl.textContent='✓  '+fi.files[0].name;
+                        fLbl.textContent='Seleccionado: '+fi.files[0].name;
                         fLbl.style.color='#4caf50';
                         var nEl=document.getElementById(cfg.nombre);
-                        if(nEl&&!nEl.value.trim()) nEl.value=fi.files[0].name.replace(/\.[^.]+$/,'');
+                        if(nEl&&!nEl.value.trim())nEl.value=fi.files[0].name.replace(/\.[^.]+$/,'');
                     }
                 });
             }
 
             btnSave.onclick=function(){
-                var nombre = document.getElementById(cfg.nombre).value.trim();
-                var desc   = document.getElementById(cfg.desc).value.trim();
-                var icono  = document.getElementById(cfg.icono).value;
+                var nombre=document.getElementById(cfg.nombre).value.trim();
+                var desc=document.getElementById(cfg.desc).value.trim();
+                var icono=document.getElementById(cfg.icono).value;
 
                 if(tipo==='video'){
-                    /* Videos: solo URL */
                     var url=document.getElementById(cfg.url).value.trim();
-                    if(!nombre||!url){ savEl.textContent='Título y link son obligatorios.'; savEl.style.color='#8b2020'; return; }
-                    savEl.textContent='Publicando...'; savEl.style.color='#888'; btnSave.disabled=true;
+                    if(!nombre||!url){savEl.textContent='Titulo y link son obligatorios.';savEl.style.color='#c0392b';return;}
+                    savEl.textContent='Publicando...';savEl.style.color='#888';btnSave.disabled=true;
                     fetch(SB_URL+'/rest/v1/contenido',{
                         method:'POST',
-                        headers:sbHeaders({'Prefer':'return=minimal'}),
+                        headers:sbH({'Prefer':'return=minimal'}),
                         body:JSON.stringify({tipo:'video',nombre:nombre,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
                     }).then(function(r){
-                        if(!r.ok) throw new Error();
-                        savEl.textContent='✓ ¡Publicado!'; savEl.style.color='#4caf50';
+                        if(!r.ok)throw new Error();
+                        savEl.textContent='Publicado.';savEl.style.color='#4caf50';
                         btnSave.disabled=false;
                         document.getElementById(cfg.nombre).value='';
                         document.getElementById(cfg.url).value='';
                         document.getElementById(cfg.desc).value='';
-                        loadAdminList('video','list-videos'); loadStats(); loadPublic();
-                        setTimeout(function(){ savEl.textContent=''; formEl.style.display='none'; },1800);
-                    }).catch(function(){ savEl.textContent='Error al publicar.'; savEl.style.color='#8b2020'; btnSave.disabled=false; });
+                        loadAdminList('video','list-videos');loadStats();loadPublic();
+                        setTimeout(function(){savEl.textContent='';formEl.style.display='none';},1800);
+                    }).catch(function(){savEl.textContent='Error.';savEl.style.color='#c0392b';btnSave.disabled=false;});
                     return;
                 }
 
-                /* Archivos / Apps: subir archivo */
                 var fi=document.getElementById(cfg.file);
-                if(!fi||!fi.files||!fi.files[0]){ savEl.textContent='Selecciona un archivo primero.'; savEl.style.color='#8b2020'; return; }
-                if(!nombre) nombre=fi.files[0].name.replace(/\.[^.]+$/,'');
-
+                if(!fi||!fi.files||!fi.files[0]){savEl.textContent='Selecciona un archivo primero.';savEl.style.color='#c0392b';return;}
+                if(!nombre)nombre=fi.files[0].name.replace(/\.[^.]+$/,'');
                 uploadFile(fi.files[0],nombre,desc,icono,tipo,savEl,btnSave,function(){
                     document.getElementById(cfg.nombre).value='';
                     document.getElementById(cfg.desc).value='';
                     var lbl=document.getElementById(cfg.fileLbl);
-                    if(lbl){lbl.textContent=tipo==='app'?'📦 Toca para seleccionar el APK o ZIP':'📁 Toca para seleccionar un archivo'; lbl.style.color='';}
+                    if(lbl){lbl.textContent=tipo==='app'?'Toca para seleccionar APK o ZIP':'Toca para seleccionar archivo';lbl.style.color='';}
                     fi.value='';
                     formEl.style.display='none';
                 });
@@ -1647,11 +1639,11 @@
         setupForm('video',  {guardar:'fv-guardar',cancelar:'fv-cancelar',saving:'fv-saving',nombre:'fv-nombre',desc:'fv-desc',icono:'fv-icono',url:'fv-url'});
         setupForm('app',    {guardar:'fap-guardar',cancelar:'fap-cancelar',saving:'fap-saving',nombre:'fap-nombre',desc:'fap-desc',icono:'fap-icono',file:'fap-file',fileLbl:'fap-file-lbl'});
 
-        /* ─── MODAL EDITAR ─── */
+        /* EDITAR */
         var editModal=document.getElementById('edit-modal');
-        var _eTipo='';
+        var eTipo='';
         function openEditModal(item,tipo){
-            _eTipo=tipo;
+            eTipo=tipo;
             document.getElementById('edit-id').value=item.id;
             document.getElementById('edit-nombre').value=item.nombre||'';
             document.getElementById('edit-desc').value=item.descripcion||'';
@@ -1661,7 +1653,7 @@
             document.getElementById('edit-saving').textContent='';
             editModal.style.display='flex';
         }
-        document.getElementById('edit-cancelar').onclick=function(){ editModal.style.display='none'; };
+        document.getElementById('edit-cancelar').onclick=function(){editModal.style.display='none';};
         editModal.addEventListener('click',function(e){if(e.target===editModal)editModal.style.display='none';});
         document.getElementById('edit-guardar').onclick=function(){
             var id=document.getElementById('edit-id').value;
@@ -1669,45 +1661,48 @@
             var desc=document.getElementById('edit-desc').value.trim();
             var icono=document.getElementById('edit-icono').value.trim();
             var savEl=document.getElementById('edit-saving');
-            if(!nombre){savEl.textContent='El nombre es obligatorio.';savEl.style.color='#8b2020';return;}
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+            if(!nombre){savEl.textContent='El nombre es obligatorio.';savEl.style.color='#c0392b';return;}
             savEl.textContent='Guardando...';savEl.style.color='#888';
             fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
                 method:'PATCH',
-                headers:sbHeaders({'Prefer':'return=minimal'}),
+                headers:sbH({'Prefer':'return=minimal'}),
                 body:JSON.stringify({nombre:nombre,descripcion:desc||null,icono:icono||'📁'})
             }).then(function(r){
-                if(!r.ok) throw new Error();
-                savEl.textContent='✓ Guardado.';savEl.style.color='#4caf50';
-                loadAdminList(_eTipo,'list-'+{archivo:'archivos',video:'videos',app:'apps'}[_eTipo]);
+                if(!r.ok)throw new Error();
+                savEl.textContent='Guardado.';savEl.style.color='#4caf50';
+                loadAdminList(eTipo,listMap[eTipo]);
                 loadPublic();
                 setTimeout(function(){editModal.style.display='none';},900);
-            }).catch(function(){savEl.textContent='Error al guardar.';savEl.style.color='#8b2020';});
+            }).catch(function(){savEl.textContent='Error.';savEl.style.color='#c0392b';});
         };
 
-        /* ─── RECLUTAMIENTO ─── */
+        /* RECLUTAMIENTO */
         var rOverlay=document.getElementById('recruitOverlay');
         var rBtn=document.getElementById('recruitBtn');
         var rClose=document.getElementById('recruitClose');
-        if(rBtn) rBtn.onclick=function(){ rOverlay.classList.add('open'); document.body.style.overflow='hidden'; };
-        if(rClose) rClose.onclick=function(){ rOverlay.classList.remove('open'); document.body.style.overflow=''; };
-        if(rOverlay) rOverlay.onclick=function(e){if(e.target===rOverlay){rOverlay.classList.remove('open');document.body.style.overflow='';}};
+        if(rBtn)rBtn.onclick=function(){rOverlay.classList.add('open');document.body.style.overflow='hidden';};
+        if(rClose)rClose.onclick=function(){rOverlay.classList.remove('open');document.body.style.overflow='';};
+        if(rOverlay)rOverlay.onclick=function(e){if(e.target===rOverlay){rOverlay.classList.remove('open');document.body.style.overflow='';}};
 
         var aOverlay=document.getElementById('customAlertOverlay');
-        var aBox=document.getElementById('customAlertBox');
         var aMsg=document.getElementById('customAlertMsg');
+        var aBox=document.getElementById('customAlertBox');
         var aBtn=document.getElementById('customAlertBtn');
-        function showAlert(msg,err){ aMsg.textContent=msg; aBox.classList.toggle('is-error',!!err); aOverlay.classList.add('show'); }
-        if(aBtn) aBtn.onclick=function(){aOverlay.classList.remove('show');};
+        function showAlert(msg,err){aMsg.textContent=msg;aBox.classList.toggle('is-error',!!err);aOverlay.classList.add('show');}
+        if(aBtn)aBtn.onclick=function(){aOverlay.classList.remove('show');};
 
         var socialOrder=['TikTok','YouTube','Instagram','Discord','Facebook','X (Twitter)'];
         var socialPH={'TikTok':'@tuusuario','YouTube':'@tucanal','Instagram':'@tuusuario','Discord':'usuario#0000','Facebook':'nombre o URL','X (Twitter)':'@tuusuario'};
         document.querySelectorAll('.social-cb').forEach(function(cb){cb.addEventListener('change',updateSocials);});
         function updateSocials(){
-            var cont=document.getElementById('social-inputs'); cont.innerHTML='';
+            var cont=document.getElementById('social-inputs');
+            cont.innerHTML='';
             socialOrder.forEach(function(net){
                 var cb=document.querySelector('.social-cb[value="'+net+'"]');
                 if(cb&&cb.checked){
-                    var row=document.createElement('div'); row.className='social-user-field';
+                    var row=document.createElement('div');
+                    row.className='social-user-field';
                     var safe=net.replace(/[\s()]/g,'-');
                     row.innerHTML='<span class="net-label">'+net+'</span><input type="text" id="r-social-'+safe+'" placeholder="'+socialPH[net]+'" maxlength="60">';
                     cont.appendChild(row);
@@ -1716,7 +1711,7 @@
         }
 
         var rSubmit=document.getElementById('recruitSubmit');
-        if(rSubmit) rSubmit.onclick=function(){
+        if(rSubmit)rSubmit.onclick=function(){
             var nick=document.getElementById('r-nick').value.trim();
             var rid=document.getElementById('r-id').value.trim();
             var edad=document.getElementById('r-edad').value;
@@ -1725,31 +1720,47 @@
             var gg=document.getElementById('r-gg').value;
             var razon=document.getElementById('r-razon').value.trim();
             var terms=document.getElementById('r-terms').checked;
-            if(!nick||!rid||!edad||!clean||!tiempo||!gg||!razon){showAlert('Completa todos los campos obligatorios (*).', true);return;}
-            if(edad==='menor'){showAlert('Solo se aceptan miembros de 16 años en adelante.',true);return;}
-            if(clean&&clean.value==='no'){showAlert('Debes tener carros con diseños clean para ingresar al clan.',true);return;}
+            if(!nick||!rid||!edad||!clean||!tiempo||!gg||!razon){showAlert('Completa todos los campos obligatorios.',true);return;}
+            if(edad==='menor'){showAlert('Solo se aceptan miembros de 16 anos en adelante.',true);return;}
+            if(clean&&clean.value==='no'){showAlert('Debes tener carros con disenos clean para ingresar.',true);return;}
             if(!terms){showAlert('Debes aceptar las reglas del clan.',true);return;}
             var redes='';
             document.querySelectorAll('.social-cb').forEach(function(cb){
-                if(cb.checked){var safe=cb.value.replace(/[\s()]/g,'-');var inp=document.getElementById('r-social-'+safe);redes+=cb.value+': '+(inp?inp.value.trim():'(sin usuario)')+'
-';}
+                if(cb.checked){
+                    var safe=cb.value.replace(/[\s()]/g,'-');
+                    var inp=document.getElementById('r-social-'+safe);
+                    redes+=cb.value+': '+(inp?inp.value.trim():'sin usuario')+'\n';
+                }
             });
             rSubmit.disabled=true;rSubmit.textContent='Enviando...';
             fetch(SB_URL+'/rest/v1/solicitudes',{
                 method:'POST',
-                headers:sbHeaders({'Prefer':'return=minimal'}),
+                headers:sbH({'Prefer':'return=minimal'}),
                 body:JSON.stringify({nombre_juego:nick,id_cuenta:rid,edad:edad,carros_clean:clean.value,tiempo_jugando:tiempo,usa_game_guardian:gg,redes_sociales:redes.trim()||null,motivo_union:razon,estado:'new'})
             }).then(function(r){
-                if(!r.ok) throw new Error();
+                if(!r.ok)throw new Error();
                 document.getElementById('recruitForm').style.display='none';
                 document.getElementById('recruitSuccess').style.display='block';
-                setTimeout(function(){rOverlay.classList.remove('open');document.body.style.overflow='';setTimeout(function(){document.getElementById('recruitForm').style.display='block';document.getElementById('recruitSuccess').style.display='none';rSubmit.disabled=false;rSubmit.textContent='Enviar solicitud';},500);},3000);
-            }).catch(function(){rSubmit.disabled=false;rSubmit.textContent='Enviar solicitud';showAlert('Error al enviar. Verifica tu conexión.',true);});
+                setTimeout(function(){
+                    rOverlay.classList.remove('open');
+                    document.body.style.overflow='';
+                    setTimeout(function(){
+                        document.getElementById('recruitForm').style.display='block';
+                        document.getElementById('recruitSuccess').style.display='none';
+                        rSubmit.disabled=false;
+                        rSubmit.textContent='Enviar solicitud';
+                    },500);
+                },3000);
+            }).catch(function(){
+                rSubmit.disabled=false;
+                rSubmit.textContent='Enviar solicitud';
+                showAlert('Error al enviar. Verifica tu conexion.',true);
+            });
         };
 
-        /* ─── INIT ─── */
-        _bindTaps();
-        loadPublic(); // Carga contenido para TODOS los visitantes
+        /* INIT */
+        bindTaps();
+        loadPublic();
 
     })();
     </script>
