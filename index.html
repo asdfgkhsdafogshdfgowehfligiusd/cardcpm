@@ -1529,46 +1529,72 @@
             }).then(function(){loadAdminList(tipo,listMap[tipo]);loadStats();loadPublic();});
         }
 
-        /* SUBIR ARCHIVO */
+        /* SUBIR ARCHIVO — Cloudinary (sin limite de tamano) */
+        var CLD_NAME   = 'du0autotky';
+        var CLD_PRESET = 'sikanusgg_upload';
+
         function uploadFile(file,nombre,desc,icono,tipo,savEl,btnSave,onOk){
             savEl.style.color='#888';
-            savEl.textContent='Subiendo archivo...';
+            savEl.textContent='Subiendo archivo... espera';
             btnSave.disabled=true;
-            var ext=file.name.split('.').pop().toLowerCase();
-            var safe=(nombre||file.name).replace(/[^a-z0-9]/gi,'_').slice(0,30);
-            var path=tipo+'s/'+safe+'_'+Date.now()+'.'+ext;
-            fetch(SB_URL+'/storage/v1/object/'+BUCKET+'/'+path,{
-                method:'POST',
-                headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type||'application/octet-stream','x-upsert':'true'},
-                body:file
-            })
-            .then(function(r){
-                if(!r.ok)return r.text().then(function(t){throw new Error(t);});
-                var url=pubUrl(path);
-                savEl.textContent='Guardando...';
-                var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
-                return fetch(SB_URL+'/rest/v1/contenido',{
+
+            var form = new FormData();
+            form.append('file', file);
+            form.append('upload_preset', CLD_PRESET);
+            form.append('public_id', tipo+'s/'+(nombre||file.name).replace(/[^a-z0-9]/gi,'_').slice(0,40)+'_'+Date.now());
+            form.append('resource_type', 'auto');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST','https://api.cloudinary.com/v1_1/'+CLD_NAME+'/auto/upload');
+
+            xhr.upload.onprogress = function(e){
+                if(e.lengthComputable){
+                    var pct = Math.round(e.loaded/e.total*100);
+                    savEl.textContent = 'Subiendo... '+pct+'%';
+                }
+            };
+
+            xhr.onload = function(){
+                if(xhr.status !== 200){
+                    savEl.textContent='Error al subir. Verifica Cloudinary.';
+                    savEl.style.color='#c0392b';
+                    btnSave.disabled=false;
+                    return;
+                }
+                var res = JSON.parse(xhr.responseText);
+                var url = res.secure_url;
+                savEl.textContent='Guardando en la pagina...';
+
+                fetch(SB_URL+'/rest/v1/contenido',{
                     method:'POST',
                     headers:sbH({'Prefer':'return=minimal'}),
                     body:JSON.stringify({tipo:tipo,nombre:nombre||file.name,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
+                })
+                .then(function(r){
+                    if(!r.ok)return r.text().then(function(t){throw new Error(t);});
+                    savEl.textContent='Publicado. Ya lo ven todos.';
+                    savEl.style.color='#4caf50';
+                    btnSave.disabled=false;
+                    var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+                    loadAdminList(tipo,listMap[tipo]);
+                    loadStats();
+                    loadPublic();
+                    setTimeout(function(){savEl.textContent='';onOk();},2000);
+                })
+                .catch(function(err){
+                    savEl.textContent='Error BD: '+err.message;
+                    savEl.style.color='#c0392b';
+                    btnSave.disabled=false;
                 });
-            })
-            .then(function(r){
-                if(!r.ok)return r.text().then(function(t){throw new Error(t);});
-                savEl.textContent='Publicado. Ya lo ven todos.';
-                savEl.style.color='#4caf50';
-                btnSave.disabled=false;
-                var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
-                loadAdminList(tipo,listMap[tipo]);
-                loadStats();
-                loadPublic();
-                setTimeout(function(){savEl.textContent='';onOk();},2000);
-            })
-            .catch(function(err){
-                savEl.textContent='Error: '+err.message;
+            };
+
+            xhr.onerror = function(){
+                savEl.textContent='Error de conexion.';
                 savEl.style.color='#c0392b';
                 btnSave.disabled=false;
-            });
+            };
+
+            xhr.send(form);
         }
 
         /* FORMULARIOS */
