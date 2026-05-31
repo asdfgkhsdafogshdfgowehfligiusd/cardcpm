@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SIKANUSGG</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/hPg3QWgm/sknphoto.png">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        :root {
+            --accent: #c8c8c8;
+            --accent-bright: #ffffff;
+            --bg: #080808;
+            --surface: #0f0f0f;
+            --surface2: #161616;
+            --surface3: #1e1e1e;
+            --border: #222222;
+            --border-glow: #383838;
+            --text-main: #e8e8e8;
+            --text-dim: #888888;
+            --text-muted: #3a3a3a;
+            --gold: #c9a227;
+            --gold-dim: #7a5f12;
+            --red: #c0392b;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 70% 40% at 50% -10%, rgba(201,162,39,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 30% at 90% 90%, rgba(255,255,255,0.015) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 70px 70px;
+            pointer-events: none; z-index: 0;
+        }
+
+        #page-sikan { min-height: 100vh; min-height: 100dvh; }
+
+        /* ═══════════════ LOGIN MODAL (secreto) ═══════════════ */
+        .wa-box {
+            background: var(--surface);
+            width: 100%; max-width: 420px;
+            padding: 48px 38px 44px;
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 0 100px rgba(0,0,0,0.95), 0 0 1px rgba(255,255,255,0.05) inset;
+            animation: fadeUp 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+        .wa-box::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .wa-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem; letter-spacing: 6px; line-height: 1;
+            background: linear-gradient(135deg, #ffffff 0%, #999999 60%, #444444 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 6px;
+        }
+        .wa-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; color: var(--gold-dim);
+            letter-spacing: 5px; text-transform: uppercase; margin-bottom: 32px;
+        }
+        .wa-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; color: var(--text-dim);
+            letter-spacing: 1px; margin-bottom: 28px;
+            min-height: 1.4em; transition: color 0.2s;
+        }
+        .wa-status.ok   { color: #4caf50; }
+        .wa-status.err  { color: var(--red); }
+        .wa-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 15px 20px; margin-bottom: 10px;
+            background: transparent; border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.22s ease; position: relative; overflow: hidden;
+        }
+        .wa-btn::before { content: ''; position: absolute; inset: 0; background: rgba(201,162,39,0.05); opacity: 0; transition: opacity 0.22s; }
+        .wa-btn:hover::before { opacity: 1; }
+        .wa-btn:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(201,162,39,0.12); }
+        .wa-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .wa-btn.secondary {
+            border-color: var(--border); color: var(--text-dim); font-size: 0.65rem; margin-bottom: 0;
+        }
+        .wa-btn.secondary:hover { border-color: var(--border-glow); color: var(--text-main); }
+        .wa-divider {
+            display: flex; align-items: center; gap: 12px;
+            margin: 18px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem; color: var(--text-muted); letter-spacing: 2px;
+        }
+        .wa-divider::before, .wa-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .wa-note {
+            margin-top: 24px;
+            font-size: 0.68rem; color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.8; text-align: center;
+        }
+        .wa-spinner {
+            display: inline-block; width: 14px; height: 14px;
+            border: 2px solid var(--gold-dim);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════ MODAL ADVERTENCIA ═══════════════ */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.97);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .modal-box {
+            background: var(--surface);
+            width: 100%; max-width: 460px;
+            padding: 44px 38px;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 0 80px rgba(0,0,0,0.9), 0 0 1px rgba(255,255,255,0.06) inset;
+        }
+        .modal-box::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        @keyframes fadeUp {
+            from { transform: translateY(20px) scale(0.97); opacity: 0; }
+            to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .modal-box h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem; color: var(--gold);
+            letter-spacing: 4px; text-transform: uppercase; margin-bottom: 18px;
+        }
+        .modal-box p {
+            color: var(--text-dim); font-size: 0.875rem;
+            line-height: 1.85; margin-bottom: 32px;
+        }
+        .modal-box p b { color: var(--text-main); }
+        .close-x {
+            position: absolute; top: 14px; right: 18px;
+            color: var(--text-muted); font-size: 22px;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .close-x:hover { color: var(--accent-bright); }
+
+        /* ═══════════════ MAIN ═══════════════ */
+        .main-wrapper {
+            max-width: 860px; margin: 0 auto;
+            padding: 80px 28px 100px;
+            opacity: 1;
+            position: relative; z-index: 1;
+        }
+
+        header { margin-bottom: 64px; }
+        .tag-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem; color: var(--gold-dim);
+            letter-spacing: 6px; text-transform: uppercase; margin-bottom: 10px;
+        }
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4.5rem, 18vw, 9rem);
+            font-weight: 400; letter-spacing: 6px; line-height: 0.9;
+            background: linear-gradient(135deg, #ffffff 0%, #999999 60%, #444444 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .header-divider {
+            margin-top: 26px; height: 1px;
+            background: linear-gradient(90deg, var(--gold-dim), var(--border) 60%, transparent);
+        }
+
+        .media-container {
+            border: 1px solid var(--border);
+            margin: 48px 0 72px;
+            background: var(--surface); overflow: hidden;
+            position: relative; min-height: 10px;
+        }
+        .media-container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+        }
+        .media-container img { width: 100%; height: auto; display: block; }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem; color: var(--text-muted);
+            letter-spacing: 4px; text-transform: uppercase;
+            margin: 56px 0 14px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-title::before { content: '//'; color: var(--gold-dim); font-size: 0.72rem; }
+        .section-title::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        .cyber-button {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+            color: var(--text-main); text-decoration: none;
+            font-size: 0.83rem; font-family: 'Inter', sans-serif; font-weight: 600;
+            background: var(--surface);
+            transition: all 0.22s ease;
+            text-align: center; position: relative; overflow: hidden; cursor: pointer;
+        }
+        .cyber-button::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%); opacity: 0; transition: opacity 0.22s; }
+        .cyber-button:hover::before { opacity: 1; }
+        .cyber-button:hover { background: var(--surface2); border-color: var(--border-glow); color: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+        .yt-btn:hover { border-color: #8b0000; color: #e03333; background: rgba(180,0,0,0.05); }
+        .tt-btn:hover { border-color: #008f8a; color: #00d4ce; background: rgba(0,200,190,0.04); }
+        .btn-icon { width: 17px; height: 17px; flex-shrink: 0; fill: currentColor; }
+
+        .recruit-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; margin-top: 32px;
+            padding: 15px 24px;
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.22s ease;
+            position: relative; overflow: hidden;
+        }
+        .recruit-btn::before { content: ''; position: absolute; inset: 0; background: rgba(201,162,39,0.04); opacity: 0; transition: opacity 0.22s; }
+        .recruit-btn:hover::before { opacity: 1; }
+        .recruit-btn:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(201,162,39,0.1); transform: translateY(-1px); }
+
+        footer {
+            margin-top: 100px; padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem; color: var(--text-muted); letter-spacing: 3px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+        }
+        .footer-brand {
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 6px;
+            background: linear-gradient(90deg, #ddd, #555);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        @media(max-width:520px){ .main-wrapper{ padding: 56px 18px 80px; } }
+
+        /* ═══════════════ MODAL RECLUTAMIENTO ═══════════════ */
+        .recruit-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.97);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; padding: 20px;
+            backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.28s ease;
+        }
+        .recruit-overlay.open { opacity: 1; pointer-events: all; }
+
+        .recruit-box {
+            background: var(--surface);
+            width: 100%; max-width: 500px;
+            max-height: 92vh; overflow-y: auto;
+            padding: 40px 34px 36px;
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 0 80px rgba(0,0,0,0.95);
+            animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .recruit-box::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold) 40%, transparent);
+        }
+        .recruit-box::-webkit-scrollbar { width: 4px; }
+        .recruit-box::-webkit-scrollbar-track { background: var(--border); }
+        .recruit-box::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+
+        .recruit-box h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: var(--gold);
+            letter-spacing: 4px; text-transform: uppercase; margin-bottom: 4px;
+        }
+        .recruit-sub {
+            font-size: 0.76rem; color: var(--text-dim);
+            margin-bottom: 28px; line-height: 1.65;
+        }
+        .recruit-sub .warn-age {
+            display: inline-block; margin-top: 6px;
+            color: #b83232; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; letter-spacing: 1px;
+        }
+
+        .recruit-close {
+            position: absolute; top: 13px; right: 16px;
+            color: var(--text-muted); font-size: 22px;
+            cursor: pointer; background: none; border: none;
+            transition: color 0.2s; line-height: 1;
+        }
+        .recruit-close:hover { color: #fff; }
+
+        .field-group { margin-bottom: 18px; }
+        .field-group > label {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem; color: #505050;
+            letter-spacing: 3px; text-transform: uppercase; margin-bottom: 7px;
+        }
+        .req { color: #b83232; }
+
+        .field-group input,
+        .field-group select,
+        .field-group textarea {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-bottom-color: #2e2e2e;
+            color: var(--text-main);
+            font-family: 'DM Mono', monospace; font-size: 0.84rem;
+            padding: 11px 13px;
+            outline: none; transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+        .field-group select { cursor: pointer; }
+        .field-group input:focus,
+        .field-group select:focus,
+        .field-group textarea:focus { border-color: var(--gold-dim); }
+        .field-group textarea { resize: vertical; min-height: 80px; }
+        .field-group select option { background: #161616; }
+
+        .radio-group { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+        .radio-opt {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.82rem; color: var(--text-dim);
+            cursor: pointer; font-family: 'Inter', sans-serif;
+            letter-spacing: 0; text-transform: none;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 9px 14px;
+            transition: all 0.18s;
+            flex: 1; min-width: 140px;
+        }
+        .radio-opt input { accent-color: var(--gold); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+        .radio-opt:has(input:checked) { border-color: var(--gold-dim); color: var(--text-main); background: rgba(201,162,39,0.05); }
+
+        .social-checks {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px; margin-top: 4px;
+        }
+        .check-opt {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; color: var(--text-dim);
+            cursor: pointer; font-family: 'Inter', sans-serif;
+            letter-spacing: 0; text-transform: none;
+            background: var(--surface2); border: 1px solid var(--border);
+            padding: 9px 12px; transition: all 0.18s;
+        }
+        .check-opt input { accent-color: var(--gold); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+        .check-opt:has(input:checked) { border-color: var(--gold-dim); color: var(--text-main); background: rgba(201,162,39,0.05); }
+
+        #social-inputs { margin-top: 12px; display: flex; flex-direction: column; gap: 9px; }
+        .social-user-field { display: flex; align-items: center; gap: 10px; animation: fadeUp 0.22s ease; }
+        .social-user-field .net-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; color: var(--gold-dim); letter-spacing: 2px;
+            text-transform: uppercase; min-width: 76px; flex-shrink: 0;
+        }
+        .social-user-field input {
+            flex: 1; background: var(--surface3);
+            border: 1px solid var(--border); color: var(--text-main);
+            font-family: 'DM Mono', monospace; font-size: 0.82rem;
+            padding: 9px 11px; outline: none; transition: border-color 0.2s;
+        }
+        .social-user-field input:focus { border-color: var(--gold-dim); }
+
+        .terms-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--gold-dim);
+            padding: 16px 16px 14px;
+            margin-bottom: 18px;
+        }
+        .terms-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem; color: var(--gold);
+            letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;
+        }
+        .terms-scroll {
+            max-height: 150px; overflow-y: auto;
+            font-size: 0.77rem; color: var(--text-dim);
+            line-height: 1.75; padding-right: 8px; margin-bottom: 14px;
+        }
+        .terms-scroll b { color: var(--text-main); font-weight: 600; }
+        .terms-scroll::-webkit-scrollbar { width: 3px; }
+        .terms-scroll::-webkit-scrollbar-track { background: transparent; }
+        .terms-scroll::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+        .terms-check-row {
+            display: flex; align-items: center; gap: 10px;
+            border-top: 1px solid var(--border); padding-top: 12px;
+            font-size: 0.8rem; color: var(--text-dim);
+            font-family: 'Inter', sans-serif; cursor: pointer;
+            letter-spacing: 0; text-transform: none;
+        }
+        .terms-check-row input { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+
+        .recruit-submit {
+            width: 100%; margin-top: 10px; padding: 14px;
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.73rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.22s ease;
+        }
+        .recruit-submit:hover { background: rgba(201,162,39,0.07); border-color: var(--gold); box-shadow: 0 0 18px rgba(201,162,39,0.1); }
+
+        .recruit-success { display: none; text-align: center; padding: 28px 0 10px; }
+        .s-icon { font-size: 2.4rem; margin-bottom: 14px; }
+        .s-title { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .s-sub { font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; }
+
+        /* ═══════════════ ALERTA CUSTOM ═══════════════ */
+        .custom-alert-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 99999; padding: 20px;
+            backdrop-filter: blur(4px);
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .custom-alert-overlay.show { opacity: 1; pointer-events: all; }
+        .custom-alert-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold-dim);
+            padding: 28px 30px;
+            max-width: 380px; width: 100%;
+            animation: fadeUp 0.25s ease;
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
+        }
+        .custom-alert-box.is-error { border-left-color: #8b1a1a; }
+        .custom-alert-msg {
+            font-size: 0.84rem; color: var(--text-dim);
+            line-height: 1.7; margin-bottom: 22px;
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-alert-btn {
+            display: block; width: 100%; padding: 11px;
+            background: transparent; border: 1px solid var(--border-glow);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.18s;
+        }
+        .custom-alert-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+        @media(max-width:480px) {
+            .recruit-box { padding: 32px 18px 28px; }
+            .social-checks { grid-template-columns: 1fr 1fr; }
+            .radio-group { flex-direction: column; }
+            .wa-box { padding: 38px 22px 34px; }
+        }
+
+        /* ═══════════════ ADMIN PANEL ═══════════════ */
+        #admin-panel {
+            display: none;
+            position: fixed; inset: 0;
+            background: #050505;
+            z-index: 88888;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        #admin-panel.open { display: flex; flex-direction: column; animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+        /* Top bar */
+        .adm-topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 28px;
+            height: 56px;
+            background: #080808;
+            border-bottom: 1px solid #1a1a1a;
+            flex-shrink: 0;
+        }
+        .adm-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem; letter-spacing: 6px;
+            background: linear-gradient(135deg, #fff 0%, #888 60%, #444 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .adm-brand span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem; letter-spacing: 4px;
+            color: var(--gold-dim); display: block; margin-top: -4px;
+            -webkit-text-fill-color: var(--gold-dim);
+        }
+        .adm-topright { display: flex; align-items: center; gap: 14px; }
+        .adm-session-tag {
+            font-size: 0.58rem; letter-spacing: 3px; color: #4caf50;
+            background: rgba(76,175,80,0.07); border: 1px solid rgba(76,175,80,0.2);
+            padding: 5px 12px;
+        }
+        .adm-close-btn {
+            background: transparent; border: 1px solid #222;
+            color: var(--text-dim); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; letter-spacing: 2px; padding: 7px 14px;
+            cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+        }
+        .adm-close-btn:hover { border-color: var(--red); color: var(--red); }
+
+        /* Layout: sidebar + main */
+        .adm-body { display: flex; flex: 1; overflow: hidden; }
+
+        /* Sidebar */
+        .adm-sidebar {
+            width: 200px; flex-shrink: 0;
+            background: #080808;
+            border-right: 1px solid #1a1a1a;
+            display: flex; flex-direction: column;
+            padding: 24px 0;
+        }
+        .adm-nav-label {
+            font-size: 0.5rem; letter-spacing: 4px; color: #2a2a2a;
+            text-transform: uppercase; padding: 0 20px; margin-bottom: 8px; margin-top: 16px;
+        }
+        .adm-nav-label:first-child { margin-top: 0; }
+        .adm-nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 20px;
+            font-size: 0.68rem; letter-spacing: 2px; color: var(--text-dim);
+            cursor: pointer; transition: all 0.18s;
+            border-left: 2px solid transparent;
+            text-transform: uppercase;
+        }
+        .adm-nav-item:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
+        .adm-nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,162,39,0.04); }
+        .adm-nav-icon { font-size: 0.85rem; width: 18px; text-align: center; }
+        .adm-sidebar-bottom { margin-top: auto; padding: 16px 20px 0; border-top: 1px solid #141414; }
+        .adm-logout {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.62rem; letter-spacing: 2px; color: #3a3a3a;
+            cursor: pointer; transition: color 0.2s; text-transform: uppercase;
+            background: none; border: none; width: 100%; padding: 8px 0;
+        }
+        .adm-logout:hover { color: var(--red); }
+
+        /* Main content area */
+        .adm-main {
+            flex: 1; overflow-y: auto; padding: 32px 36px;
+            scrollbar-width: thin; scrollbar-color: #1e1e1e transparent;
+        }
+        .adm-main::-webkit-scrollbar { width: 4px; }
+        .adm-main::-webkit-scrollbar-thumb { background: #1e1e1e; }
+
+        /* Section */
+        .adm-section { display: none; }
+        .adm-section.active { display: block; animation: fadeUp 0.3s ease; }
+
+        .adm-section-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 28px; padding-bottom: 16px;
+            border-bottom: 1px solid #141414;
+        }
+        .adm-section-title {
+            font-size: 1.6rem; letter-spacing: 4px;
+            font-family: 'Bebas Neue', sans-serif;
+            background: linear-gradient(135deg,#fff 0%,#666 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .adm-section-sub {
+            font-size: 0.6rem; letter-spacing: 3px; color: #333;
+            text-transform: uppercase; margin-top: 4px;
+        }
+
+        /* Stats row */
+        .adm-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap: 10px; margin-bottom: 28px; }
+        .adm-stat-card {
+            background: #0a0a0a; border: 1px solid #181818;
+            padding: 18px 20px;
+        }
+        .adm-stat-val { font-size: 1.6rem; color: var(--text-main); letter-spacing: 2px; font-family:'Bebas Neue',sans-serif; }
+        .adm-stat-lbl { font-size: 0.55rem; letter-spacing: 3px; color: #333; text-transform: uppercase; margin-top: 4px; }
+        .adm-stat-card.gold .adm-stat-val { color: var(--gold); }
+        .adm-stat-card.green .adm-stat-val { color: #4caf50; }
+
+        /* Upload zone */
+        .adm-upload-zone {
+            border: 1px dashed #252525;
+            padding: 40px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.22s;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .adm-upload-zone:hover, .adm-upload-zone.dragover {
+            border-color: var(--gold-dim);
+            background: rgba(201,162,39,0.02);
+        }
+        .adm-upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        .adm-upload-icon { font-size: 2rem; margin-bottom: 12px; }
+        .adm-upload-title { font-size: 0.78rem; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; }
+        .adm-upload-sub { font-size: 0.6rem; letter-spacing: 2px; color: #2a2a2a; margin-top: 8px; }
+
+        /* File list */
+        .adm-file-grid { display: flex; flex-direction: column; gap: 6px; }
+        .adm-file-row {
+            display: flex; align-items: center; gap: 14px;
+            background: #0a0a0a; border: 1px solid #141414;
+            padding: 14px 18px;
+            transition: border-color 0.18s;
+        }
+        .adm-file-row:hover { border-color: #222; }
+        .adm-file-type {
+            width: 36px; height: 36px;
+            background: #111; border: 1px solid #1e1e1e;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
+        }
+        .adm-file-info { flex: 1; min-width: 0; }
+        .adm-file-name {
+            font-size: 0.75rem; letter-spacing: 1px; color: var(--text-main);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .adm-file-meta { font-size: 0.58rem; letter-spacing: 2px; color: #333; margin-top: 4px; }
+        .adm-file-visible {
+            font-size: 0.58rem; letter-spacing: 2px;
+            padding: 4px 10px; border: 1px solid #1e1e1e;
+            cursor: pointer; transition: all 0.18s; text-transform: uppercase;
+            background: none; color: #333;
+        }
+        .adm-file-visible.on { color: #4caf50; border-color: rgba(76,175,80,0.3); }
+        .adm-file-visible:hover { border-color: #333; color: var(--text-dim); }
+        .adm-file-del {
+            background: none; border: 1px solid #1a1a1a; color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; padding: 6px 12px; cursor: pointer; transition: all 0.18s;
+        }
+        .adm-file-del:hover { border-color: var(--red); color: var(--red); }
+        .adm-empty {
+            text-align: center; padding: 48px 20px;
+            font-size: 0.65rem; letter-spacing: 3px; color: #222;
+            text-transform: uppercase;
+        }
+
+        /* Action button */
+        .adm-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 22px; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s; border: 1px solid var(--gold-dim);
+            color: var(--gold); background: transparent;
+        }
+        .adm-btn:hover { border-color: var(--gold); box-shadow: 0 0 16px rgba(201,162,39,0.1); }
+        .adm-btn.danger { border-color: #3a1010; color: #8b2020; }
+        .adm-btn.danger:hover { border-color: var(--red); color: var(--red); }
+        .adm-btn.neutral { border-color: #1e1e1e; color: var(--text-dim); }
+        .adm-btn.neutral:hover { border-color: #333; color: var(--text-main); }
+
+        /* Personalización */
+        .adm-custom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media(max-width:600px){ .adm-custom-grid { grid-template-columns: 1fr; } }
+        .adm-field-card {
+            background: #0a0a0a; border: 1px solid #161616; padding: 20px 22px;
+        }
+        .adm-field-card label {
+            display: block; font-size: 0.58rem; letter-spacing: 3px; color: #3a3a3a;
+            text-transform: uppercase; margin-bottom: 10px;
+        }
+        .adm-field-card input[type=text],
+        .adm-field-card input[type=url],
+        .adm-field-card textarea,
+        .adm-field-card select {
+            width: 100%; padding: 10px 12px;
+            background: #070707; border: 1px solid #1e1e1e;
+            color: var(--text-main); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 1px; outline: none;
+            transition: border-color 0.18s; resize: vertical;
+        }
+        .adm-field-card input:focus, .adm-field-card textarea:focus, .adm-field-card select:focus {
+            border-color: var(--gold-dim);
+        }
+        .adm-field-card input[type=color] {
+            width: 48px; height: 32px; padding: 0; border: 1px solid #1e1e1e;
+            background: #070707; cursor: pointer;
+        }
+        .adm-color-row { display: flex; align-items: center; gap: 10px; }
+        .adm-color-hex {
+            flex: 1; padding: 8px 12px;
+            background: #070707; border: 1px solid #1e1e1e;
+            color: var(--text-main); font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; outline: none;
+        }
+        .adm-save-bar {
+            display: flex; align-items: center; gap: 12px;
+            margin-top: 22px; padding-top: 20px; border-top: 1px solid #141414;
+        }
+        .adm-save-msg { font-size: 0.6rem; letter-spacing: 2px; color: #4caf50; opacity: 0; transition: opacity 0.3s; }
+        .adm-save-msg.show { opacity: 1; }
+
+        /* Progress bar upload */
+        .adm-progress { margin-top: 12px; display: none; }
+        .adm-progress-bar {
+            height: 2px; background: #111; width: 100%;
+        }
+        .adm-progress-fill {
+            height: 100%; width: 0%; background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .adm-progress-lbl { font-size: 0.58rem; letter-spacing: 2px; color: var(--text-dim); margin-top: 8px; text-align: center; }
+
+        /* Toggle switch */
+        .adm-toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .adm-toggle-lbl { font-size: 0.65rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
+        .adm-toggle {
+            position: relative; width: 38px; height: 20px; cursor: pointer;
+        }
+        .adm-toggle input { opacity: 0; width: 0; height: 0; }
+        .adm-toggle-track {
+            position: absolute; inset: 0; background: #1a1a1a;
+            border: 1px solid #2a2a2a; transition: all 0.2s;
+        }
+        .adm-toggle input:checked + .adm-toggle-track { background: rgba(201,162,39,0.15); border-color: var(--gold-dim); }
+        .adm-toggle-thumb {
+            position: absolute; top: 3px; left: 3px;
+            width: 12px; height: 12px; background: #333; transition: all 0.2s;
+        }
+        .adm-toggle input:checked ~ .adm-toggle-thumb { transform: translateX(18px); background: var(--gold); }
+
+        /* Downloads section (public) */
+        .adm-dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; }
+        .adm-dl-card {
+            background: #0a0a0a; border: 1px solid #161616;
+            padding: 20px; display: flex; flex-direction: column; gap: 10px;
+            transition: border-color 0.2s;
+        }
+        .adm-dl-card:hover { border-color: #252525; }
+        .adm-dl-card-top { display: flex; align-items: center; gap: 12px; }
+        .adm-dl-icon {
+            width: 40px; height: 40px; background: #111; border: 1px solid #1e1e1e;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+        }
+        .adm-dl-name { font-size: 0.72rem; letter-spacing: 1px; color: var(--text-main); }
+        .adm-dl-size { font-size: 0.58rem; letter-spacing: 2px; color: #2a2a2a; margin-top: 3px; }
+        .adm-dl-actions { display: flex; gap: 6px; margin-top: 4px; }
+
+        @media(max-width:600px){
+            .adm-sidebar { display: none; }
+            .adm-main { padding: 20px 16px; }
+            .adm-topbar { padding: 0 16px; }
+            .adm-stats { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ═══ ADMIN — elementos nuevos ═══ */
+        .adm-info-box {
+            display:flex; gap:16px; align-items:flex-start;
+            background:#080808; border:1px solid #161616;
+            border-left:2px solid var(--gold-dim);
+            padding:18px 20px; margin-top:4px;
+        }
+        .adm-info-icon { font-size:1rem; color:var(--gold-dim); flex-shrink:0; margin-top:2px; }
+        .adm-loading { padding:28px; text-align:center; font-size:0.62rem; letter-spacing:3px; color:#2a2a2a; text-transform:uppercase; }
+        .adm-empty   { padding:40px 20px; text-align:center; font-size:0.62rem; letter-spacing:3px; color:#222; text-transform:uppercase; }
+        .adm-content-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+
+        .adm-add-form {
+            background:#080808; border:1px solid #181818;
+            padding:22px 22px 18px; margin-bottom:14px;
+            animation: fadeUp 0.25s ease;
+        }
+        .adm-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+        @media(max-width:540px){ .adm-form-grid { grid-template-columns:1fr; } }
+        .adm-field label { display:block; font-size:0.55rem; letter-spacing:3px; color:#2a2a2a; text-transform:uppercase; margin-bottom:7px; }
+        .adm-field input, .adm-field select, .adm-field textarea {
+            width:100%; padding:10px 12px;
+            background:#060606; border:1px solid #1e1e1e;
+            color:var(--text-main); font-family:'JetBrains Mono',monospace;
+            font-size:0.72rem; letter-spacing:1px; outline:none;
+            transition:border-color 0.18s;
+        }
+        .adm-field input:focus, .adm-field select:focus { border-color:var(--gold-dim); }
+        .adm-field select { cursor:pointer; }
+        .req { color:var(--gold-dim); }
+
+        .adm-form-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .adm-saving { font-size:0.62rem; letter-spacing:2px; color:#888; font-family:'JetBrains Mono',monospace; }
+
+        .adm-item-row {
+            display:flex; align-items:center; gap:14px;
+            background:#090909; border:1px solid #141414;
+            padding:14px 16px; transition:border-color 0.18s;
+        }
+        .adm-item-row:hover { border-color:#222; }
+        .adm-item-icon { font-size:1.4rem; flex-shrink:0; width:36px; text-align:center; }
+        .adm-item-info { flex:1; min-width:0; }
+        .adm-item-name { font-size:0.76rem; letter-spacing:1px; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .adm-item-desc { font-size:0.6rem; letter-spacing:1px; color:#3a3a3a; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .adm-item-url  { font-size:0.55rem; letter-spacing:0.5px; color:#252525; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .adm-item-actions { display:flex; gap:6px; flex-shrink:0; flex-wrap:wrap; }
+
+        .adm-vis-btn {
+            font-family:'JetBrains Mono',monospace; font-size:0.58rem;
+            letter-spacing:2px; text-transform:uppercase;
+            padding:6px 12px; border:1px solid #1e1e1e;
+            background:none; cursor:pointer; transition:all 0.18s; color:#2a2a2a;
+        }
+        .adm-vis-btn.on  { color:#4caf50; border-color:rgba(76,175,80,0.25); }
+        .adm-vis-btn.off { color:#3a3a3a; border-color:#1a1a1a; }
+        .adm-vis-btn:hover { border-color:#333; color:var(--text-dim); }
+
+        .adm-edit-btn {
+            font-family:'JetBrains Mono',monospace; font-size:0.6rem;
+            letter-spacing:2px; text-transform:uppercase;
+            padding:6px 12px; border:1px solid #1e1e1e;
+            background:none; cursor:pointer; transition:all 0.18s; color:#3a3a3a;
+        }
+        .adm-edit-btn:hover { border-color:var(--gold-dim); color:var(--gold); }
+
+        .adm-del-btn {
+            font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+            padding:6px 11px; border:1px solid #1a1a1a;
+            background:none; cursor:pointer; transition:all 0.18s; color:#2a2a2a;
+        }
+        .adm-del-btn:hover { border-color:var(--red); color:var(--red); }
+
+        /* ═══ FILE PICKER ═══ */
+        .adm-file-pick {
+            display:flex; align-items:center; gap:12px;
+            padding:14px 16px;
+            background:#060606; border:1px dashed #252525;
+            cursor:pointer; transition:border-color 0.2s;
+            position:relative; overflow:hidden;
+        }
+        .adm-file-pick:hover { border-color:var(--gold-dim); }
+        .adm-file-pick input[type=file] {
+            position:absolute; inset:0; opacity:0;
+            cursor:pointer; width:100%; height:100%;
+            font-size:100px; /* truco para que funcione en iOS */
+        }
+        .adm-file-pick span {
+            font-size:0.7rem; letter-spacing:1.5px;
+            color:#3a3a3a; pointer-events:none;
+            transition:color 0.2s;
+        }
+
+        /* ═══ SECCIONES PÚBLICAS (página principal) ═══ */
+        .pub-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+            gap:8px; margin-bottom:24px;
+        }
+        @media(max-width:500px){ .pub-grid { grid-template-columns:1fr; } }
+
+        .pub-card {
+            display:flex; align-items:center; gap:14px;
+            padding:16px 18px;
+            background:#0a0a0a; border:1px solid #1a1a1a;
+            color:var(--text-main); text-decoration:none;
+            transition:all 0.22s ease; position:relative; overflow:hidden;
+        }
+        .pub-card:hover {
+            border-color:var(--gold-dim);
+            transform:translateY(-1px);
+            box-shadow:0 6px 24px rgba(0,0,0,0.6);
+        }
+        .pub-card-ico { font-size:1.8rem; flex-shrink:0; line-height:1; }
+        .pub-card-body { flex:1; min-width:0; }
+        .pub-card-name {
+            font-size:0.82rem; font-weight:600; letter-spacing:1px;
+            color:var(--text-main);
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .pub-card-desc {
+            font-size:0.62rem; color:var(--text-dim);
+            letter-spacing:0.5px; margin-top:4px;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .pub-card-arrow {
+            font-size:1.1rem; color:var(--gold-dim);
+            flex-shrink:0; transition:color 0.2s;
+        }
+        .pub-card:hover .pub-card-arrow { color:var(--gold); }
+
+    </style>
+</head>
+<body>
+
+    <!-- ═══════ LOGIN MODAL (oculto) ═══════ -->
+    <div id="secret-login-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);display:none;align-items:center;justify-content:center;z-index:999999;padding:24px;backdrop-filter:blur(10px);">
+        <div class="wa-box" style="position:relative;">
+            <div class="wa-logo">SIKANUSGG</div>
+            <div class="wa-label">Panel de administración</div>
+            <div id="sl-status" class="wa-status"> </div>
+            <div style="margin-bottom:12px;">
+                <input id="sl-user" type="text" autocomplete="off" placeholder="Usuario" style="width:100%;padding:12px 14px;background:#0a0a0a;border:1px solid #222;color:#e8e8e8;font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:2px;outline:none;margin-bottom:10px;"/>
+                <input id="sl-pass" type="password" autocomplete="off" placeholder="Contraseña" style="width:100%;padding:12px 14px;background:#0a0a0a;border:1px solid #222;color:#e8e8e8;font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:2px;outline:none;margin-bottom:10px;"/>
+                <input id="sl-key"  type="password" autocomplete="off" placeholder="Access Key" style="width:100%;padding:12px 14px;background:#0a0a0a;border:1px solid #222;color:#e8e8e8;font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:2px;outline:none;"/>
+            </div>
+            <button class="wa-btn" id="sl-enter-btn" style="margin-top:10px;">⚔ Verificar acceso</button>
+            <button class="wa-btn secondary" id="sl-cancel-btn" style="margin-top:8px;">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="page-sikan">
+
+        <!-- MODAL ADVERTENCIA -->
+        <div class="modal-overlay" id="warningModal" style="display:none;">
+            <div class="modal-box">
+                <span class="close-x" id="closeModal">×</span>
+                <h2>⚠ Advertencia</h2>
+                <p>
+                    El uso de archivos, scripts y aplicaciones para <b>Car Parking Multiplayer</b> y <b>Game Guardian</b>
+                    aquí mostrados es bajo tu propia responsabilidad.<br><br>
+                    Cualquier baneo o daño técnico es responsabilidad del usuario.
+                </p>
+                <button class="cyber-button" style="width:100%;" id="acceptBtn">ENTRAR</button>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-wrapper" id="sikan-content">
+            <header>
+                <div class="tag-line">Est. 2026</div>
+                <h1>SIKANUSGG</h1>
+                <div class="header-divider"></div>
+            </header>
+
+            <div class="media-container">
+                <!-- <img src="TU_URL_AQUI" alt="SIKANUSGG"> -->
+            </div>
+
+            <div class="section-title">Redes sociales</div>
+            <div class="grid-links">
+                <a href="http://www.youtube.com/@cpm_sikan" class="cyber-button yt-btn" target="_blank" rel="noopener">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    YouTube
+                </a>
+                <a href="https://www.tiktok.com/@sikanofficial?_r=1&_t=ZT-95ZrdMR3b1a" class="cyber-button tt-btn" target="_blank" rel="noopener">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+                    TikTok
+                </a>
+            </div>
+
+            <div class="section-title">Clan</div>
+            <button class="recruit-btn" id="recruitBtn">⚔ Reclutamiento al clan</button>
+
+            <footer>
+                <span class="footer-brand">SIKANUSGG</span>
+                <span>© 2026</span>
+            </footer>
+        </div>
+    </div>
+
+    <!-- MODAL RECLUTAMIENTO -->
+    <div class="recruit-overlay" id="recruitOverlay">
+        <div class="recruit-box">
+            <button class="recruit-close" id="recruitClose">×</button>
+            <h2>⚔ Reclutamiento — AUREXIA</h2>
+            <p class="recruit-sub">
+                Completa el formulario para solicitar ingreso al clan.<br>
+                <span class="warn-age">⚠ Solo se aceptan miembros de 16 años en adelante.</span>
+            </p>
+
+            <div id="recruitForm">
+                <div class="field-group">
+                    <label>Nombre en el juego (Nick) <span class="req">*</span></label>
+                    <input type="text" id="r-nick" placeholder="Tu nick en CPM" maxlength="30">
+                </div>
+                <div class="field-group">
+                    <label>ID de cuenta principal <span class="req">*</span></label>
+                    <input type="text" id="r-id" placeholder="Ej: 123456789" maxlength="20">
+                </div>
+                <div class="field-group">
+                    <label>Edad <span class="req">*</span></label>
+                    <select id="r-edad">
+                        <option value="">— Selecciona tu edad —</option>
+                        <option value="menor">Menos de 16 años</option>
+                        <option value="16">16 años</option>
+                        <option value="17">17 años</option>
+                        <option value="18">18 años</option>
+                        <option value="19">19 años</option>
+                        <option value="20">20 años</option>
+                        <option value="21">21 años</option>
+                        <option value="22">22 años</option>
+                        <option value="23">23 años</option>
+                        <option value="24">24 años</option>
+                        <option value="25">25 años</option>
+                        <option value="26+">26 años o más</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>¿Tienes carros con diseños clean? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-opt"><input type="radio" name="r-clean" value="si"> Sí, tengo carros clean</label>
+                        <label class="radio-opt"><input type="radio" name="r-clean" value="no"> No por ahora</label>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>¿Cuánto tiempo llevas jugando CPM? <span class="req">*</span></label>
+                    <select id="r-tiempo">
+                        <option value="">— Selecciona —</option>
+                        <option>Menos de 6 meses</option>
+                        <option>6 meses – 1 año</option>
+                        <option>1 – 2 años</option>
+                        <option>Más de 2 años</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>¿Usas Game Guardian? <span class="req">*</span></label>
+                    <select id="r-gg">
+                        <option value="">— Selecciona —</option>
+                        <option>Sí, con experiencia</option>
+                        <option>Sí, pero soy principiante</option>
+                        <option>No, pero quiero aprender</option>
+                        <option>No</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label>Redes sociales <span style="color:#404040;font-size:0.58rem;letter-spacing:1px;">(marca las que tengas)</span></label>
+                    <div class="social-checks">
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="TikTok"> TikTok</label>
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="YouTube"> YouTube</label>
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="Instagram"> Instagram</label>
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="Discord"> Discord</label>
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="Facebook"> Facebook</label>
+                        <label class="check-opt"><input type="checkbox" class="social-cb" value="X (Twitter)"> X / Twitter</label>
+                    </div>
+                    <div id="social-inputs"></div>
+                </div>
+                <div class="field-group">
+                    <label>¿Por qué quieres unirte al clan? <span class="req">*</span></label>
+                    <textarea id="r-razon" placeholder="Cuéntanos brevemente..."></textarea>
+                </div>
+                <div class="terms-box">
+                    <div class="terms-title">📋 Reglas del clan AUREXIA</div>
+                    <div class="terms-scroll">
+                        <p><b>1. Diseños de carros</b><br>
+                        Solo se aceptan diseños <b>clean</b>. No se permiten carros cromados, obtenidos de la World Sale, ni diseños mal hechos o sacados directamente de la tienda sin personalización propia. Si tu carro no cumple el estándar de diseño del clan, <b>no serás reclutado</b>.</p>
+                        <br>
+                        <p><b>2. Verificación obligatoria por Discord</b><br>
+                        Deberás compartir pantalla en Discord mostrando tus carros antes de ser aceptado oficialmente, para verificar que cumplen con las reglas del clan.</p>
+                        <br>
+                        <p><b>3. Conducta en salas de otros creadores</b><br>
+                        Puedes entrar a las salas de otros creadores de contenido. Sin embargo, queda estrictamente prohibido hacer desorden, provocar o comportarse de forma irrespetuosa, ya que esto daña directamente la imagen y el nombre del clan AUREXIA, dando una mala reputación. Cualquier miembro que actúe de esta forma será expulsado de inmediato.</p>
+                        <br>
+                        <p><b>4. Edad mínima</b><br>
+                        Solo se aceptan jugadores de <b>16 años en adelante</b>. Sin excepciones.</p>
+                        <br>
+                        <p><b>5. Respeto</b><br>
+                        Se exige respeto entre todos los miembros y hacia la comunidad en general en todo momento.</p>
+                    </div>
+                    <label class="terms-check-row">
+                        <input type="checkbox" id="r-terms">
+                        He leído y acepto las reglas del clan AUREXIA <span class="req">*</span>
+                    </label>
+                </div>
+                <button class="recruit-submit" id="recruitSubmit">Enviar solicitud</button>
+            </div>
+
+            <div class="recruit-success" id="recruitSuccess">
+                <div class="s-icon">✅</div>
+                <p class="s-title">Solicitud enviada</p>
+                <p class="s-sub">Nos pondremos en contacto contigo pronto.<br>¡Bienvenido a la familia AUREXIA!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ PANEL ADMINISTRADOR ═══════ -->
+    <div id="admin-panel">
+        <div class="adm-topbar">
+            <div class="adm-brand">SIKANUSGG <span>Admin Panel</span></div>
+            <div class="adm-topright">
+                <div class="adm-session-tag">● SESIÓN ACTIVA</div>
+                <button type="button" class="adm-close-btn" id="adm-close">✕ Cerrar</button>
+            </div>
+        </div>
+        <div class="adm-body">
+            <div class="adm-sidebar">
+                <div class="adm-nav-label">General</div>
+                <div class="adm-nav-item active" data-tab="dashboard"><span class="adm-nav-icon">◈</span> Dashboard</div>
+                <div class="adm-nav-label">Contenido</div>
+                <div class="adm-nav-item" data-tab="archivos"><span class="adm-nav-icon">◻</span> Archivos</div>
+                <div class="adm-nav-item" data-tab="videos"><span class="adm-nav-icon">▷</span> Videos</div>
+                <div class="adm-nav-item" data-tab="apps"><span class="adm-nav-icon">⬡</span> Apps / APKs</div>
+                <div class="adm-sidebar-bottom">
+                    <button type="button" class="adm-logout" id="adm-logout">✕  Cerrar sesión</button>
+                </div>
+            </div>
+            <div class="adm-main">
+
+                <!-- DASHBOARD -->
+                <div class="adm-section active" id="tab-dashboard">
+                    <div class="adm-section-header">
+                        <div><div class="adm-section-title">Dashboard</div><div class="adm-section-sub">// Resumen del sitio</div></div>
+                    </div>
+                    <div class="adm-stats">
+                        <div class="adm-stat-card gold"><div class="adm-stat-val" id="stat-archivos">—</div><div class="adm-stat-lbl">Archivos</div></div>
+                        <div class="adm-stat-card"><div class="adm-stat-val" id="stat-videos">—</div><div class="adm-stat-lbl">Videos</div></div>
+                        <div class="adm-stat-card green"><div class="adm-stat-val" id="stat-apps">—</div><div class="adm-stat-lbl">Apps / APKs</div></div>
+                        <div class="adm-stat-card"><div class="adm-stat-val" id="stat-total">—</div><div class="adm-stat-lbl">Total visible</div></div>
+                    </div>
+                    <div class="adm-info-box">
+                        <div class="adm-info-icon">ℹ</div>
+                        <div>
+                            <div style="font-size:0.7rem;color:var(--text-main);letter-spacing:1px;margin-bottom:6px;">¿Cómo funciona?</div>
+                            <div style="font-size:0.62rem;color:#444;line-height:1.9;letter-spacing:0.5px;">
+                                Sube archivos directamente desde tu teléfono o PC. Para videos, pega el link de YouTube o TikTok. Todo aparece al instante en la página principal para todos los visitantes. Puedes editar el nombre o eliminar cuando quieras.
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dash-actividad" style="margin-top:14px;"></div>
+                </div>
+
+                <!-- ARCHIVOS -->
+                <div class="adm-section" id="tab-archivos">
+                    <div class="adm-section-header">
+                        <div><div class="adm-section-title">Archivos</div><div class="adm-section-sub">// Scripts, ZIPs, PDFs y más</div></div>
+                        <button type="button" class="adm-btn" id="btn-new-archivo">+ Agregar archivo</button>
+                    </div>
+                    <div class="adm-add-form" id="form-archivo" style="display:none;">
+                        <div class="adm-form-grid">
+                            <div class="adm-field"><label>Nombre del archivo <span class="req">*</span></label><input type="text" id="fa-nombre" placeholder="Ej: Script CPM v3.2" maxlength="60"></div>
+                            <div class="adm-field"><label>Descripción (opcional)</label><input type="text" id="fa-desc" placeholder="Breve descripción..." maxlength="120"></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Archivo <span class="req">*</span></label><div class="adm-file-pick" id="fa-file-pick"><input type="file" id="fa-file" accept="*/*"><span id="fa-file-lbl">📁 Toca para seleccionar un archivo</span></div></div>
+                            <div class="adm-field"><label>Ícono</label>
+                                <select id="fa-icono">
+                                    <option value="📁">📁 Archivo</option>
+                                    <option value="📦">📦 Paquete / ZIP</option>
+                                    <option value="📄">📄 Documento</option>
+                                    <option value="⚙️">⚙️ Script / Config</option>
+                                    <option value="🔧">🔧 Herramienta</option>
+                                    <option value="🗜">🗜 Comprimido</option>
+                                    <option value="📝">📝 Texto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="adm-form-actions">
+                            <button type="button" class="adm-btn" id="fa-guardar">✓ Publicar en la página</button>
+                            <button type="button" class="adm-btn neutral" id="fa-cancelar">Cancelar</button>
+                            <span class="adm-saving" id="fa-saving"></span>
+                        </div>
+                    </div>
+                    <div id="list-archivos" class="adm-content-list"></div>
+                </div>
+
+                <!-- VIDEOS -->
+                <div class="adm-section" id="tab-videos">
+                    <div class="adm-section-header">
+                        <div><div class="adm-section-title">Videos</div><div class="adm-section-sub">// YouTube, TikTok, links directos</div></div>
+                        <button type="button" class="adm-btn" id="btn-new-video">+ Agregar video</button>
+                    </div>
+                    <div class="adm-add-form" id="form-video" style="display:none;">
+                        <div class="adm-form-grid">
+                            <div class="adm-field"><label>Título del video <span class="req">*</span></label><input type="text" id="fv-nombre" placeholder="Ej: Tutorial Game Guardian 2026" maxlength="80"></div>
+                            <div class="adm-field"><label>Descripción (opcional)</label><input type="text" id="fv-desc" placeholder="Breve descripción..." maxlength="120"></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Link del video <span class="req">*</span></label><input type="url" id="fv-url" placeholder="https://youtube.com/... o https://tiktok.com/..."></div>
+                            <div class="adm-field"><label>Ícono</label>
+                                <select id="fv-icono">
+                                    <option value="▶️">▶️ Video</option>
+                                    <option value="🎬">🎬 Clip</option>
+                                    <option value="📹">📹 Grabación</option>
+                                    <option value="🎥">🎥 Película</option>
+                                    <option value="📺">📺 Tutorial</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="adm-form-actions">
+                            <button type="button" class="adm-btn" id="fv-guardar">✓ Publicar en la página</button>
+                            <button type="button" class="adm-btn neutral" id="fv-cancelar">Cancelar</button>
+                            <span class="adm-saving" id="fv-saving"></span>
+                        </div>
+                    </div>
+                    <div id="list-videos" class="adm-content-list"></div>
+                </div>
+
+                <!-- APPS -->
+                <div class="adm-section" id="tab-apps">
+                    <div class="adm-section-header">
+                        <div><div class="adm-section-title">Apps / APKs</div><div class="adm-section-sub">// Aplicaciones y mods</div></div>
+                        <button type="button" class="adm-btn" id="btn-new-app">+ Agregar app</button>
+                    </div>
+                    <div class="adm-add-form" id="form-app" style="display:none;">
+                        <div class="adm-form-grid">
+                            <div class="adm-field"><label>Nombre de la app <span class="req">*</span></label><input type="text" id="fap-nombre" placeholder="Ej: Game Guardian 102.1 MOD" maxlength="80"></div>
+                            <div class="adm-field"><label>Descripción (opcional)</label><input type="text" id="fap-desc" placeholder="Versión, funciones, etc..." maxlength="120"></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Archivo APK / ZIP <span class="req">*</span></label><div class="adm-file-pick" id="fap-file-pick"><input type="file" id="fap-file" accept=".apk,.ipa,.zip,.rar,.7z,*/*"><span id="fap-file-lbl">📦 Toca para seleccionar el APK o ZIP</span></div></div>
+                            <div class="adm-field"><label>Ícono</label>
+                                <select id="fap-icono">
+                                    <option value="📦">📦 App / APK</option>
+                                    <option value="🎮">🎮 Juego / Mod</option>
+                                    <option value="🔓">🔓 Desbloqueado</option>
+                                    <option value="⚡">⚡ Hack / Cheat</option>
+                                    <option value="🛠">🛠 Herramienta</option>
+                                    <option value="🤖">🤖 Bot / Script</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="adm-form-actions">
+                            <button type="button" class="adm-btn" id="fap-guardar">✓ Publicar en la página</button>
+                            <button type="button" class="adm-btn neutral" id="fap-cancelar">Cancelar</button>
+                            <span class="adm-saving" id="fap-saving"></span>
+                        </div>
+                    </div>
+                    <div id="list-apps" class="adm-content-list"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR -->
+    <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:9999999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);">
+        <div class="wa-box" style="max-width:480px;">
+            <div class="wa-label" id="edit-modal-label">Editar elemento</div>
+            <input type="hidden" id="edit-id">
+            <div class="adm-form-grid" style="margin-bottom:14px;">
+                <div class="adm-field" style="grid-column:1/-1;"><label>Nombre <span class="req">*</span></label><input type="text" id="edit-nombre" maxlength="80"></div>
+                <div class="adm-field" style="grid-column:1/-1;"><label>Descripción</label><input type="text" id="edit-desc" maxlength="120"></div>
+                <div class="adm-field" style="grid-column:1/-1;"><label>Link</label><input type="url" id="edit-url"></div>
+                <div class="adm-field"><label>Ícono</label><input type="text" id="edit-icono" maxlength="4" style="width:80px;"></div>
+            </div>
+            <div class="adm-form-actions">
+                <button type="button" class="adm-btn" id="edit-guardar">✓ Guardar cambios</button>
+                <button type="button" class="adm-btn neutral" id="edit-cancelar">Cancelar</button>
+                <span class="adm-saving" id="edit-saving"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALERTA CUSTOM -->
+    <div class="custom-alert-overlay" id="customAlertOverlay">
+        <div class="custom-alert-box" id="customAlertBox">
+            <p class="custom-alert-msg" id="customAlertMsg"></p>
+            <button class="custom-alert-btn" id="customAlertBtn">Entendido</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════ PROTECCIÓN ═══════════════ -->
+    <script>
+    (function() {
+        document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; });
+        document.addEventListener('keydown', function(e){
+            if (e.key === 'F12' || e.keyCode === 123){ e.preventDefault(); e.stopPropagation(); return false; }
+            if (e.ctrlKey && ['u','U','s','S','p','P'].indexOf(e.key) !== -1){ e.preventDefault(); e.stopPropagation(); return false; }
+            if (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].indexOf(e.key) !== -1){ e.preventDefault(); e.stopPropagation(); return false; }
+        }, true);
+        document.addEventListener('selectstart', function(e){
+            var t = e.target.tagName.toLowerCase();
+            if (t === 'input' || t === 'textarea' || t === 'select') return true;
+            e.preventDefault(); return false;
+        });
+        document.addEventListener('dragstart', function(e){ e.preventDefault(); return false; });
+        window.addEventListener('beforeprint', function(e){ e.preventDefault(); window.stop && window.stop(); });
+    })();
+    </script>
+
+    <!-- SISTEMA COMPLETO -->
+    <script>
+    (function(){
+        'use strict';
+
+        var SB_URL = 'https://sbausonublowiajdlpmi.supabase.co';
+        var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiYXVzb251Ymxvd2lhamRscG1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxODg0OTUsImV4cCI6MjA5NTc2NDQ5NX0.0ysrdlOAKgemZFUeOOk0QykP8kmQHMGBnu19NiUgoQs';
+        var BUCKET = 'archivos';
+
+        function sbH(extra){
+            var h={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+            if(extra) Object.keys(extra).forEach(function(k){h[k]=extra[k];});
+            return h;
+        }
+        function pubUrl(p){ return SB_URL+'/storage/v1/object/public/'+BUCKET+'/'+p; }
+        function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+        /* CREDENCIALES:  SKN_4dm1n_2O26 / @Sik4n#Ux9$Gm!3vZqW&8 / SKN-X7K2-Q9P4-M3R8-W5N1 */
+        function _h(s){var h=0,i,ch;for(i=0;i<s.length;i++){ch=s.charCodeAt(i);h=((h<<5)-h+ch)|0;}var x=(h>>>0).toString(16);while(x.length<8)x='0'+x;var o='';for(i=0;i<64;i++)o+=x[i%8];return o;}
+        var _V={u:_h('SKN_4dm1n_2O26'),p:_h('@Sik4n#Ux9$Gm!3vZqW&8'),k:_h('SKN-X7K2-Q9P4-M3R8-W5N1')};
+        var SK='skngg_admin_sess';
+        function setSess(){sessionStorage.setItem(SK,'1');}
+
+        /* SECUENCIA SECRETA */
+        var seq={taps:0,step:0,timer:null};
+        function resetSeq(){seq.taps=0;seq.step=0;if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
+
+        function bindTaps(){
+            document.querySelectorAll('h1,.footer-brand').forEach(function(el){
+                el.addEventListener('click',onTap,{passive:true});
+                el.addEventListener('touchend',function(e){e.stopPropagation();onTap();},{passive:true});
+            });
+        }
+
+        function onTap(){
+            if(seq.step!==0){resetSeq();return;}
+            seq.taps++;
+            if(seq.taps>=20){seq.step=1;bindHold();}
+        }
+
+        function bindHold(){
+            var b=document.body;
+            function onDown(e){
+                var t=e.target;
+                if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A'||t.tagName==='SELECT'||t.tagName==='TEXTAREA')return;
+                seq.timer=setTimeout(function(){
+                    b.removeEventListener('mousedown',onDown);
+                    b.removeEventListener('touchstart',onDown);
+                    b.removeEventListener('mouseup',onUp);
+                    b.removeEventListener('touchend',onUp);
+                    openLogin();
+                },1500);
+            }
+            function onUp(){if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
+            b.addEventListener('mousedown',onDown,{passive:true});
+            b.addEventListener('touchstart',onDown,{passive:true});
+            b.addEventListener('mouseup',onUp,{passive:true});
+            b.addEventListener('touchend',onUp,{passive:true});
+        }
+
+        /* LOGIN */
+        var lEl=document.getElementById('secret-login-overlay');
+        var lSt=document.getElementById('sl-status');
+        var lU=document.getElementById('sl-user');
+        var lP=document.getElementById('sl-pass');
+        var lK=document.getElementById('sl-key');
+        var lBtn=document.getElementById('sl-enter-btn');
+        var lCan=document.getElementById('sl-cancel-btn');
+
+        function openLogin(){
+            resetSeq();
+            lEl.style.display='flex';
+            lSt.textContent='';lSt.className='wa-status';
+            lU.value='';lP.value='';lK.value='';
+            setTimeout(function(){lU.focus();},200);
+        }
+        function closeLogin(){lEl.style.display='none';lU.value='';lP.value='';lK.value='';}
+
+        lCan.onclick=closeLogin;
+        lEl.addEventListener('click',function(e){if(e.target===lEl)closeLogin();});
+
+        lBtn.onclick=function(){
+            var u=lU.value.trim(),p=lP.value,k=lK.value.trim();
+            if(!u||!p||!k){lSt.textContent='Completa todos los campos.';lSt.className='wa-status err';return;}
+            if(_h(u)===_V.u&&_h(p)===_V.p&&_h(k)===_V.k){
+                lSt.textContent='Acceso concedido.';lSt.className='wa-status ok';
+                lBtn.disabled=true;
+                setTimeout(function(){closeLogin();openAdmin();},700);
+            } else {
+                lSt.textContent='Credenciales incorrectas.';lSt.className='wa-status err';
+                lP.value='';lK.value='';
+            }
+        };
+
+        [lU,lP,lK].forEach(function(inp){
+            inp.addEventListener('keydown',function(e){if(e.key==='Enter')lBtn.click();});
+        });
+
+        /* CONTENIDO PUBLICO */
+        function loadPublic(){
+            fetch(SB_URL+'/rest/v1/contenido?select=*&visible=eq.true&order=creado_en.desc',{headers:sbH({'Prefer':''})})
+            .then(function(r){return r.json();})
+            .then(function(d){if(Array.isArray(d))renderPublic(d);})
+            .catch(function(){});
+        }
+
+        function renderPublic(items){
+            var wrap=document.getElementById('sikan-content');
+            var footer=wrap.querySelector('footer');
+            ['pub-sec-archivos','pub-sec-videos','pub-sec-apps'].forEach(function(id){
+                var el=document.getElementById(id);if(el)el.parentNode.removeChild(el);
+            });
+            var grupos=[
+                {tipo:'archivo',id:'pub-sec-archivos',titulo:'Archivos'},
+                {tipo:'video',  id:'pub-sec-videos',  titulo:'Videos'},
+                {tipo:'app',    id:'pub-sec-apps',     titulo:'Apps / APKs'}
+            ];
+            grupos.forEach(function(g){
+                var lista=items.filter(function(i){return i.tipo===g.tipo;});
+                if(!lista.length)return;
+                var sec=document.createElement('div');
+                sec.id=g.id;
+                var cards=lista.map(function(item){
+                    return '<a href="'+esc(item.url||'#')+'" class="pub-card" target="_blank" rel="noopener">'
+                        +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
+                        +'<div class="pub-card-body">'
+                            +'<div class="pub-card-name">'+esc(item.nombre)+'</div>'
+                            +(item.descripcion?'<div class="pub-card-desc">'+esc(item.descripcion)+'</div>':'')
+                        +'</div>'
+                        +'<div class="pub-card-arrow">&#x2193;</div>'
+                        +'</a>';
+                }).join('');
+                sec.innerHTML='<div class="section-title">'+esc(g.titulo)+'</div><div class="pub-grid">'+cards+'</div>';
+                wrap.insertBefore(sec,footer);
+            });
+        }
+
+        /* ADMIN */
+        var adminEl=document.getElementById('admin-panel');
+
+        function openAdmin(){
+            setSess();
+            adminEl.classList.add('open');
+            document.body.style.overflow='hidden';
+            refreshAdmin();
+        }
+
+        document.getElementById('adm-close').onclick=function(){adminEl.classList.remove('open');document.body.style.overflow='';};
+        document.getElementById('adm-logout').onclick=function(){sessionStorage.removeItem(SK);adminEl.classList.remove('open');document.body.style.overflow='';};
+
+        document.querySelectorAll('.adm-nav-item').forEach(function(item){
+            item.onclick=function(){
+                document.querySelectorAll('.adm-nav-item').forEach(function(n){n.classList.remove('active');});
+                document.querySelectorAll('.adm-section').forEach(function(s){s.classList.remove('active');});
+                item.classList.add('active');
+                var tab=document.getElementById('tab-'+item.dataset.tab);
+                if(tab)tab.classList.add('active');
+            };
+        });
+
+        function refreshAdmin(){
+            loadAdminList('archivo','list-archivos');
+            loadAdminList('video','list-videos');
+            loadAdminList('app','list-apps');
+            loadStats();
+        }
+
+        function loadStats(){
+            fetch(SB_URL+'/rest/v1/contenido?select=tipo,visible',{headers:sbH({'Prefer':''})})
+            .then(function(r){return r.json();})
+            .then(function(d){
+                if(!Array.isArray(d))return;
+                var a=0,v=0,ap=0,vis=0;
+                d.forEach(function(x){
+                    if(x.tipo==='archivo')a++;
+                    else if(x.tipo==='video')v++;
+                    else if(x.tipo==='app')ap++;
+                    if(x.visible)vis++;
+                });
+                document.getElementById('stat-archivos').textContent=a;
+                document.getElementById('stat-videos').textContent=v;
+                document.getElementById('stat-apps').textContent=ap;
+                document.getElementById('stat-total').textContent=vis;
+            }).catch(function(){});
+        }
+
+        function loadAdminList(tipo,listId){
+            var el=document.getElementById(listId);
+            if(!el)return;
+            el.innerHTML='<div class="adm-loading">Cargando...</div>';
+            fetch(SB_URL+'/rest/v1/contenido?select=*&tipo=eq.'+tipo+'&order=creado_en.desc',{headers:sbH({'Prefer':''})})
+            .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+            .then(function(data){
+                if(!Array.isArray(data)||!data.length){
+                    el.innerHTML='<div class="adm-empty">Sin elementos aun. Agrega el primero.</div>';
+                    return;
+                }
+                el.innerHTML=data.map(function(item){
+                    return '<div class="adm-item-row">'
+                        +'<div class="adm-item-icon">'+esc(item.icono||'📁')+'</div>'
+                        +'<div class="adm-item-info">'
+                            +'<div class="adm-item-name">'+esc(item.nombre)+'</div>'
+                            +(item.descripcion?'<div class="adm-item-desc">'+esc(item.descripcion)+'</div>':'')
+                        +'</div>'
+                        +'<div class="adm-item-actions">'
+                            +'<button class="adm-vis-btn '+(item.visible?'on':'off')+'" data-id="'+item.id+'" data-vis="'+(item.visible?'1':'0')+'">'+(item.visible?'Visible':'Oculto')+'</button>'
+                            +'<button class="adm-edit-btn" data-id="'+item.id+'">Editar</button>'
+                            +'<button class="adm-del-btn" data-id="'+item.id+'">X</button>'
+                        +'</div>'
+                        +'</div>';
+                }).join('');
+                el.querySelectorAll('.adm-vis-btn').forEach(function(b){
+                    b.onclick=function(){patchItem(b.dataset.id,{visible:b.dataset.vis==='0'},tipo);};
+                });
+                el.querySelectorAll('.adm-del-btn').forEach(function(b){
+                    b.onclick=function(){delItem(b.dataset.id,tipo);};
+                });
+                el.querySelectorAll('.adm-edit-btn').forEach(function(b){
+                    b.onclick=function(){
+                        var row=data.find(function(d){return d.id===b.dataset.id;});
+                        if(row)openEditModal(row,tipo);
+                    };
+                });
+            })
+            .catch(function(err){
+                el.innerHTML='<div class="adm-empty" style="color:#c0392b;">Error '+err.message+'. Ejecuta el SQL en Supabase.</div>';
+            });
+        }
+
+        function patchItem(id,body,tipo){
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+            fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
+                method:'PATCH',headers:sbH({'Prefer':'return=minimal'}),body:JSON.stringify(body)
+            }).then(function(){loadAdminList(tipo,listMap[tipo]);loadStats();loadPublic();});
+        }
+
+        function delItem(id,tipo){
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+            if(!confirm('Eliminar? Desaparecera de la pagina para todos.'))return;
+            fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
+                method:'DELETE',headers:sbH({'Prefer':'return=minimal'})
+            }).then(function(){loadAdminList(tipo,listMap[tipo]);loadStats();loadPublic();});
+        }
+
+        /* SUBIR ARCHIVO — Cloudinary (sin limite de tamano) */
+        var CLD_NAME   = 'du0auotky';
+        var CLD_KEY    = '624792483992568';
+        var CLD_SECRET = 'A3Ws4psQg1XAX21zrx2vmMmZupo';
+
+        /* Extensiones que Cloudinary bloquea — se suben como .zip */
+        var CLD_BLOCKED = ['apk','ipa','lua','exe','dmg','deb','rpm','bat','sh','py','js','php','rb','pl','jar','class','so','dll','sys','com','scr','msi','vbs','ps1','cmd'];
+
+        function uploadFile(file,nombre,desc,icono,tipo,savEl,btnSave,onOk){
+            savEl.style.color='#888';
+            savEl.textContent='Preparando subida...';
+            btnSave.disabled=true;
+
+            /* Si la extension esta bloqueada, renombrar a .zip para Cloudinary */
+            var origExt = file.name.split('.').pop().toLowerCase();
+            var uploadFile_ = file;
+            if(CLD_BLOCKED.indexOf(origExt) !== -1){
+                var newName = file.name.replace(/\.[^.]+$/, '.zip');
+                uploadFile_ = new File([file], newName, {type: 'application/zip'});
+                savEl.textContent = 'Preparando .'+origExt+'...';
+            }
+
+            var ts = Math.floor(Date.now()/1000).toString();
+            var toSign = 'timestamp='+ts+CLD_SECRET;
+
+            var enc = new TextEncoder();
+            crypto.subtle.digest('SHA-1', enc.encode(toSign))
+            .then(function(buf){
+                var sig = Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+
+                var form = new FormData();
+                form.append('file',      uploadFile_);
+                form.append('api_key',   CLD_KEY);
+                form.append('timestamp', ts);
+                form.append('signature', sig);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST','https://api.cloudinary.com/v1_1/'+CLD_NAME+'/auto/upload');
+
+                xhr.upload.onprogress = function(e){
+                    if(e.lengthComputable){
+                        savEl.textContent='Subiendo '+Math.round(e.loaded/e.total*100)+'%...';
+                    }
+                };
+
+                xhr.onload = function(){
+                    var res;
+                    try{ res=JSON.parse(xhr.responseText); }catch(e){ res={}; }
+                    if(xhr.status!==200){
+                        savEl.textContent='Error: '+(res.error&&res.error.message?res.error.message:xhr.status);
+                        savEl.style.color='#c0392b';
+                        btnSave.disabled=false;
+                        return;
+                    }
+                    var url=res.secure_url;
+                    savEl.textContent='Guardando...';
+                    fetch(SB_URL+'/rest/v1/contenido',{
+                        method:'POST',
+                        headers:sbH({'Prefer':'return=minimal'}),
+                        body:JSON.stringify({tipo:tipo,nombre:nombre||file.name,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
+                    })
+                    .then(function(r){
+                        if(!r.ok)return r.text().then(function(t){throw new Error(t);});
+                        savEl.textContent='Publicado. Ya lo ven todos.';
+                        savEl.style.color='#4caf50';
+                        btnSave.disabled=false;
+                        var lm={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+                        loadAdminList(tipo,lm[tipo]);
+                        loadStats();
+                        loadPublic();
+                        setTimeout(function(){savEl.textContent='';onOk();},2000);
+                    })
+                    .catch(function(err){
+                        savEl.textContent='Error BD: '+err.message;
+                        savEl.style.color='#c0392b';
+                        btnSave.disabled=false;
+                    });
+                };
+
+                xhr.onerror=function(){
+                    savEl.textContent='Error de conexion.';
+                    savEl.style.color='#c0392b';
+                    btnSave.disabled=false;
+                };
+
+                xhr.send(form);
+            })
+            .catch(function(){
+                savEl.textContent='Error generando firma.';
+                savEl.style.color='#c0392b';
+                btnSave.disabled=false;
+            });
+        }
+
+        /* FORMULARIOS */
+        function setupForm(tipo,cfg){
+            var btnNew=document.getElementById('btn-new-'+tipo);
+            var formEl=document.getElementById('form-'+tipo);
+            var btnSave=document.getElementById(cfg.guardar);
+            var btnCan=document.getElementById(cfg.cancelar);
+            var savEl=document.getElementById(cfg.saving);
+
+            btnNew.onclick=function(){formEl.style.display=formEl.style.display==='none'?'block':'none';};
+            btnCan.onclick=function(){formEl.style.display='none';};
+
+            if(cfg.file){
+                var fi=document.getElementById(cfg.file);
+                var fLbl=document.getElementById(cfg.fileLbl);
+                fi.addEventListener('change',function(){
+                    if(fi.files&&fi.files[0]){
+                        fLbl.textContent='Seleccionado: '+fi.files[0].name;
+                        fLbl.style.color='#4caf50';
+                        var nEl=document.getElementById(cfg.nombre);
+                        if(nEl&&!nEl.value.trim())nEl.value=fi.files[0].name.replace(/\.[^.]+$/,'');
+                    }
+                });
+            }
+
+            btnSave.onclick=function(e){ if(e) e.preventDefault();
+                var nombre=document.getElementById(cfg.nombre).value.trim();
+                var desc=document.getElementById(cfg.desc).value.trim();
+                var icono=document.getElementById(cfg.icono).value;
+
+                if(tipo==='video'){
+                    var url=document.getElementById(cfg.url).value.trim();
+                    if(!nombre||!url){savEl.textContent='Titulo y link son obligatorios.';savEl.style.color='#c0392b';return;}
+                    savEl.textContent='Publicando...';savEl.style.color='#888';btnSave.disabled=true;
+                    fetch(SB_URL+'/rest/v1/contenido',{
+                        method:'POST',
+                        headers:sbH({'Prefer':'return=minimal'}),
+                        body:JSON.stringify({tipo:'video',nombre:nombre,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
+                    }).then(function(r){
+                        if(!r.ok)throw new Error();
+                        savEl.textContent='Publicado.';savEl.style.color='#4caf50';
+                        btnSave.disabled=false;
+                        document.getElementById(cfg.nombre).value='';
+                        document.getElementById(cfg.url).value='';
+                        document.getElementById(cfg.desc).value='';
+                        loadAdminList('video','list-videos');loadStats();loadPublic();
+                        setTimeout(function(){savEl.textContent='';formEl.style.display='none';},1800);
+                    }).catch(function(){savEl.textContent='Error.';savEl.style.color='#c0392b';btnSave.disabled=false;});
+                    return;
+                }
+
+                var fi=document.getElementById(cfg.file);
+                if(!fi||!fi.files||!fi.files[0]){savEl.textContent='Selecciona un archivo primero.';savEl.style.color='#c0392b';return;}
+                if(!nombre)nombre=fi.files[0].name.replace(/\.[^.]+$/,'');
+                uploadFile(fi.files[0],nombre,desc,icono,tipo,savEl,btnSave,function(){
+                    document.getElementById(cfg.nombre).value='';
+                    document.getElementById(cfg.desc).value='';
+                    var lbl=document.getElementById(cfg.fileLbl);
+                    if(lbl){lbl.textContent=tipo==='app'?'Toca para seleccionar APK o ZIP':'Toca para seleccionar archivo';lbl.style.color='';}
+                    fi.value='';
+                    formEl.style.display='none';
+                });
+            };
+        }
+
+        setupForm('archivo',{guardar:'fa-guardar',cancelar:'fa-cancelar',saving:'fa-saving',nombre:'fa-nombre',desc:'fa-desc',icono:'fa-icono',file:'fa-file',fileLbl:'fa-file-lbl'});
+        setupForm('video',  {guardar:'fv-guardar',cancelar:'fv-cancelar',saving:'fv-saving',nombre:'fv-nombre',desc:'fv-desc',icono:'fv-icono',url:'fv-url'});
+        setupForm('app',    {guardar:'fap-guardar',cancelar:'fap-cancelar',saving:'fap-saving',nombre:'fap-nombre',desc:'fap-desc',icono:'fap-icono',file:'fap-file',fileLbl:'fap-file-lbl'});
+
+        /* EDITAR */
+        var editModal=document.getElementById('edit-modal');
+        var eTipo='';
+        function openEditModal(item,tipo){
+            eTipo=tipo;
+            document.getElementById('edit-id').value=item.id;
+            document.getElementById('edit-nombre').value=item.nombre||'';
+            document.getElementById('edit-desc').value=item.descripcion||'';
+            document.getElementById('edit-url').value=item.url||'';
+            document.getElementById('edit-icono').value=item.icono||'📁';
+            document.getElementById('edit-modal-label').textContent='Editar '+tipo;
+            document.getElementById('edit-saving').textContent='';
+            editModal.style.display='flex';
+        }
+        document.getElementById('edit-cancelar').onclick=function(){editModal.style.display='none';};
+        editModal.addEventListener('click',function(e){if(e.target===editModal)editModal.style.display='none';});
+        document.getElementById('edit-guardar').onclick=function(){
+            var id=document.getElementById('edit-id').value;
+            var nombre=document.getElementById('edit-nombre').value.trim();
+            var desc=document.getElementById('edit-desc').value.trim();
+            var icono=document.getElementById('edit-icono').value.trim();
+            var savEl=document.getElementById('edit-saving');
+            var listMap={archivo:'list-archivos',video:'list-videos',app:'list-apps'};
+            if(!nombre){savEl.textContent='El nombre es obligatorio.';savEl.style.color='#c0392b';return;}
+            savEl.textContent='Guardando...';savEl.style.color='#888';
+            fetch(SB_URL+'/rest/v1/contenido?id=eq.'+id,{
+                method:'PATCH',
+                headers:sbH({'Prefer':'return=minimal'}),
+                body:JSON.stringify({nombre:nombre,descripcion:desc||null,icono:icono||'📁'})
+            }).then(function(r){
+                if(!r.ok)throw new Error();
+                savEl.textContent='Guardado.';savEl.style.color='#4caf50';
+                loadAdminList(eTipo,listMap[eTipo]);
+                loadPublic();
+                setTimeout(function(){editModal.style.display='none';},900);
+            }).catch(function(){savEl.textContent='Error.';savEl.style.color='#c0392b';});
+        };
+
+        /* RECLUTAMIENTO */
+        var rOverlay=document.getElementById('recruitOverlay');
+        var rBtn=document.getElementById('recruitBtn');
+        var rClose=document.getElementById('recruitClose');
+        if(rBtn)rBtn.onclick=function(){rOverlay.classList.add('open');document.body.style.overflow='hidden';};
+        if(rClose)rClose.onclick=function(){rOverlay.classList.remove('open');document.body.style.overflow='';};
+        if(rOverlay)rOverlay.onclick=function(e){if(e.target===rOverlay){rOverlay.classList.remove('open');document.body.style.overflow='';}};
+
+        var aOverlay=document.getElementById('customAlertOverlay');
+        var aMsg=document.getElementById('customAlertMsg');
+        var aBox=document.getElementById('customAlertBox');
+        var aBtn=document.getElementById('customAlertBtn');
+        function showAlert(msg,err){aMsg.textContent=msg;aBox.classList.toggle('is-error',!!err);aOverlay.classList.add('show');}
+        if(aBtn)aBtn.onclick=function(){aOverlay.classList.remove('show');};
+
+        var socialOrder=['TikTok','YouTube','Instagram','Discord','Facebook','X (Twitter)'];
+        var socialPH={'TikTok':'@tuusuario','YouTube':'@tucanal','Instagram':'@tuusuario','Discord':'usuario#0000','Facebook':'nombre o URL','X (Twitter)':'@tuusuario'};
+        document.querySelectorAll('.social-cb').forEach(function(cb){cb.addEventListener('change',updateSocials);});
+        function updateSocials(){
+            var cont=document.getElementById('social-inputs');
+            cont.innerHTML='';
+            socialOrder.forEach(function(net){
+                var cb=document.querySelector('.social-cb[value="'+net+'"]');
+                if(cb&&cb.checked){
+                    var row=document.createElement('div');
+                    row.className='social-user-field';
+                    var safe=net.replace(/[\s()]/g,'-');
+                    row.innerHTML='<span class="net-label">'+net+'</span><input type="text" id="r-social-'+safe+'" placeholder="'+socialPH[net]+'" maxlength="60">';
+                    cont.appendChild(row);
+                }
+            });
+        }
+
+        var rSubmit=document.getElementById('recruitSubmit');
+        if(rSubmit)rSubmit.onclick=function(){
+            var nick=document.getElementById('r-nick').value.trim();
+            var rid=document.getElementById('r-id').value.trim();
+            var edad=document.getElementById('r-edad').value;
+            var clean=document.querySelector('input[name="r-clean"]:checked');
+            var tiempo=document.getElementById('r-tiempo').value;
+            var gg=document.getElementById('r-gg').value;
+            var razon=document.getElementById('r-razon').value.trim();
+            var terms=document.getElementById('r-terms').checked;
+            if(!nick||!rid||!edad||!clean||!tiempo||!gg||!razon){showAlert('Completa todos los campos obligatorios.',true);return;}
+            if(edad==='menor'){showAlert('Solo se aceptan miembros de 16 anos en adelante.',true);return;}
+            if(clean&&clean.value==='no'){showAlert('Debes tener carros con disenos clean para ingresar.',true);return;}
+            if(!terms){showAlert('Debes aceptar las reglas del clan.',true);return;}
+            var redes='';
+            document.querySelectorAll('.social-cb').forEach(function(cb){
+                if(cb.checked){
+                    var safe=cb.value.replace(/[\s()]/g,'-');
+                    var inp=document.getElementById('r-social-'+safe);
+                    redes+=cb.value+': '+(inp?inp.value.trim():'sin usuario')+'\n';
+                }
+            });
+            rSubmit.disabled=true;rSubmit.textContent='Enviando...';
+            fetch(SB_URL+'/rest/v1/solicitudes',{
+                method:'POST',
+                headers:sbH({'Prefer':'return=minimal'}),
+                body:JSON.stringify({nombre_juego:nick,id_cuenta:rid,edad:edad,carros_clean:clean.value,tiempo_jugando:tiempo,usa_game_guardian:gg,redes_sociales:redes.trim()||null,motivo_union:razon,estado:'new'})
+            }).then(function(r){
+                if(!r.ok)throw new Error();
+                document.getElementById('recruitForm').style.display='none';
+                document.getElementById('recruitSuccess').style.display='block';
+                setTimeout(function(){
+                    rOverlay.classList.remove('open');
+                    document.body.style.overflow='';
+                    setTimeout(function(){
+                        document.getElementById('recruitForm').style.display='block';
+                        document.getElementById('recruitSuccess').style.display='none';
+                        rSubmit.disabled=false;
+                        rSubmit.textContent='Enviar solicitud';
+                    },500);
+                },3000);
+            }).catch(function(){
+                rSubmit.disabled=false;
+                rSubmit.textContent='Enviar solicitud';
+                showAlert('Error al enviar. Verifica tu conexion.',true);
+            });
+        };
+
+        /* INIT */
+        bindTaps();
+        loadPublic();
+
+    })();
+    </script>
+
+</body>
+</html>
