@@ -178,10 +178,9 @@
         .main-wrapper {
             max-width: 860px; margin: 0 auto;
             padding: 80px 28px 100px;
-            opacity: 0; transition: opacity 0.8s ease;
+            opacity: 1;
             position: relative; z-index: 1;
         }
-        .page-active { opacity: 1; }
 
         header { margin-bottom: 64px; }
         .tag-line {
@@ -1426,8 +1425,6 @@
         var adminEl = document.getElementById('admin-panel');
         function openAdmin(){
             setSession();
-            document.getElementById('sikan-content').classList.add('page-active');
-            document.body.style.overflowY='auto';
             adminEl.classList.add('open');
             document.body.style.overflow='hidden';
             refreshAdmin();
@@ -1751,8 +1748,6 @@
         };
 
         /* ─── INIT ─── */
-        document.getElementById('sikan-content').classList.add('page-active');
-        document.body.style.overflowY='auto';
         _bindTaps();
         loadPublic(); // Carga contenido para TODOS los visitantes
 
