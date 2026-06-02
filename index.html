@@ -1622,19 +1622,21 @@
 
                 savEl.textContent='Subiendo 0%...';
 
-                /* Subir a GitHub via API */
-                fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{
-                    method:'PUT',
-                    headers:{
-                        'Authorization':'token '+GH_TOKEN,
-                        'Content-Type':'application/json',
-                        'User-Agent':'sikanusgg'
-                    },
-                    body:JSON.stringify({
-                        message:'Subida: '+nombre,
-                        content:base64,
-                        branch:GH_BRANCH
-                    })
+                var ghHeaders={
+                    'Authorization':'token '+GH_TOKEN,
+                    'Content-Type':'application/json',
+                    'User-Agent':'sikanusgg'
+                };
+                var apiUrl='https://api.github.com/repos/'+GH_REPO+'/contents/'+path;
+
+                /* Primero revisar si el archivo ya existe para obtener sha */
+                fetch(apiUrl,{method:'GET',headers:ghHeaders})
+                .then(function(r){ return r.ok ? r.json() : null; })
+                .then(function(existing){
+                    var body={message:'Subida: '+nombre,content:base64,branch:GH_BRANCH};
+                    if(existing && existing.sha) body.sha=existing.sha;
+                    savEl.textContent='Subiendo...';
+                    return fetch(apiUrl,{method:'PUT',headers:ghHeaders,body:JSON.stringify(body)});
                 })
                 .then(function(r){
                     savEl.textContent='Subiendo 90%...';
