@@ -1468,12 +1468,11 @@
                     var cardId  = g.id+'-c'+idx;
                     var featHtml='';
                     if(item.features){
-                        var feats=item.features.split('
-').map(function(f){return f.trim();}).filter(Boolean);
+                        var feats=item.features.split('\n').map(function(f){return f.trim();}).filter(Boolean);
                         if(feats.length) featHtml='<div class="pub-card-features">'+feats.map(function(f){return '<span class="pub-feat-tag">'+esc(f)+'</span>';}).join('')+'</div>';
                     }
                     return '<div class="pub-card" id="'+cardId+'">'
-                        +'<div class="pub-card-header" onclick="toggleCard(''+cardId+'')">'
+                        +'<div class="pub-card-header" onclick="toggleCard(this.parentNode.id)">'
                             +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
                             +'<div class="pub-card-info">'
                                 +'<div class="pub-card-name">'+esc(dlName)+'</div>'
