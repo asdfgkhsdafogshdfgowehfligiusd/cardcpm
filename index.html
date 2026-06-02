@@ -874,61 +874,87 @@
             transition:color 0.2s;
         }
 
-        /* ═══ SECCIONES PÚBLICAS (página principal) ═══ */
-        .pub-grid {
-            display:grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-            gap:8px; margin-bottom:24px;
-        }
-        @media(max-width:500px){ .pub-grid { grid-template-columns:1fr; } }
+        /* ═══ SECCIONES PÚBLICAS ═══ */
+        .pub-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
 
         .pub-card {
+            background:#0c0c0c; border:1px solid #1e1e1e;
+            overflow:hidden; transition:border-color 0.2s;
+        }
+        .pub-card:hover { border-color:#2e2e2e; }
+
+        .pub-card-header {
             display:flex; align-items:center; gap:14px;
-            padding:16px 18px;
-            background:#0a0a0a; border:1px solid #1a1a1a;
-            color:var(--text-main); text-decoration:none;
-            transition:all 0.22s ease; position:relative; overflow:hidden;
+            padding:18px 20px; cursor:pointer; user-select:none;
         }
-        .pub-card:hover {
-            border-color:var(--gold-dim);
-            transform:translateY(-1px);
-            box-shadow:0 6px 24px rgba(0,0,0,0.6);
+        .pub-card-ico {
+            width:42px; height:42px; flex-shrink:0;
+            background:#141414; border:1px solid #222;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.2rem;
         }
-        .pub-card-ico { font-size:1.8rem; flex-shrink:0; line-height:1; }
-        .pub-card-body { flex:1; min-width:0; }
+        .pub-card-info { flex:1; min-width:0; }
         .pub-card-name {
-            font-size:0.82rem; font-weight:600; letter-spacing:1px;
+            font-size:0.88rem; font-weight:600; letter-spacing:0.5px;
             color:var(--text-main);
-            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
         }
-        .pub-card-desc {
-            font-size:0.62rem; color:var(--text-dim);
-            letter-spacing:0.5px; margin-top:4px;
-            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        .pub-card-sub {
+            font-size:0.65rem; color:var(--text-dim);
+            letter-spacing:0.5px; margin-top:3px;
         }
-        .pub-card-arrow {
-            font-size:1.1rem; color:var(--gold-dim);
-            flex-shrink:0; transition:color 0.2s;
+        .pub-card-chevron {
+            font-size:0.7rem; color:#3a3a3a;
+            transition:transform 0.25s, color 0.2s;
+            flex-shrink:0;
         }
-        .pub-card:hover .pub-card-arrow { color:var(--gold); }
+        .pub-card.open .pub-card-chevron { transform:rotate(180deg); color:var(--gold); }
+
+        .pub-card-body {
+            display:none; padding:0 20px 20px;
+            border-top:1px solid #191919;
+        }
+        .pub-card.open .pub-card-body { display:block; }
+
+        .pub-card-desc-text {
+            font-size:0.78rem; color:var(--text-dim);
+            line-height:1.8; margin-top:16px; margin-bottom:16px;
+            white-space:pre-wrap;
+        }
+        .pub-card-features {
+            display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px;
+        }
+        .pub-feat-tag {
+            font-size:0.62rem; letter-spacing:1px;
+            padding:4px 10px;
+            background:#111; border:1px solid #222;
+            color:var(--gold-dim);
+        }
 
         .pub-dl-btn {
-            display:inline-flex; align-items:center; gap:6px;
-            padding:9px 18px;
-            background:transparent;
-            border:1px solid var(--gold-dim);
-            color:var(--gold);
+            display:inline-flex; align-items:center; gap:8px;
+            padding:11px 24px;
+            background:var(--gold);
+            color:#000; font-weight:700;
             font-family:'JetBrains Mono',monospace;
-            font-size:0.68rem; letter-spacing:2px;
+            font-size:0.72rem; letter-spacing:2px;
             text-decoration:none; text-transform:uppercase;
-            flex-shrink:0; transition:all 0.2s; white-space:nowrap;
+            transition:all 0.2s; border:none; cursor:pointer;
         }
         .pub-dl-btn:hover {
-            background:var(--gold);
-            color:#000;
-            border-color:var(--gold);
-            box-shadow:0 0 20px rgba(201,162,39,0.25);
+            background:#fff; color:#000;
+            box-shadow:0 4px 20px rgba(201,162,39,0.3);
         }
+
+        /* VERSION TAG */
+        .version-tag {
+            position:fixed; bottom:12px; right:14px;
+            font-family:'JetBrains Mono',monospace;
+            font-size:0.55rem; letter-spacing:2px;
+            color:#2a2a2a; cursor:pointer;
+            transition:color 0.2s; z-index:100;
+            text-transform:uppercase;
+        }
+        .version-tag:hover { color:#555; }
 
     </style>
 </head>
@@ -999,6 +1025,9 @@
             </footer>
         </div>
     </div>
+
+    <!-- VERSION TAG -->
+    <div class="version-tag" id="version-tag">V 1.0</div>
 
     <!-- MODAL RECLUTAMIENTO -->
     <div class="recruit-overlay" id="recruitOverlay">
@@ -1170,7 +1199,9 @@
                         <div class="adm-form-grid">
                             <div class="adm-field"><label>Nombre del archivo <span class="req">*</span></label><input type="text" id="fa-nombre" placeholder="Ej: Script CPM v3.2" maxlength="60"></div>
                             <div class="adm-field"><label>Nombre del ZIP para descargar</label><input type="text" id="fa-zipname" placeholder="Ej: ScriptCPM_v3.zip" maxlength="60"></div>
-                            <div class="adm-field"><label>Descripción (opcional)</label><input type="text" id="fa-desc" placeholder="Breve descripción..." maxlength="120"></div>
+                            <div class="adm-field"><label>Subtítulo / tipo</label><input type="text" id="fa-sub" placeholder="Ej: Script Lua · Car Parking" maxlength="80"></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Descripción / beneficios</label><textarea id="fa-desc" rows="4" placeholder="Describe qué hace este archivo, para qué sirve, instrucciones..." style="width:100%;padding:10px 12px;background:#060606;border:1px solid #1e1e1e;color:var(--text-main);font-family:'JetBrains Mono',monospace;font-size:0.72rem;outline:none;resize:vertical;"></textarea></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Features / características (una por línea)</label><textarea id="fa-features" rows="3" placeholder="Velocidad aumentada&#10;Anti-ban integrado&#10;Funciona en versión 4.8.2" style="width:100%;padding:10px 12px;background:#060606;border:1px solid #1e1e1e;color:var(--text-main);font-family:'JetBrains Mono',monospace;font-size:0.72rem;outline:none;resize:vertical;"></textarea></div>
                             <div class="adm-field" style="grid-column:1/-1;"><label>Archivo <span class="req">*</span></label><div class="adm-file-pick" id="fa-file-pick"><input type="file" id="fa-file" accept="*/*"><span id="fa-file-lbl">📁 Toca para seleccionar un archivo</span></div></div>
                             <div class="adm-field"><label>Ícono</label>
                                 <select id="fa-icono">
@@ -1233,7 +1264,9 @@
                         <div class="adm-form-grid">
                             <div class="adm-field"><label>Nombre de la app <span class="req">*</span></label><input type="text" id="fap-nombre" placeholder="Ej: Game Guardian 102.1 MOD" maxlength="80"></div>
                             <div class="adm-field"><label>Nombre del ZIP para descargar</label><input type="text" id="fap-zipname" placeholder="Ej: GameGuardian_102.zip" maxlength="60"></div>
-                            <div class="adm-field"><label>Descripción (opcional)</label><input type="text" id="fap-desc" placeholder="Versión, funciones, etc..." maxlength="120"></div>
+                            <div class="adm-field"><label>Subtítulo / tipo</label><input type="text" id="fap-sub" placeholder="Ej: App MOD · Android" maxlength="80"></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Descripción / beneficios</label><textarea id="fap-desc" rows="4" placeholder="Describe qué hace esta app, cómo usarla..." style="width:100%;padding:10px 12px;background:#060606;border:1px solid #1e1e1e;color:var(--text-main);font-family:'JetBrains Mono',monospace;font-size:0.72rem;outline:none;resize:vertical;"></textarea></div>
+                            <div class="adm-field" style="grid-column:1/-1;"><label>Features / características (una por línea)</label><textarea id="fap-features" rows="3" placeholder="Sin anuncios&#10;Desbloqueado&#10;Compatible Android 10+" style="width:100%;padding:10px 12px;background:#060606;border:1px solid #1e1e1e;color:var(--text-main);font-family:'JetBrains Mono',monospace;font-size:0.72rem;outline:none;resize:vertical;"></textarea></div>
                             <div class="adm-field" style="grid-column:1/-1;"><label>Archivo APK / ZIP <span class="req">*</span></label><div class="adm-file-pick" id="fap-file-pick"><input type="file" id="fap-file" accept=".apk,.ipa,.zip,.rar,.7z,*/*"><span id="fap-file-lbl">📦 Toca para seleccionar el APK o ZIP</span></div></div>
                             <div class="adm-field"><label>Ícono</label>
                                 <select id="fap-icono">
@@ -1427,21 +1460,32 @@
                 if(!lista.length)return;
                 var sec=document.createElement('div');
                 sec.id=g.id;
-                var cards=lista.map(function(item){
-                    var dlName   = item.nombre || 'archivo';
-                    var dlUrl    = item.url || '#';
-                    var zipname  = item.zipname || (dlName+'.zip');
+                var cards=lista.map(function(item,idx){
+                    var dlName  = item.nombre || 'archivo';
+                    var dlUrl   = item.url || '#';
+                    var zipname = item.zipname || (dlName+'.zip');
                     if(zipname.indexOf('.')===-1) zipname+='.zip';
-                    var dlUrl  = item.url || '#';
-                    var dlFile = item.zipname || dlName;
-                    if(dlFile.indexOf('.')===-1) dlFile+='.zip';
-                    return '<div class="pub-card">'
-                        +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
-                        +'<div class="pub-card-body">'
-                            +'<div class="pub-card-name">'+esc(dlName)+'</div>'
-                            +(item.descripcion?'<div class="pub-card-desc">'+esc(item.descripcion)+'</div>':'')
+                    var cardId  = g.id+'-c'+idx;
+                    var featHtml='';
+                    if(item.features){
+                        var feats=item.features.split('
+').map(function(f){return f.trim();}).filter(Boolean);
+                        if(feats.length) featHtml='<div class="pub-card-features">'+feats.map(function(f){return '<span class="pub-feat-tag">'+esc(f)+'</span>';}).join('')+'</div>';
+                    }
+                    return '<div class="pub-card" id="'+cardId+'">'
+                        +'<div class="pub-card-header" onclick="toggleCard(''+cardId+'')">'
+                            +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
+                            +'<div class="pub-card-info">'
+                                +'<div class="pub-card-name">'+esc(dlName)+'</div>'
+                                +(item.subtitulo?'<div class="pub-card-sub">'+esc(item.subtitulo)+'</div>':'')
+                            +'</div>'
+                            +'<div class="pub-card-chevron">&#9660;</div>'
                         +'</div>'
-                        +'<a href="'+esc(dlUrl)+'" class="pub-dl-btn" download="'+esc(dlFile)+'" target="_blank" rel="noopener">&#x2193; Descargar</a>'
+                        +'<div class="pub-card-body">'
+                            +(item.descripcion?'<div class="pub-card-desc-text">'+esc(item.descripcion)+'</div>':'')
+                            +featHtml
+                            +'<a href="'+esc(dlUrl)+'" class="pub-dl-btn" download="'+esc(zipname)+'" target="_blank" rel="noopener">&#x2193; Descargar</a>'
+                        +'</div>'
                         +'</div>';
                 }).join('');
                 sec.innerHTML='<div class="section-title">'+esc(g.titulo)+'</div><div class="pub-grid">'+cards+'</div>';
@@ -1562,7 +1606,7 @@
         var GH_REPO  = 'asdfgkhsdafogshdfgowehfligiusd/sikanusgg-files';
         var GH_BRANCH= 'main';
 
-        function uploadFile(file,nombre,desc,icono,tipo,zipname,savEl,btnSave,onOk){
+        function uploadFile(file,nombre,desc,icono,tipo,zipname,sub,features,savEl,btnSave,onOk){
             savEl.style.color='#888';
             savEl.textContent='Leyendo archivo...';
             btnSave.disabled=true;
@@ -1606,7 +1650,7 @@
                     fetch(SB_URL+'/rest/v1/contenido',{
                         method:'POST',
                         headers:sbH({'Prefer':'return=minimal'}),
-                        body:JSON.stringify({tipo:tipo,nombre:nombre||file.name,descripcion:desc||null,url:rawUrl,icono:icono,visible:true,orden:0,zipname:dlName})
+                        body:JSON.stringify({tipo:tipo,nombre:nombre||file.name,descripcion:desc||null,subtitulo:sub||null,features:features||null,url:rawUrl,icono:icono,visible:true,orden:0,zipname:dlName})
                     })
                     .then(function(r){
                         if(!r.ok)return r.text().then(function(t){throw new Error(t);});
@@ -1670,6 +1714,8 @@
                 var nombre=document.getElementById(cfg.nombre).value.trim();
                 var desc=document.getElementById(cfg.desc).value.trim();
                 var icono=document.getElementById(cfg.icono).value;
+                var sub=(cfg.sub&&document.getElementById(cfg.sub))?document.getElementById(cfg.sub).value.trim():'';
+                var features=(cfg.features&&document.getElementById(cfg.features))?document.getElementById(cfg.features).value.trim():'';
 
                 if(tipo==='video'){
                     var url=document.getElementById(cfg.url).value.trim();
@@ -1678,7 +1724,7 @@
                     fetch(SB_URL+'/rest/v1/contenido',{
                         method:'POST',
                         headers:sbH({'Prefer':'return=minimal'}),
-                        body:JSON.stringify({tipo:'video',nombre:nombre,descripcion:desc||null,url:url,icono:icono,visible:true,orden:0})
+                        body:JSON.stringify({tipo:'video',nombre:nombre,descripcion:desc||null,subtitulo:null,features:null,url:url,icono:icono,visible:true,orden:0})
                     }).then(function(r){
                         if(!r.ok)throw new Error();
                         savEl.textContent='Publicado.';savEl.style.color='#4caf50';
@@ -1697,7 +1743,7 @@
                 if(!nombre)nombre=fi.files[0].name.replace(/\.[^.]+$/,'');
                 var zipname = cfg.zipname ? (document.getElementById(cfg.zipname).value.trim()||nombre+'.zip') : nombre+'.zip';
                 if(zipname.indexOf('.')===-1) zipname+='.zip';
-                uploadFile(fi.files[0],nombre,desc,icono,tipo,zipname,savEl,btnSave,function(){
+                uploadFile(fi.files[0],nombre,desc,icono,tipo,zipname,sub,features,savEl,btnSave,function(){
                     document.getElementById(cfg.nombre).value='';
                     document.getElementById(cfg.desc).value='';
                     var lbl=document.getElementById(cfg.fileLbl);
@@ -1708,9 +1754,9 @@
             };
         }
 
-        setupForm('archivo',{guardar:'fa-guardar',cancelar:'fa-cancelar',saving:'fa-saving',nombre:'fa-nombre',desc:'fa-desc',icono:'fa-icono',file:'fa-file',fileLbl:'fa-file-lbl',zipname:'fa-zipname'});
+        setupForm('archivo',{guardar:'fa-guardar',cancelar:'fa-cancelar',saving:'fa-saving',nombre:'fa-nombre',desc:'fa-desc',icono:'fa-icono',file:'fa-file',fileLbl:'fa-file-lbl',zipname:'fa-zipname',sub:'fa-sub',features:'fa-features'});
         setupForm('video',  {guardar:'fv-guardar',cancelar:'fv-cancelar',saving:'fv-saving',nombre:'fv-nombre',desc:'fv-desc',icono:'fv-icono',url:'fv-url'});
-        setupForm('app',    {guardar:'fap-guardar',cancelar:'fap-cancelar',saving:'fap-saving',nombre:'fap-nombre',desc:'fap-desc',icono:'fap-icono',file:'fap-file',fileLbl:'fap-file-lbl',zipname:'fap-zipname'});
+        setupForm('app',    {guardar:'fap-guardar',cancelar:'fap-cancelar',saving:'fap-saving',nombre:'fap-nombre',desc:'fap-desc',icono:'fap-icono',file:'fap-file',fileLbl:'fap-file-lbl',zipname:'fap-zipname',sub:'fap-sub',features:'fap-features'});
 
         /* EDITAR */
         var editModal=document.getElementById('edit-modal');
@@ -1832,6 +1878,12 @@
         };
 
 
+
+        /* TOGGLE CARD */
+        function toggleCard(id){
+            var el=document.getElementById(id);
+            if(el) el.classList.toggle('open');
+        }
 
         /* INIT */
         bindTaps();
