@@ -886,6 +886,7 @@
         .pub-card-header {
             display:flex; align-items:center; gap:14px;
             padding:18px 20px; cursor:pointer; user-select:none;
+            -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
         }
         .pub-card-ico {
             width:42px; height:42px; flex-shrink:0;
@@ -910,11 +911,11 @@
         .pub-card.open .pub-card-chevron { transform:rotate(180deg); color:var(--gold); }
 
         .pub-card-body {
-            display:none; padding:0 20px 20px;
+            display:none !important;
+            padding:0 20px 20px;
             border-top:1px solid #191919;
-            animation: fadeUp 0.2s ease;
         }
-        .pub-card.open .pub-card-body { display:block; }
+        .pub-card.open .pub-card-body { display:block !important; }
 
         .pub-card-desc-text {
             font-size:0.78rem; color:var(--text-dim);
@@ -1881,9 +1882,14 @@
 
         /* TOGGLE CARD */
         function toggleCard(el){
-            /* el puede ser el header o el card mismo */
-            var card = el.classList.contains('pub-card') ? el : el.closest ? el.closest('.pub-card') : el.parentElement;
-            if(card) card.classList.toggle('open');
+            var card = el.parentElement;
+            if(!card) return;
+            var isOpen = card.classList.contains('open');
+            if(isOpen){
+                card.classList.remove('open');
+            } else {
+                card.classList.add('open');
+            }
         }
 
         /* INIT */
