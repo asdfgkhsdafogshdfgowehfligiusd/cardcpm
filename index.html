@@ -1474,7 +1474,7 @@
                         if(feats.length) featHtml='<div class="pub-card-features">'+feats.map(function(f){return '<span class="pub-feat-tag">'+esc(f)+'</span>';}).join('')+'</div>';
                     }
                     return '<div class="pub-card" id="'+cardId+'">'
-                        +'<div class="pub-card-header" onclick="toggleCard(this)">'
+                        +'<div class="pub-card-header">'
                             +'<div class="pub-card-ico">'+esc(item.icono||'📁')+'</div>'
                             +'<div class="pub-card-info">'
                                 +'<div class="pub-card-name">'+esc(dlName)+'</div>'
@@ -1491,6 +1491,17 @@
                 }).join('');
                 sec.innerHTML='<div class="section-title">'+esc(g.titulo)+'</div><div class="pub-grid">'+cards+'</div>';
                 wrap.insertBefore(sec,footer);
+                /* Agregar event listeners reales a cada header */
+                sec.querySelectorAll('.pub-card-header').forEach(function(hdr){
+                    hdr.addEventListener('click', function(){
+                        var card = hdr.parentElement;
+                        if(card.classList.contains('open')){
+                            card.classList.remove('open');
+                        } else {
+                            card.classList.add('open');
+                        }
+                    });
+                });
             });
         }
 
@@ -1883,16 +1894,7 @@
 
 
         /* TOGGLE CARD */
-        function toggleCard(el){
-            var card = el.parentElement;
-            if(!card) return;
-            var isOpen = card.classList.contains('open');
-            if(isOpen){
-                card.classList.remove('open');
-            } else {
-                card.classList.add('open');
-            }
-        }
+
 
         /* INIT */
         bindTaps();
