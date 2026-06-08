@@ -1039,36 +1039,49 @@
         function resetSeq(){seq.taps=0;seq.step=0;if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
 
         function bindTaps(){
-            document.querySelectorAll('h1,.footer-brand').forEach(function(el){
-                el.addEventListener('click',onTap,{passive:true});
-                el.addEventListener('touchend',function(e){e.stopPropagation();onTap();},{passive:true});
+            var header = document.querySelector('header');
+            var targets = header
+                ? [header]
+                : document.querySelectorAll('h1,.footer-brand');
+            targets.forEach(function(el){
+                el.addEventListener('click', onTap, {passive:true});
+                el.addEventListener('touchstart', function(e){
+                    e.stopPropagation();
+                    onTap();
+                }, {passive:true});
             });
         }
 
         function onTap(){
             if(seq.step!==0){resetSeq();return;}
             seq.taps++;
-            if(seq.taps>=20){seq.step=1;bindHold();}
+            if(seq.taps>=10){seq.step=1;bindHold();}
         }
 
         function bindHold(){
-            var b=document.body;
+            var started=false;
             function onDown(e){
                 var t=e.target;
-                if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A'||t.tagName==='SELECT'||t.tagName==='TEXTAREA')return;
+                if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A')return;
+                started=true;
                 seq.timer=setTimeout(function(){
-                    b.removeEventListener('mousedown',onDown);
-                    b.removeEventListener('touchstart',onDown);
-                    b.removeEventListener('mouseup',onUp);
-                    b.removeEventListener('touchend',onUp);
+                    cleanup();
                     openLogin();
-                },1500);
+                },1200);
             }
-            function onUp(){if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
-            b.addEventListener('mousedown',onDown,{passive:true});
-            b.addEventListener('touchstart',onDown,{passive:true});
-            b.addEventListener('mouseup',onUp,{passive:true});
-            b.addEventListener('touchend',onUp,{passive:true});
+            function onUp(){
+                if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}
+            }
+            function cleanup(){
+                document.removeEventListener('mousedown',onDown);
+                document.removeEventListener('touchstart',onDown);
+                document.removeEventListener('mouseup',onUp);
+                document.removeEventListener('touchend',onUp);
+            }
+            document.addEventListener('mousedown',onDown,{passive:true});
+            document.addEventListener('touchstart',onDown,{passive:true});
+            document.addEventListener('mouseup',onUp,{passive:true});
+            document.addEventListener('touchend',onUp,{passive:true});
         }
 
         var lEl=document.getElementById('secret-login-overlay');
