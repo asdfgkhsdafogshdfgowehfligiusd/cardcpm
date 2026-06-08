@@ -1035,53 +1035,27 @@
         var SK='skngg_admin_sess';
         function setSess(){sessionStorage.setItem(SK,'1');}
 
-        var seq={taps:0,step:0,timer:null};
-        function resetSeq(){seq.taps=0;seq.step=0;if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
+        var seq={taps:0,timer:null,lock:false};
+        function resetSeq(){seq.taps=0;seq.lock=false;if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}}
 
         function bindTaps(){
-            var header = document.querySelector('header');
-            var targets = header
-                ? [header]
-                : document.querySelectorAll('h1,.footer-brand');
-            targets.forEach(function(el){
-                el.addEventListener('click', onTap, {passive:true});
-                el.addEventListener('touchstart', function(e){
-                    e.stopPropagation();
-                    onTap();
-                }, {passive:true});
-            });
+            var footer = document.querySelector('footer');
+            if(footer){
+                footer.addEventListener('click', onTap);
+                footer.addEventListener('touchstart', onTap, {passive:true});
+            }
         }
 
         function onTap(){
-            if(seq.step!==0){resetSeq();return;}
+            if(seq.lock) return;
+            if(seq.timer) clearTimeout(seq.timer);
             seq.taps++;
-            if(seq.taps>=10){seq.step=1;bindHold();}
-        }
-
-        function bindHold(){
-            var started=false;
-            function onDown(e){
-                var t=e.target;
-                if(t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A')return;
-                started=true;
-                seq.timer=setTimeout(function(){
-                    cleanup();
-                    openLogin();
-                },1200);
+            seq.timer = setTimeout(function(){ resetSeq(); }, 3000);
+            if(seq.taps >= 7){
+                seq.lock = true;
+                clearTimeout(seq.timer);
+                openLogin();
             }
-            function onUp(){
-                if(seq.timer){clearTimeout(seq.timer);seq.timer=null;}
-            }
-            function cleanup(){
-                document.removeEventListener('mousedown',onDown);
-                document.removeEventListener('touchstart',onDown);
-                document.removeEventListener('mouseup',onUp);
-                document.removeEventListener('touchend',onUp);
-            }
-            document.addEventListener('mousedown',onDown,{passive:true});
-            document.addEventListener('touchstart',onDown,{passive:true});
-            document.addEventListener('mouseup',onUp,{passive:true});
-            document.addEventListener('touchend',onUp,{passive:true});
         }
 
         var lEl=document.getElementById('secret-login-overlay');
