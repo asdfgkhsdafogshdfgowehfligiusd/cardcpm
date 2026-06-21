@@ -343,7 +343,7 @@
     'pol-airhorn': function(){ return createAirhorn({ f1:370, f2:311, gain:0.5, lowpass:1300 }); },
 
     'fire-q2b': function(){
-      var opts = { start:90, low:300, high:540, half:3, spinUp:3, spinDown:2.2, gain:0.55 };
+      var opts = { start:90, low:300, high:540, half:3, spinUp:6, spinDown:5, gain:0.55 };
       mechSirenPowerOn(opts);
       return { stop: function(){ mechSirenPowerOff(opts); } };
     },
