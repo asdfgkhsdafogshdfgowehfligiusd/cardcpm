@@ -227,15 +227,112 @@
         if (intervalId) clearInterval(intervalId);
         var now = ctx.currentTime;
         var spinDown = opts.spinDown || 2;
+        var currentFreq = osc.frequency.value;
+        var currentGain = gainNode.gain.value;
         osc.frequency.cancelScheduledValues(now);
-        osc.frequency.setValueAtTime(osc.frequency.value, now);
-        osc.frequency.linearRampToValueAtTime(opts.start, now + spinDown);
-        gainNode.gain.cancelScheduledValues(now + spinDown);
-        gainNode.gain.setValueAtTime(opts.gain, now + spinDown - 0.2);
-        gainNode.gain.linearRampToValueAtTime(0.0001, now + spinDown + 0.2);
-        try { osc.stop(now + spinDown + 0.3); } catch(e){}
+        osc.frequency.setValueAtTime(currentFreq, now);
+        gainNode.gain.cancelScheduledValues(now);
+        gainNode.gain.setValueAtTime(currentGain, now);
+        var ratio = (currentFreq - opts.start) / (opts.high - opts.start);
+        if (ratio < 0) ratio = 0;
+        if (ratio > 1) ratio = 1;
+        var duration = spinDown * Math.max(ratio, 0.3);
+        osc.frequency.linearRampToValueAtTime(opts.start, now + duration);
+        gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
+        try { osc.stop(now + duration + 0.1); } catch(e){}
       }
     };
+  }
+
+  var mechSirenState = null;
+
+  function getMechSiren(opts){
+    if (mechSirenState) return mechSirenState;
+    var osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = opts.start;
+
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 1600;
+
+    var gainNode = ctx.createGain();
+    gainNode.gain.value = 0;
+
+    osc.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(masterGain);
+    osc.start();
+
+    mechSirenState = { osc: osc, gainNode: gainNode, intervalId: null, rampTimeout: null };
+    return mechSirenState;
+  }
+
+  function mechSirenPowerOn(opts){
+    var st = getMechSiren(opts);
+    var now = ctx.currentTime;
+    if (st.intervalId){ clearInterval(st.intervalId); st.intervalId = null; }
+    if (st.rampTimeout){ clearTimeout(st.rampTimeout); st.rampTimeout = null; }
+
+    var currentFreq = st.osc.frequency.value;
+    var currentGain = st.gainNode.gain.value;
+
+    st.osc.frequency.cancelScheduledValues(now);
+    st.osc.frequency.setValueAtTime(currentFreq, now);
+    st.gainNode.gain.cancelScheduledValues(now);
+    st.gainNode.gain.setValueAtTime(currentGain, now);
+
+    function startCycle(){
+      function cycle(){
+        var t = ctx.currentTime;
+        st.osc.frequency.cancelScheduledValues(t);
+        st.osc.frequency.setValueAtTime(st.osc.frequency.value, t);
+        st.osc.frequency.linearRampToValueAtTime(opts.high, t + opts.half);
+        st.osc.frequency.linearRampToValueAtTime(opts.low, t + opts.half * 2);
+      }
+      cycle();
+      st.intervalId = setInterval(cycle, opts.half * 2 * 1000);
+    }
+
+    if (currentFreq >= opts.low){
+      st.gainNode.gain.linearRampToValueAtTime(opts.gain, now + 0.3);
+      startCycle();
+    } else {
+      var spinUp = opts.spinUp || 3;
+      var progress = (currentFreq - opts.start) / (opts.low - opts.start);
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+      var remaining = spinUp * (1 - progress);
+      if (remaining < 0.2) remaining = 0.2;
+      st.osc.frequency.linearRampToValueAtTime(opts.low, now + remaining);
+      st.gainNode.gain.linearRampToValueAtTime(opts.gain, now + remaining);
+      st.rampTimeout = setTimeout(startCycle, remaining * 1000);
+    }
+  }
+
+  function mechSirenPowerOff(opts){
+    var st = mechSirenState;
+    if (!st) return;
+    var now = ctx.currentTime;
+    if (st.intervalId){ clearInterval(st.intervalId); st.intervalId = null; }
+    if (st.rampTimeout){ clearTimeout(st.rampTimeout); st.rampTimeout = null; }
+
+    var currentFreq = st.osc.frequency.value;
+    var currentGain = st.gainNode.gain.value;
+
+    st.osc.frequency.cancelScheduledValues(now);
+    st.osc.frequency.setValueAtTime(currentFreq, now);
+    st.gainNode.gain.cancelScheduledValues(now);
+    st.gainNode.gain.setValueAtTime(currentGain, now);
+
+    var spinDown = opts.spinDown || 2.2;
+    var ratio = (currentFreq - opts.start) / (opts.high - opts.start);
+    if (ratio < 0) ratio = 0;
+    if (ratio > 1) ratio = 1;
+    var duration = spinDown * Math.max(ratio, 0.3);
+
+    st.osc.frequency.linearRampToValueAtTime(opts.start, now + duration);
+    st.gainNode.gain.linearRampToValueAtTime(0.0001, now + duration);
   }
 
   var FACTORIES = {
@@ -245,7 +342,11 @@
     'pol-hilo': function(){ return createHiLo({ freqA:620, freqB:900, step:0.5, type:'square', gain:0.4, filterFreq:1700, filterQ:4 }); },
     'pol-airhorn': function(){ return createAirhorn({ f1:370, f2:311, gain:0.5, lowpass:1300 }); },
 
-    'fire-q2b': function(){ return createMechanicalSiren({ start:90, low:300, high:540, half:3, spinUp:3, spinDown:2.2, gain:0.55 }); },
+    'fire-q2b': function(){
+      var opts = { start:90, low:300, high:540, half:3, spinUp:3, spinDown:2.2, gain:0.55 };
+      mechSirenPowerOn(opts);
+      return { stop: function(){ mechSirenPowerOff(opts); } };
+    },
     'fire-wail': function(){ return createSweep({ low:500, high:1100, half:2.4, type:'triangle', gain:0.55, filterFreq:1600, filterQ:3 }); },
     'fire-airhorn': function(){ return createAirhorn({ f1:233, f2:196, gain:0.55, lowpass:1100 }); },
 
