@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>CENTRAL 10-33 — Panel de Sirenas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;900&family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="console">
+  <div class="lightbar" id="lightbar">
+    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
+  </div>
+
+  <div class="console-body">
+    <div class="console-id">
+      <span class="badge-icon" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">DESPACHO CENTRAL · ESTADO 10-8</p>
+        <h1>CENTRAL <span>10-33</span></h1>
+        <p class="subtitle">Panel de sirenas de emergencia · Policía / Bomberos / Ambulancia (EE. UU.)</p>
+      </div>
+    </div>
+    <div class="console-stats">
+      <div class="stat">
+        <span class="stat-label">RELOJ</span>
+        <span class="stat-value mono" id="clock">00:00:00</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">UNIDADES ACTIVAS</span>
+        <span class="stat-value mono" id="activeCount">0</span>
+      </div>
+      <div class="stat status-stat">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="stat-label" id="statusText">SISTEMA EN ESPERA</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="control-strip">
+  <label class="volume-control">
+    <span class="mono">VOL</span>
+    <input type="range" id="volume" min="0" max="100" value="70" aria-label="Volumen general">
+    <span class="mono" id="volumeValue">70%</span>
+  </label>
+  <button class="stop-all" id="stopAll" type="button">■ DETENER TODO</button>
+</div>
+
+<main>
+
+  <section class="dept" data-dept="policia">
+    <div class="dept-head">
+      <span class="dept-icon icon-shield" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">UNIDAD · PATRULLA</p>
+        <h2>POLICÍA</h2>
+      </div>
+    </div>
+    <div class="button-grid">
+      <button class="siren-btn" data-sound="pol-wail" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">WAIL</span>
+        <span class="btn-desc">Barrido lento, sube y baja</span>
+      </button>
+      <button class="siren-btn" data-sound="pol-yelp" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">YELP</span>
+        <span class="btn-desc">Barrido rápido de alerta</span>
+      </button>
+      <button class="siren-btn" data-sound="pol-priority" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">PRIORITY</span>
+        <span class="btn-desc">Tono errático tipo phaser</span>
+      </button>
+      <button class="siren-btn" data-sound="pol-hilo" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">HI-LO</span>
+        <span class="btn-desc">Alternancia de dos tonos fijos</span>
+      </button>
+      <button class="siren-btn" data-sound="pol-airhorn" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">AIR HORN</span>
+        <span class="btn-desc">Bocina dual de advertencia</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="dept" data-dept="bomberos">
+    <div class="dept-head">
+      <span class="dept-icon icon-flame" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">UNIDAD · RESCATE</p>
+        <h2>BOMBEROS</h2>
+      </div>
+    </div>
+    <div class="button-grid">
+      <button class="siren-btn" data-sound="fire-q2b" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">MECÁNICA Q</span>
+        <span class="btn-desc">Sirena rotativa, arranque y frenado</span>
+      </button>
+      <button class="siren-btn" data-sound="fire-wail" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">WAIL</span>
+        <span class="btn-desc">Barrido electrónico grave</span>
+      </button>
+      <button class="siren-btn" data-sound="fire-airhorn" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">AIR HORN</span>
+        <span class="btn-desc">Bocina de camión, tono sostenido</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="dept" data-dept="ambulancia">
+    <div class="dept-head">
+      <span class="dept-icon icon-cross" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">UNIDAD · EMS</p>
+        <h2>AMBULANCIA</h2>
+      </div>
+    </div>
+    <div class="button-grid">
+      <button class="siren-btn" data-sound="ems-wail" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">WAIL</span>
+        <span class="btn-desc">Barrido lento de traslado</span>
+      </button>
+      <button class="siren-btn" data-sound="ems-yelp" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">YELP</span>
+        <span class="btn-desc">Barrido rápido en tráfico</span>
+      </button>
+      <button class="siren-btn" data-sound="ems-howler" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">HOWLER</span>
+        <span class="btn-desc">Tono agudo de máxima alerta</span>
+      </button>
+      <button class="siren-btn" data-sound="ems-hilo" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">HI-LO</span>
+        <span class="btn-desc">Alternancia de dos tonos</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="dept" data-dept="multi">
+    <div class="dept-head">
+      <span class="dept-icon icon-star" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">RESPUESTA CONJUNTA</p>
+        <h2>MULTI-UNIDAD</h2>
+      </div>
+    </div>
+    <div class="button-grid">
+      <button class="siren-btn wide" data-sound="multi-convoy" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">CONVOY COMPLETO</span>
+        <span class="btn-desc">Policía + bomberos + ambulancia en simultáneo</span>
+      </button>
+      <button class="siren-btn wide" data-sound="multi-code3" type="button">
+        <span class="btn-status" aria-hidden="true"></span>
+        <span class="btn-code">CODE 3</span>
+        <span class="btn-desc">Air horn + Hi-Lo combinados</span>
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>10-4 · Todos los sonidos son generados en vivo con Web Audio (síntesis), recreando los patrones reales de sirena usados en EE. UU. — Wail, Yelp, Priority, Hi-Lo, Howler, Air Horn y sirena mecánica Q.</p>
+  <p class="credit">Panel de sirenas · sikanusgg.com</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
