@@ -2,185 +2,248 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>CENTRAL 10-33 — Panel de Sirenas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muy pronto</title>
+<meta name="description" content="Esta página está en construcción. Vuelve pronto.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;900&family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#171227;
+  --noche-2:#221A3A;
+  --niebla:#B9AEDD;
+  --blanco:#F5F2FF;
+  --ambar:#FFC66B;
+  --rosa:#FF7A9C;
+  --linea:rgba(185,174,221,.18);
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --texto:'Instrument Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100svh;
+  background:var(--noche);
+  color:var(--blanco);
+  font-family:var(--texto);
+  font-size:16px;
+  line-height:1.5;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:clamp(32px,6vh,64px);
+  padding:clamp(22px,4vw,54px);
+  position:relative;
+  overflow-x:hidden;
+}
+.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.55}
+.aurora span{position:absolute;display:block;border-radius:50%}
+.aurora .a1{width:52vmax;height:52vmax;left:-10vmax;top:-14vmax;background:radial-gradient(circle,#4A2F82 0%,rgba(74,47,130,0) 68%);animation:flotar1 26s ease-in-out infinite}
+.aurora .a2{width:42vmax;height:42vmax;right:-8vmax;top:18vmax;background:radial-gradient(circle,#8A3F6B 0%,rgba(138,63,107,0) 66%);animation:flotar2 32s ease-in-out infinite}
+.aurora .a3{width:34vmax;height:34vmax;left:32vmax;bottom:-16vmax;background:radial-gradient(circle,#2E4B7A 0%,rgba(46,75,122,0) 70%);animation:flotar3 38s ease-in-out infinite}
+@keyframes flotar1{50%{transform:translate3d(8vmax,6vmax,0) scale(1.14)}}
+@keyframes flotar2{50%{transform:translate3d(-9vmax,-5vmax,0) scale(1.08)}}
+@keyframes flotar3{50%{transform:translate3d(5vmax,-7vmax,0) scale(1.18)}}
+.grano{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+header,main,footer{position:relative;z-index:2}
+header{display:flex;align-items:center;gap:12px}
+.monograma{
+  width:38px;height:38px;flex:none;
+  display:grid;place-items:center;
+  border:1px solid var(--linea);
+  border-radius:12px;
+  background:rgba(245,242,255,.04);
+  font-family:var(--display);font-weight:800;font-size:16px;
+  color:var(--ambar);
+}
+.marca{font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:.02em}
+.marca em{font-style:normal;color:var(--niebla)}
+main{display:flex;flex-direction:column;justify-content:center;max-width:1080px}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--niebla);
+  display:flex;align-items:center;gap:10px;margin-bottom:clamp(20px,3vh,30px);
+}
+.punto{width:7px;height:7px;border-radius:50%;background:var(--ambar);box-shadow:0 0 0 0 rgba(255,198,107,.55);animation:latido 2.4s ease-out infinite}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(255,198,107,.5)}70%{box-shadow:0 0 0 12px rgba(255,198,107,0)}100%{box-shadow:0 0 0 0 rgba(255,198,107,0)}}
+h1{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(3rem,12.5vw,8.5rem);
+  line-height:.9;
+  letter-spacing:-.045em;
+  margin-bottom:clamp(22px,3.5vh,34px);
+}
+h1 .linea{display:block;overflow:hidden}
+h1 .car{display:inline-block;transform:translateY(110%);animation:subir .9s cubic-bezier(.19,1,.22,1) forwards;animation-delay:calc(var(--i) * 45ms + 150ms)}
+h1 .destacado{color:var(--ambar)}
+@keyframes subir{to{transform:translateY(0)}}
+.entrada{opacity:0;animation:aparecer .8s ease forwards}
+p.copy{
+  max-width:46ch;color:var(--niebla);
+  font-size:clamp(1rem,2.4vw,1.15rem);
+  animation-delay:.75s;
+}
+@keyframes aparecer{to{opacity:1}}
+.panel{
+  margin-top:clamp(30px,5vh,46px);
+  border-top:1px solid var(--linea);
+  padding-top:18px;
+  display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;
+  animation-delay:.95s;
+}
+.estado{font-family:var(--mono);font-size:12.5px;color:var(--blanco);min-height:1.4em}
+.estado b{color:var(--rosa);font-weight:500}
+.pill{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--niebla);border:1px solid var(--linea);border-radius:999px;padding:7px 14px;
+  background:rgba(245,242,255,.03);
+}
+footer{
+  display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--niebla);
+  border-top:1px solid var(--linea);padding-top:18px;
+  animation-delay:1.15s;
+}
+footer a{color:var(--blanco);text-decoration:none;border-bottom:1px solid var(--linea);padding-bottom:2px;transition:border-color .25s,color .25s}
+footer a:hover{color:var(--ambar);border-color:var(--ambar)}
+a:focus-visible,.pill:focus-visible{outline:2px solid var(--ambar);outline-offset:4px;border-radius:4px}
+@media (max-width:520px){
+  body{gap:36px}
+  .panel{flex-direction:column;align-items:flex-start;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .aurora span,.punto{animation:none}
+  h1 .car{transform:none;animation:none}
+  .entrada{opacity:1;animation:none}
+}
+</style>
 </head>
 <body>
+<div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+<div class="grano"></div>
 
-<header class="console">
-  <div class="lightbar" id="lightbar">
-    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
-    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
-    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
-    <span class="cell"></span><span class="cell"></span><span class="cell"></span>
-  </div>
-
-  <div class="console-body">
-    <div class="console-id">
-      <span class="badge-icon" aria-hidden="true"></span>
-      <div>
-        <p class="eyebrow">DESPACHO CENTRAL · ESTADO 10-8</p>
-        <h1>CENTRAL <span>10-33</span></h1>
-        <p class="subtitle">Panel de sirenas de emergencia · Policía / Bomberos / Ambulancia (EE. UU.)</p>
-      </div>
-    </div>
-    <div class="console-stats">
-      <div class="stat">
-        <span class="stat-label">RELOJ</span>
-        <span class="stat-value mono" id="clock">00:00:00</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">UNIDADES ACTIVAS</span>
-        <span class="stat-value mono" id="activeCount">0</span>
-      </div>
-      <div class="stat status-stat">
-        <span class="status-dot" id="statusDot"></span>
-        <span class="stat-label" id="statusText">SISTEMA EN ESPERA</span>
-      </div>
-    </div>
-  </div>
+<header>
+  <div class="monograma" id="monograma">P</div>
+  <div class="marca" id="marca"></div>
 </header>
 
-<div class="control-strip">
-  <label class="volume-control">
-    <span class="mono">VOL</span>
-    <input type="range" id="volume" min="0" max="100" value="70" aria-label="Volumen general">
-    <span class="mono" id="volumeValue">70%</span>
-  </label>
-  <button class="stop-all" id="stopAll" type="button">■ DETENER TODO</button>
-</div>
-
 <main>
-
-  <section class="dept" data-dept="policia">
-    <div class="dept-head">
-      <span class="dept-icon icon-shield" aria-hidden="true"></span>
-      <div>
-        <p class="eyebrow">UNIDAD · PATRULLA</p>
-        <h2>POLICÍA</h2>
-      </div>
-    </div>
-    <div class="button-grid">
-      <button class="siren-btn" data-sound="pol-wail" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">WAIL</span>
-        <span class="btn-desc">Barrido lento, sube y baja</span>
-      </button>
-      <button class="siren-btn" data-sound="pol-yelp" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">YELP</span>
-        <span class="btn-desc">Barrido rápido de alerta</span>
-      </button>
-      <button class="siren-btn" data-sound="pol-priority" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">PRIORITY</span>
-        <span class="btn-desc">Tono errático tipo phaser</span>
-      </button>
-      <button class="siren-btn" data-sound="pol-hilo" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">HI-LO</span>
-        <span class="btn-desc">Alternancia de dos tonos fijos</span>
-      </button>
-      <button class="siren-btn" data-sound="pol-airhorn" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">AIR HORN</span>
-        <span class="btn-desc">Bocina dual de advertencia</span>
-      </button>
-    </div>
-  </section>
-
-  <section class="dept" data-dept="bomberos">
-    <div class="dept-head">
-      <span class="dept-icon icon-flame" aria-hidden="true"></span>
-      <div>
-        <p class="eyebrow">UNIDAD · RESCATE</p>
-        <h2>BOMBEROS</h2>
-      </div>
-    </div>
-    <div class="button-grid">
-      <button class="siren-btn" data-sound="fire-q2b" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">MECÁNICA Q</span>
-        <span class="btn-desc">Sirena rotativa, arranque y frenado</span>
-      </button>
-      <button class="siren-btn" data-sound="fire-wail" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">WAIL</span>
-        <span class="btn-desc">Barrido electrónico grave</span>
-      </button>
-      <button class="siren-btn" data-sound="fire-airhorn" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">AIR HORN</span>
-        <span class="btn-desc">Bocina de camión, tono sostenido</span>
-      </button>
-    </div>
-  </section>
-
-  <section class="dept" data-dept="ambulancia">
-    <div class="dept-head">
-      <span class="dept-icon icon-cross" aria-hidden="true"></span>
-      <div>
-        <p class="eyebrow">UNIDAD · EMS</p>
-        <h2>AMBULANCIA</h2>
-      </div>
-    </div>
-    <div class="button-grid">
-      <button class="siren-btn" data-sound="ems-wail" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">WAIL</span>
-        <span class="btn-desc">Barrido lento de traslado</span>
-      </button>
-      <button class="siren-btn" data-sound="ems-yelp" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">YELP</span>
-        <span class="btn-desc">Barrido rápido en tráfico</span>
-      </button>
-      <button class="siren-btn" data-sound="ems-howler" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">HOWLER</span>
-        <span class="btn-desc">Tono agudo de máxima alerta</span>
-      </button>
-      <button class="siren-btn" data-sound="ems-hilo" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">HI-LO</span>
-        <span class="btn-desc">Alternancia de dos tonos</span>
-      </button>
-    </div>
-  </section>
-
-  <section class="dept" data-dept="multi">
-    <div class="dept-head">
-      <span class="dept-icon icon-star" aria-hidden="true"></span>
-      <div>
-        <p class="eyebrow">RESPUESTA CONJUNTA</p>
-        <h2>MULTI-UNIDAD</h2>
-      </div>
-    </div>
-    <div class="button-grid">
-      <button class="siren-btn wide" data-sound="multi-convoy" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">CONVOY COMPLETO</span>
-        <span class="btn-desc">Policía + bomberos + ambulancia en simultáneo</span>
-      </button>
-      <button class="siren-btn wide" data-sound="multi-code3" type="button">
-        <span class="btn-status" aria-hidden="true"></span>
-        <span class="btn-code">CODE 3</span>
-        <span class="btn-desc">Air horn + Hi-Lo combinados</span>
-      </button>
-    </div>
-  </section>
-
+  <div class="eyebrow"><span class="punto"></span><span>En construcción</span></div>
+  <h1 id="titulo"></h1>
+  <p class="copy entrada" id="copy"></p>
+  <div class="panel entrada">
+    <div class="estado" id="estado"></div>
+    <span class="pill" id="fecha"></span>
+  </div>
 </main>
 
-<footer>
-  <p>10-4 · Todos los sonidos son generados en vivo con Web Audio (síntesis), recreando los patrones reales de sirena usados en EE. UU. — Wail, Yelp, Priority, Hi-Lo, Howler, Air Horn y sirena mecánica Q.</p>
-  <p class="credit">Panel de sirenas · sikanusgg.com</p>
+<footer class="entrada">
+  <span id="pie"></span>
+  <span>Vuelve pronto</span>
 </footer>
 
-<script src="script.js"></script>
+<script>
+const config = {
+  marca: "Sikanus",
+  submarca: "/ web",
+  monograma: "S",
+  titulo: ["Algo nuevo", "viene en camino"],
+  palabrasDestacadas: ["nuevo"],
+  copy: "Estamos armando esta página con calma para que valga la pena. Muy pronto va a estar disponible aquí mismo.",
+  etiquetaFecha: "Disponible muy pronto",
+  estados: [
+    "Preparando el diseño",
+    "Escribiendo el contenido",
+    "Ajustando los detalles",
+    "Casi listo"
+  ],
+  pie: "© " + new Date().getFullYear() + " Sikanus"
+};
+
+const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*";
+
+function pintarMarca(){
+  document.title = config.titulo.join(" ") + " — " + config.marca;
+  document.getElementById("monograma").textContent = config.monograma;
+  document.getElementById("marca").innerHTML = config.marca + ' <em>' + config.submarca + '</em>';
+  document.getElementById("copy").textContent = config.copy;
+  document.getElementById("fecha").textContent = config.etiquetaFecha;
+  document.getElementById("pie").textContent = config.pie;
+}
+
+function pintarTitulo(){
+  const h1 = document.getElementById("titulo");
+  let indice = 0;
+  config.titulo.forEach(linea => {
+    const contenedor = document.createElement("span");
+    contenedor.className = "linea";
+    linea.split(" ").forEach((palabra, p, arr) => {
+      const destacada = config.palabrasDestacadas.includes(palabra.toLowerCase());
+      const grupo = document.createElement("span");
+      grupo.className = destacada ? "destacado" : "";
+      grupo.style.display = "inline-block";
+      palabra.split("").forEach(letra => {
+        const car = document.createElement("span");
+        car.className = "car";
+        car.style.setProperty("--i", indice++);
+        car.textContent = letra;
+        grupo.appendChild(car);
+      });
+      contenedor.appendChild(grupo);
+      if (p < arr.length - 1) {
+        const espacio = document.createElement("span");
+        espacio.className = "car";
+        espacio.style.setProperty("--i", indice++);
+        espacio.innerHTML = "&nbsp;";
+        contenedor.appendChild(espacio);
+      }
+    });
+    h1.appendChild(contenedor);
+  });
+}
+
+function iniciarEstados(){
+  const salida = document.getElementById("estado");
+  const reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let actual = 0;
+
+  function render(texto){
+    salida.innerHTML = '<b>&gt;</b> ' + texto;
+  }
+
+  function revolver(texto){
+    if (reducido) { render(texto); return; }
+    let paso = 0;
+    const total = texto.length;
+    const reloj = setInterval(() => {
+      let salidaTexto = "";
+      for (let i = 0; i < total; i++) {
+        if (i < paso) {
+          salidaTexto += texto[i];
+        } else if (texto[i] === " ") {
+          salidaTexto += " ";
+        } else {
+          salidaTexto += alfabeto[Math.floor(Math.random() * alfabeto.length)];
+        }
+      }
+      render(salidaTexto);
+      paso += 1;
+      if (paso > total) clearInterval(reloj);
+    }, 32);
+  }
+
+  revolver(config.estados[0]);
+  setInterval(() => {
+    actual = (actual + 1) % config.estados.length;
+    revolver(config.estados[actual]);
+  }, 3600);
+}
+
+pintarMarca();
+pintarTitulo();
+iniciarEstados();
+</script>
 </body>
 </html>
