@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sikanus — Cuentas de Car Parking Multiplayer</title>
-<meta name="description" content="Cuentas de Car Parking Multiplayer con todos los carros y diseños. Contacto por WhatsApp o Instagram.">
-<meta property="og:title" content="Sikanus — Cuentas CPM full">
-<meta property="og:description" content="Cuentas con todos los carros y diseños listas para jugar.">
+<title>Sikanus Clan — Solicitud de ingreso</title>
+<meta name="description" content="Solicita tu ingreso al clan de Sikanus en Car Parking Multiplayer.">
 <meta property="og:image" content="https://i.postimg.cc/25Z4JJJk/skn-image.png">
 <link rel="icon" type="image/png" href="https://i.postimg.cc/25Z4JJJk/skn-image.png">
 <link rel="apple-touch-icon" href="https://i.postimg.cc/25Z4JJJk/skn-image.png">
@@ -15,233 +13,217 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --tinta:#0C0A14;
-  --tinta-2:#12101D;
-  --panel:#171422;
-  --panel-2:#1D1929;
-  --humo:#9E97B4;
-  --hueso:#F4F1EA;
-  --marfil:#EAE6DC;
-  --oro:#D9B36A;
-  --oro-claro:#E8CD97;
-  --cobre:#C98A5E;
-  --linea:rgba(217,179,106,.16);
-  --linea-suave:rgba(244,241,234,.08);
-  --serif:'Fraunces',Georgia,serif;
-  --sans:'Manrope',system-ui,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --tinta:#0C0A14;--tinta-2:#12101D;--panel:#171422;--panel-2:#1D1929;
+  --humo:#9E97B4;--hueso:#F4F1EA;--marfil:#EAE6DC;
+  --oro:#D9B36A;--oro-claro:#E8CD97;--verde:#5FE3A6;--rojo:#FF8080;
+  --linea:rgba(217,179,106,.16);--linea-suave:rgba(244,241,234,.08);
+  --serif:'Fraunces',Georgia,serif;--sans:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--tinta);color:var(--hueso);font-family:var(--sans);font-weight:400;line-height:1.6;min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.brillo{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(217,179,106,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 85% 20%,rgba(201,138,94,.06),transparent 55%)}
+body{background:var(--tinta);color:var(--hueso);font-family:var(--sans);line-height:1.6;min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+.brillo{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(217,179,106,.09),transparent 60%),radial-gradient(ellipse 60% 50% at 85% 20%,rgba(201,138,94,.06),transparent 55%)}
 .textura{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
-.envoltura{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 clamp(22px,5vw,48px)}
-header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:rgba(12,10,20,.6);border-bottom:1px solid var(--linea-suave)}
-.top-fila{display:flex;align-items:center;gap:14px;padding:16px 0}
+.envoltura{position:relative;z-index:2;width:100%;max-width:620px;margin:0 auto;padding:clamp(28px,6vw,56px) clamp(22px,5vw,44px);flex:1}
+.marca-top{display:flex;align-items:center;gap:13px;margin-bottom:clamp(34px,6vh,56px)}
 .monograma{width:42px;height:42px;flex:none;display:grid;place-items:center;border:1px solid var(--linea);border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(232,205,151,.2),rgba(217,179,106,.05));font-family:var(--serif);font-weight:500;font-size:19px;color:var(--oro-claro)}
-.marca{font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:.01em;line-height:1.1}
-.marca span{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--humo);margin-top:2px}
-.top-cta{margin-left:auto;display:flex;gap:9px}
-.mini-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--linea);border-radius:999px;padding:10px 17px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--marfil);text-decoration:none;transition:border-color .3s,background .3s,color .3s}
-.mini-btn:hover{border-color:var(--oro);background:rgba(217,179,106,.08);color:var(--oro-claro)}
-.icono{width:15px;height:15px;flex:none}
-.hero{padding:clamp(72px,15vh,150px) 0 clamp(50px,9vh,100px)}
-.kicker{display:inline-flex;align-items:center;gap:11px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--oro);margin-bottom:32px}
+.marca-top .txt{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.1}
+.marca-top .txt span{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--humo);margin-top:2px}
+.kicker{display:inline-flex;align-items:center;gap:11px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--oro);margin-bottom:22px}
 .kicker::before{content:"";width:32px;height:1px;background:linear-gradient(90deg,var(--oro),transparent)}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.9rem,9vw,6rem);line-height:1.02;letter-spacing:-.02em;max-width:16ch}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.05;letter-spacing:-.02em}
 h1 em{font-style:italic;color:var(--oro-claro)}
-.hero p.intro{max-width:50ch;color:var(--humo);margin-top:28px;font-size:clamp(1.05rem,2.2vw,1.2rem);font-weight:300;line-height:1.7}
-.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
-.btn{cursor:pointer;border-radius:999px;padding:16px 30px;font-family:var(--sans);font-weight:600;font-size:15px;border:1px solid var(--linea);background:transparent;color:var(--hueso);transition:transform .3s cubic-bezier(.19,1,.22,1),border-color .3s,background .3s,color .3s;text-decoration:none;display:inline-flex;align-items:center;gap:10px;letter-spacing:.01em}
-.btn:hover{transform:translateY(-2px)}
-.btn-oro{background:linear-gradient(135deg,var(--oro-claro),var(--oro));border-color:var(--oro);color:#1A1408;box-shadow:0 10px 30px rgba(217,179,106,.18)}
-.btn-oro:hover{box-shadow:0 14px 38px rgba(217,179,106,.28)}
-.btn-linea:hover{border-color:var(--oro);color:var(--oro-claro);background:rgba(217,179,106,.06)}
-.tira{display:flex;flex-wrap:wrap;gap:0;margin-top:56px;border-top:1px solid var(--linea-suave);border-bottom:1px solid var(--linea-suave)}
-.tira-item{flex:1 1 160px;padding:24px 26px 24px 0;border-right:1px solid var(--linea-suave)}
-.tira-item:last-child{border-right:none}
-.tira-item .n{font-family:var(--serif);font-weight:400;font-size:2rem;color:var(--oro-claro);line-height:1;display:block;margin-bottom:8px}
-.tira-item b{font-weight:500;font-size:13.5px;color:var(--marfil);display:block}
-.tira-item small{color:var(--humo);font-size:12.5px}
-.seccion{padding:clamp(50px,9vh,90px) 0}
-.seccion-cab{max-width:52ch}
-.seccion-eti{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--oro);margin-bottom:18px;display:flex;align-items:center;gap:11px}
-.seccion-eti::before{content:"";width:24px;height:1px;background:var(--oro)}
-.seccion h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,5.5vw,3.2rem);letter-spacing:-.02em;line-height:1.08}
-.seccion h2 em{font-style:italic;color:var(--oro-claro)}
-.seccion-cab p{color:var(--humo);margin-top:16px;font-size:1.05rem;font-weight:300}
-.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:44px;background:var(--linea-suave);border:1px solid var(--linea-suave);border-radius:20px;overflow:hidden}
-.feat{background:var(--panel);padding:32px 28px;transition:background .35s}
-.feat:hover{background:var(--panel-2)}
-.feat-ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin-bottom:20px;font-size:20px;border:1px solid var(--linea);background:radial-gradient(circle at 30% 30%,rgba(232,205,151,.15),transparent)}
-.feat h3{font-family:var(--serif);font-weight:500;font-size:1.25rem;letter-spacing:-.01em;margin-bottom:10px}
-.feat p{color:var(--humo);font-size:14px;font-weight:300;line-height:1.65}
-.incluye{background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--linea);border-radius:24px;padding:clamp(28px,4vw,46px);margin-top:44px}
-.incluye h3{font-family:var(--serif);font-weight:500;font-size:1.5rem;margin-bottom:26px;letter-spacing:-.01em}
-.lista-check{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px 32px}
-.lista-check div{display:flex;align-items:flex-start;gap:13px;font-size:15px;font-weight:300}
-.lista-check .tick{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--oro);color:var(--oro-claro);font-size:11px;margin-top:2px}
-.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;margin-top:44px}
-.paso{position:relative;padding-top:30px;border-top:1px solid var(--linea)}
-.paso .num{position:absolute;top:-16px;left:0;font-family:var(--serif);font-style:italic;font-weight:400;font-size:2.6rem;color:var(--oro-claro);line-height:1;background:var(--tinta);padding-right:14px}
-.paso h3{font-family:var(--serif);font-weight:500;font-size:1.2rem;margin-bottom:9px;margin-top:6px}
-.paso p{color:var(--humo);font-size:14px;font-weight:300;line-height:1.65}
-.contacto{position:relative;text-align:center;background:linear-gradient(165deg,var(--panel-2),var(--tinta-2));border:1px solid var(--linea);border-radius:30px;padding:clamp(44px,7vw,80px) clamp(26px,5vw,60px);margin-top:20px;overflow:hidden}
-.contacto::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:120%;height:80%;background:radial-gradient(ellipse at center,rgba(217,179,106,.1),transparent 60%);pointer-events:none}
-.contacto .kicker{justify-content:center}
-.contacto .kicker::before{width:24px}
-.contacto h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,6vw,3.6rem);letter-spacing:-.02em;position:relative;line-height:1.05}
-.contacto h2 em{font-style:italic;color:var(--oro-claro)}
-.contacto p{color:var(--humo);margin-top:18px;max-width:46ch;margin-inline:auto;position:relative;font-weight:300;font-size:1.08rem}
-.contacto-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:38px;position:relative}
-.dato-contacto{margin-top:34px;font-family:var(--mono);font-size:12px;color:var(--humo);position:relative;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:center;letter-spacing:.04em}
-.dato-contacto b{color:var(--marfil);font-weight:500}
-footer{border-top:1px solid var(--linea-suave);padding:30px 0 46px;margin-top:clamp(50px,9vh,90px);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--humo);display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between}
-.fab{position:fixed;right:22px;bottom:22px;z-index:40;display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--oro-claro),var(--oro));color:#1A1408;border-radius:999px;padding:15px 22px;font-family:var(--sans);font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(.19,1,.22,1);animation:subirFab .6s ease .9s both}
-.fab:hover{transform:translateY(-3px)}
-@keyframes subirFab{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
-a:focus-visible,button:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
-@media (max-width:560px){
-  .top-cta .txt{display:none}
-  .fab .txt{display:none}
-  .fab{padding:16px}
-  .tira-item{border-right:none;border-bottom:1px solid var(--linea-suave);padding-right:0}
-  .tira-item:last-child{border-bottom:none}
-}
-@media (prefers-reduced-motion:reduce){
-  .fab{animation:none}
-  .feat:hover,.btn:hover,.fab:hover{transform:none}
-}
+.intro{color:var(--humo);margin-top:16px;font-weight:300;font-size:1.05rem;max-width:48ch}
+form{margin-top:clamp(30px,5vh,44px);display:flex;flex-direction:column;gap:20px}
+.campo label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--humo);margin-bottom:9px}
+.campo label .req{color:var(--oro)}
+.campo input,.campo textarea,.campo select{width:100%;background:var(--panel);border:1px solid var(--linea-suave);border-radius:13px;color:var(--hueso);padding:14px 16px;font-family:var(--sans);font-size:15px;transition:border-color .25s,background .25s}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(158,151,180,.6)}
+.campo input:focus,.campo textarea:focus,.campo select:focus{outline:none;border-color:var(--oro);background:var(--panel-2)}
+.campo textarea{resize:vertical;min-height:96px}
+.campo select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%239E97B4' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.btn-enviar{cursor:pointer;border:none;border-radius:999px;padding:17px 30px;font-family:var(--sans);font-weight:700;font-size:15px;background:linear-gradient(135deg,var(--oro-claro),var(--oro));color:#1A1408;box-shadow:0 10px 30px rgba(217,179,106,.2);transition:transform .3s cubic-bezier(.19,1,.22,1),box-shadow .3s,opacity .3s;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
+.btn-enviar:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 38px rgba(217,179,106,.3)}
+.btn-enviar:disabled{opacity:.6;cursor:default}
+.aviso-form{border:1px solid var(--linea-suave);border-radius:13px;padding:14px 16px;font-size:13.5px;font-weight:300;color:var(--humo);display:none}
+.aviso-form.ok{display:block;border-color:rgba(95,227,166,.4);color:var(--verde);background:rgba(95,227,166,.06)}
+.aviso-form.err{display:block;border-color:rgba(255,128,128,.4);color:var(--rojo);background:rgba(255,128,128,.06)}
+.spin{width:16px;height:16px;border:2px solid rgba(26,20,8,.3);border-top-color:#1A1408;border-radius:50%;animation:girar .7s linear infinite;display:none}
+.btn-enviar.cargando .spin{display:inline-block}
+.btn-enviar.cargando .label{opacity:.7}
+@keyframes girar{to{transform:rotate(360deg)}}
+.exito{display:none;text-align:center;padding:clamp(30px,6vh,54px) 0}
+.exito.visible{display:block;animation:aparecer .5s ease}
+@keyframes aparecer{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.exito-ico{width:72px;height:72px;border-radius:50%;margin:0 auto 22px;display:grid;place-items:center;border:1px solid var(--oro);color:var(--oro-claro);font-size:34px;background:radial-gradient(circle,rgba(232,205,151,.14),transparent)}
+.exito h2{font-family:var(--serif);font-weight:400;font-size:2rem;letter-spacing:-.02em}
+.exito h2 em{font-style:italic;color:var(--oro-claro)}
+.exito p{color:var(--humo);margin-top:12px;font-weight:300}
+.exito button{margin-top:26px;cursor:pointer;background:transparent;border:1px solid var(--linea);border-radius:999px;padding:12px 24px;color:var(--marfil);font-family:var(--sans);font-weight:600;font-size:14px;transition:border-color .25s,color .25s}
+.exito button:hover{border-color:var(--oro);color:var(--oro-claro)}
+footer{position:relative;z-index:2;border-top:1px solid var(--linea-suave);padding:24px clamp(22px,5vw,44px);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--humo);text-align:center}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
+@media (max-width:480px){.fila{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.btn-enviar:hover{transform:none}}
 </style>
 </head>
 <body>
 <div class="brillo"></div>
 <div class="textura"></div>
 
-<header class="top">
-  <div class="envoltura top-fila">
+<div class="envoltura">
+  <div class="marca-top">
     <div class="monograma">S</div>
-    <div class="marca">Sikanus<span>Cuentas CPM</span></div>
-    <div class="top-cta">
-      <a class="mini-btn" id="ig-top" href="#" target="_blank" rel="noopener">
-        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        <span class="txt">Instagram</span>
-      </a>
-      <a class="mini-btn" id="wa-top" href="#" target="_blank" rel="noopener">
-        <svg class="icono" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.4.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-        <span class="txt">WhatsApp</span>
-      </a>
-    </div>
+    <div class="txt">Sikanus<span>Clan · CPM</span></div>
   </div>
-</header>
 
-<main class="envoltura">
-  <section class="hero">
-    <div class="kicker">Colección Sikanus · CPM</div>
-    <h1>Cuentas con <em>todos los carros</em> y sus diseños</h1>
-    <p class="intro">Vendo cuentas de Car Parking Multiplayer completas y cuidadas: cada auto desbloqueado, con diseños, cromados y personalización lista. Sin grindear, sin esperar. Solo entras y manejas.</p>
-    <div class="hero-cta">
-      <a class="btn btn-oro" id="wa-hero" href="#" target="_blank" rel="noopener">
-        <svg class="icono" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.4.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-        Escribir por WhatsApp
-      </a>
-      <a class="btn btn-linea" id="ig-hero" href="#" target="_blank" rel="noopener">
-        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        Ver Instagram
-      </a>
-    </div>
-    <div class="tira">
-      <div class="tira-item"><span class="n">100%</span><b>Garaje completo</b><small>Todos los carros del juego</small></div>
-      <div class="tira-item"><span class="n">✦</span><b>Diseños y cromados</b><small>Incluidos en cada cuenta</small></div>
-      <div class="tira-item"><span class="n">↯</span><b>Entrega rápida</b><small>Listas para jugar</small></div>
-    </div>
-  </section>
+  <div id="formulario-bloque">
+    <div class="kicker">Solicitud de ingreso</div>
+    <h1>Únete al <em>clan</em> de Sikanus</h1>
+    <p class="intro">Llena tu solicitud y me llega al instante. Si encajas con el clan, te contacto de vuelta.</p>
 
-  <section class="seccion">
-    <div class="seccion-cab">
-      <div class="seccion-eti">Qué ofrezco</div>
-      <h2>Cuentas <em>listas</em> para presumir</h2>
-      <p>Nada de empezar de cero. Cada cuenta viene cargada con todo lo que se busca tener en el juego.</p>
-    </div>
-    <div class="rejilla">
-      <div class="feat"><div class="feat-ico">🚗</div><h3>Todos los carros</h3><p>El garaje completo desbloqueado, desde los básicos hasta los más buscados.</p></div>
-      <div class="feat"><div class="feat-ico">🎨</div><h3>Diseños incluidos</h3><p>Vinilos, colores y estilos ya aplicados para que cada auto se vea único.</p></div>
-      <div class="feat"><div class="feat-ico">✦</div><h3>Cromados</h3><p>Carrocería, ventanas, luces y llantas con acabado cromado.</p></div>
-      <div class="feat"><div class="feat-ico">⚙</div><h3>Personalización</h3><p>Ajustes y detalles listos para que solo entres a manejar.</p></div>
-    </div>
-
-    <div class="incluye">
-      <h3>Lo que traen las cuentas</h3>
-      <div class="lista-check">
-        <div><span class="tick">✓</span> Garaje con todos los vehículos</div>
-        <div><span class="tick">✓</span> Diseños y vinilos aplicados</div>
-        <div><span class="tick">✓</span> Cromados en la carrocería</div>
-        <div><span class="tick">✓</span> Llantas y rines completos</div>
-        <div><span class="tick">✓</span> Luces y estilos desbloqueados</div>
-        <div><span class="tick">✓</span> Personalización lista para jugar</div>
+    <form id="form">
+      <div class="campo">
+        <label>Nombre en el juego <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Tu nick en CPM" required maxlength="40" autocomplete="off">
       </div>
-    </div>
-  </section>
 
-  <section class="seccion">
-    <div class="seccion-cab">
-      <div class="seccion-eti">Cómo funciona</div>
-      <h2>Tres pasos y ya estás <em>jugando</em></h2>
-    </div>
-    <div class="pasos">
-      <div class="paso"><span class="num">i</span><h3>Escríbeme</h3><p>Mándame mensaje por WhatsApp o Instagram. El mensaje ya llega listo para que solo lo envíes.</p></div>
-      <div class="paso"><span class="num">ii</span><h3>Elegimos</h3><p>Te muestro las cuentas disponibles y escoges la que más te lata.</p></div>
-      <div class="paso"><span class="num">iii</span><h3>A jugar</h3><p>Te paso los datos y entras a disfrutar tu cuenta full al instante.</p></div>
-    </div>
-  </section>
-
-  <section class="seccion" id="contacto">
-    <div class="contacto">
-      <div class="kicker">Contacto directo</div>
-      <h2>¿Listo para tu <em>cuenta</em>?</h2>
-      <p>Escríbeme y platicamos. El mensaje ya se manda solo, tú nada más dale enviar.</p>
-      <div class="contacto-cta">
-        <a class="btn btn-oro" id="wa-final" href="#" target="_blank" rel="noopener">
-          <svg class="icono" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.4.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-          WhatsApp
-        </a>
-        <a class="btn btn-linea" id="ig-final" href="#" target="_blank" rel="noopener">
-          <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          Instagram
-        </a>
+      <div class="fila">
+        <div class="campo">
+          <label>ID de tu cuenta <span class="req">*</span></label>
+          <input type="text" id="id" placeholder="Ej. 123456789" required maxlength="30" autocomplete="off">
+        </div>
+        <div class="campo">
+          <label>Tu nivel</label>
+          <input type="text" id="nivel" placeholder="Ej. 80" maxlength="10" autocomplete="off">
+        </div>
       </div>
-      <div class="dato-contacto">
-        <span><b>WhatsApp</b> <span id="wa-num"></span></span>
-        <span><b>Instagram</b> @sikanofficial</span>
+
+      <div class="campo">
+        <label>¿Cómo te contacto? <span class="req">*</span></label>
+        <input type="text" id="contacto" placeholder="Tu WhatsApp, Instagram o Telegram" required maxlength="60" autocomplete="off">
       </div>
-    </div>
-  </section>
 
-  <footer>
-    <span id="pie"></span>
-    <span>No afiliado a olzhass</span>
-  </footer>
-</main>
+      <div class="campo">
+        <label>¿Cuánto juegas al día?</label>
+        <select id="actividad">
+          <option value="No especificado">Elige una opción</option>
+          <option>Menos de 1 hora</option>
+          <option>1 a 3 horas</option>
+          <option>3 a 5 horas</option>
+          <option>Más de 5 horas</option>
+        </select>
+      </div>
 
-<a class="fab" id="wa-fab" href="#" target="_blank" rel="noopener">
-  <svg class="icono" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5-.3.3c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.4.3.1.5.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-  <span class="txt">Escríbeme</span>
-</a>
+      <div class="campo">
+        <label>¿Por qué quieres entrar?</label>
+        <textarea id="motivo" placeholder="Cuéntame algo de ti (opcional)" maxlength="500"></textarea>
+      </div>
+
+      <div class="aviso-form" id="aviso"></div>
+
+      <button type="submit" class="btn-enviar" id="btn">
+        <span class="spin"></span>
+        <span class="label">Enviar solicitud</span>
+      </button>
+    </form>
+  </div>
+
+  <div class="exito" id="exito">
+    <div class="exito-ico">✓</div>
+    <h2>¡Solicitud <em>enviada</em>!</h2>
+    <p>Tu solicitud le llegó a Sikan. Si encajas con el clan, te contacta pronto.</p>
+    <button id="otra">Enviar otra solicitud</button>
+  </div>
+</div>
+
+<footer>© <span id="anio"></span> Sikanus — Clan CPM · No afiliado a olzhass</footer>
 
 <script>
-const config = {
-  whatsapp: "5215573351273",
-  whatsappVisible: "+52 1 55 7335 1273",
-  instagram: "https://www.instagram.com/sikanofficial?igsi=b2NiYTJiODVma2p5&utm_source=qr",
-  mensajeAuto: "Hola Sikan, vi tu página y estoy interesado en una cuenta de CPM con todos los carros y diseños. ¿Me pasas información?"
-};
+/* ============================================================
+   AQUÍ PEGAS TUS DOS DATOS DE TELEGRAM (los de la Parte A)
+   ============================================================ */
+const TELEGRAM_TOKEN   = "8710766027:AAHXTMzsiha41tEKB1Mdgbj1_9nwcraBo6Y";      // Ej: 7834xxxxxx:AAH8k...
+const TELEGRAM_CHAT_ID = "7997103074";    // Ej: 6543219870
+/* ============================================================
+   No necesitas tocar nada más abajo.
+   ============================================================ */
 
-const enlaceWa = "https://wa.me/" + config.whatsapp + "?text=" + encodeURIComponent(config.mensajeAuto);
-["wa-top","wa-hero","wa-final","wa-fab"].forEach(id => { const el = document.getElementById(id); if (el) el.href = enlaceWa; });
-["ig-top","ig-hero","ig-final"].forEach(id => { const el = document.getElementById(id); if (el) el.href = config.instagram; });
-document.getElementById("wa-num").textContent = config.whatsappVisible;
-document.getElementById("pie").textContent = "© " + new Date().getFullYear() + " Sikanus — Cuentas CPM";
+document.getElementById("anio").textContent = new Date().getFullYear();
+
+const form = document.getElementById("form");
+const btn = document.getElementById("btn");
+const aviso = document.getElementById("aviso");
+
+function mostrarAviso(tipo, texto){
+  aviso.className = "aviso-form " + tipo;
+  aviso.textContent = texto;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const datos = {
+    nombre: document.getElementById("nombre").value.trim(),
+    id: document.getElementById("id").value.trim(),
+    nivel: document.getElementById("nivel").value.trim() || "No especificado",
+    contacto: document.getElementById("contacto").value.trim(),
+    actividad: document.getElementById("actividad").value,
+    motivo: document.getElementById("motivo").value.trim() || "Sin mensaje"
+  };
+
+  if (!datos.nombre || !datos.id || !datos.contacto) {
+    mostrarAviso("err", "Llena los campos marcados con *.");
+    return;
+  }
+
+  if (TELEGRAM_TOKEN.includes("PEGA_AQUI") || TELEGRAM_CHAT_ID.includes("PEGA_AQUI")) {
+    mostrarAviso("err", "Falta configurar el bot de Telegram en el código (TOKEN y CHAT ID).");
+    return;
+  }
+
+  const texto =
+    "🏁 NUEVA SOLICITUD DE CLAN\n\n" +
+    "👤 Nombre: " + datos.nombre + "\n" +
+    "🆔 ID: " + datos.id + "\n" +
+    "📊 Nivel: " + datos.nivel + "\n" +
+    "📱 Contacto: " + datos.contacto + "\n" +
+    "🎮 Actividad: " + datos.actividad + "\n" +
+    "💬 Motivo: " + datos.motivo + "\n\n" +
+    "🕒 " + new Date().toLocaleString("es-MX");
+
+  btn.disabled = true;
+  btn.classList.add("cargando");
+  aviso.className = "aviso-form";
+
+  try {
+    const r = await fetch("https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: texto })
+    });
+    const res = await r.json();
+    if (res.ok) {
+      document.getElementById("formulario-bloque").style.display = "none";
+      document.getElementById("exito").classList.add("visible");
+    } else {
+      mostrarAviso("err", "No se pudo enviar. Revisa el TOKEN y el CHAT ID. (" + (res.description || "error") + ")");
+    }
+  } catch (err) {
+    mostrarAviso("err", "Error de conexión. Revisa tu internet e inténtalo de nuevo.");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("cargando");
+  }
+});
+
+document.getElementById("otra").addEventListener("click", () => {
+  form.reset();
+  document.getElementById("exito").classList.remove("visible");
+  document.getElementById("formulario-bloque").style.display = "block";
+  aviso.className = "aviso-form";
+});
 </script>
 </body>
 </html>
